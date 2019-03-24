@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using DataAccessLayer.Context;
+using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebGUI.Mapping;
 
 namespace WebGUI
 {
@@ -24,6 +27,9 @@ namespace WebGUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ISensorDataService, SensorDataService>();
+            services.AddSingleton<IMapper>(MapperConfig.Configure());
+
             services.AddMvc();
             services.AddSignalR();
             services.AddDbContext<HeatingContext>(opt => opt.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database=HeatingController;Trusted_Connection=True;"));

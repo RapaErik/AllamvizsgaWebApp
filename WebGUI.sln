@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGUI", "WebGUI\WebGUI.csproj", "{B7BA3049-D11B-4CDE-BBE9-A3143F2E858B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebGUI", "WebGUI\WebGUI.csproj", "{B7BA3049-D11B-4CDE-BBE9-A3143F2E858B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{1FCE2247-EE4F-4DEC-8D29-75DE233BA9C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{1FCE2247-EE4F-4DEC-8D29-75DE233BA9C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlUnit", "ControlUnit\ControlUnit.csproj", "{54553301-438E-4342-9D8A-272B10B61CD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1FCE2247-EE4F-4DEC-8D29-75DE233BA9C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FCE2247-EE4F-4DEC-8D29-75DE233BA9C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FCE2247-EE4F-4DEC-8D29-75DE233BA9C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54553301-438E-4342-9D8A-272B10B61CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54553301-438E-4342-9D8A-272B10B61CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54553301-438E-4342-9D8A-272B10B61CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54553301-438E-4342-9D8A-272B10B61CD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

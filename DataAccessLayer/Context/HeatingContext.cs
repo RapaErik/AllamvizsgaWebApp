@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,14 @@ namespace DataAccessLayer.Context
         {
         }
 
+    }
+    public class ToDoContextFactory : IDesignTimeDbContextFactory<HeatingContext>
+    {
+        public HeatingContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<HeatingContext>();
+            builder.UseSqlServer("Server=localhost;Database=DbName;Trusted_Connection=True;MultipleActiveResultSets=true");
+            return new HeatingContext(builder.Options);
+        }
     }
 }
