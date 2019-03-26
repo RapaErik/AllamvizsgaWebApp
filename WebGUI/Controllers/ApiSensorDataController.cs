@@ -4,6 +4,7 @@ using AutoMapper;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using WebGUI.Dtos;
+using Microsoft.AspNetCore.SignalR;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +26,7 @@ namespace WebGUI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+
             return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetSensorDatas()));
         }
 

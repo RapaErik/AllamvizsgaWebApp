@@ -34,7 +34,7 @@ namespace WebGUI
             services.AddSignalR();
             services.AddDbContext<HeatingContext>(opt => opt.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database=HeatingController;Trusted_Connection=True;"));
         }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -54,7 +54,7 @@ namespace WebGUI
             app.UseStaticFiles();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<MyHub>("/chatHub");
+                routes.MapHub<ChartHub>("/chartHub");
             });
             app.UseMvc(routes =>
             {

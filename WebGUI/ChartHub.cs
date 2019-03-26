@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebGUI
 {
-    public class MyHub : Hub
+    public class ChartHub : Hub
     {
         public async Task SendMessage(string user, string message)
         {
