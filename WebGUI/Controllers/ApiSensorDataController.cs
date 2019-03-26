@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using AutoMapper;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
-using WebGUI.Dtos;
 using Microsoft.AspNetCore.SignalR;
+using WebGUI.Dtos;
+using WebGUI.SignalRClass;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,17 +17,18 @@ namespace WebGUI.Controllers
 
         private readonly ISensorDataService _sensorDataService;
         private readonly IMapper _mapper;
-
-        public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper)
+        private readonly IHubContext<ChartHub> _chartHubContext;
+        public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext)
         {
             _mapper = mapper;
             _sensorDataService = sensorDataService;
+            _chartHubContext = chartHubContext;
         }
         // GET: api/<controller>
         [HttpGet]
         public IActionResult Get()
         {
-
+            _chartHubContext.Clients.All.SendAsync("ReceiveMessage", "test", "test");
             return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetSensorDatas()));
         }
 
