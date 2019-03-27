@@ -4,6 +4,7 @@ using AutoMapper;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using WebGUI.Dtos;
 using WebGUI.SignalRClass;
 
@@ -28,8 +29,7 @@ namespace WebGUI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            _chartHubContext.Clients.All.SendAsync("ReceiveMessage", "test", "test");
-            return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetSensorDatas()));
+           return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetSensorDatas()));
         }
 
         // GET: api/5
@@ -43,6 +43,8 @@ namespace WebGUI.Controllers
         public IActionResult PostData([FromBody]SensorData data)
         {
             var created = _sensorDataService.InsertSensorData(_mapper.Map<DataAccessLayer.Entities.SensorData>(data));
+            _chartHubContext.Clients.All.SendAsync("ReceiveMessage", "New Incoming Data", created.ToString());
+            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(data));
             return CreatedAtAction("SensorData", new { id=created.Id }, _mapper.Map<SensorData>(created));
         }
 

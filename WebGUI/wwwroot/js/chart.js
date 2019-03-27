@@ -1,8 +1,7 @@
-﻿"use strict";
-
+﻿
 var connection = new signalR.HubConnectionBuilder().withUrl("/chartHub").build();
 
-//Disable send button until connection is established
+
 document.getElementById("sendButton").disabled = true;
 
 connection.on("ReceiveMessage", function (user, message) {
@@ -11,7 +10,19 @@ connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
     li.textContent = encodedMsg;
     document.getElementById("messagesList").appendChild(li);
+
+    temperatureInputArray.push([new Date(2019, 0, 1), 5]);
 });
+
+connection.on("RestApiMsg", function (json) {
+
+    var obj = JSON.parse(json);
+    temperatureInputArray.push([new Date(obj.Date), 5]);
+    drawCurveTypes();
+});
+
+
+
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;

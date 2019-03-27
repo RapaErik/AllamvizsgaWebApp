@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebGUI.Mapping;
-
+using WebGUI.SignalRClass;
 namespace WebGUI
 {
     public class Startup

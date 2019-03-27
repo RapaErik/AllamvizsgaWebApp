@@ -34,7 +34,11 @@ namespace DataAccessLayer.Sevices
             _ctx.SaveChanges();
 
             return newData;
-
+        }
+        private void ClearSensorDataTable()
+        {
+            _ctx.SensorDatas.RemoveRange(_ctx.SensorDatas.ToList());
+            _ctx.SaveChanges();
         }
     }
 }
