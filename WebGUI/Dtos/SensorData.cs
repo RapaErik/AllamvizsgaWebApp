@@ -10,8 +10,8 @@ namespace WebGUI.Dtos
         public int SensorId { get; set; }
 
         public Sensor Sensor { get; set; }
-        public string Data { get; set; }
-
+        public float Temperature { get; set; }
+        public float Humidity { get; set; }
         public DateTime TimeStamp { get; set; }
     }
 }

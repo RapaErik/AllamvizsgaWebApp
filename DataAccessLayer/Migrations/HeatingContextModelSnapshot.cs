@@ -82,9 +82,11 @@ namespace DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Data");
+                    b.Property<float>("Humidity");
 
                     b.Property<int>("SensorId");
+
+                    b.Property<float>("Temperature");
 
                     b.Property<DateTime>("TimeStamp");
 

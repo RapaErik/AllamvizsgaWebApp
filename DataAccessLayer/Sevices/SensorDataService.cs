@@ -29,15 +29,16 @@ namespace DataAccessLayer.Sevices
 
         public SensorData InsertSensorData(SensorData newData)
         {
-            newData.TimeStamp = DateTime.Now;
+            
             _ctx.SensorDatas.Add(newData);
             _ctx.SaveChanges();
 
             return newData;
         }
-        private void ClearSensorDataTable()
+        public void ClearSensorDataTable()
         {
-            _ctx.SensorDatas.RemoveRange(_ctx.SensorDatas.ToList());
+            var d = _ctx.SensorDatas.ToList();
+            _ctx.SensorDatas.RemoveRange();
             _ctx.SaveChanges();
         }
     }

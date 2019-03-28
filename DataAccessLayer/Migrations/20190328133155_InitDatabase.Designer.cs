@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(HeatingContext))]
-    [Migration("20190222202104_Init")]
-    partial class Init
+    [Migration("20190328133155_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,9 +84,11 @@ namespace DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Data");
+                    b.Property<float>("Humidity");
 
                     b.Property<int>("SensorId");
+
+                    b.Property<float>("Temperature");
 
                     b.Property<DateTime>("TimeStamp");
 

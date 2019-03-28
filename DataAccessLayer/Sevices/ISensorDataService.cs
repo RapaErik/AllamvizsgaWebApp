@@ -10,6 +10,8 @@ namespace DataAccessLayer.Sevices
         IEnumerable<SensorData> GetSensorDatas();
         IEnumerable<SensorData> GetLastFiftySensorDatas();
         SensorData InsertSensorData(SensorData newData);
-       
+        void ClearSensorDataTable();
+
+
     }
 }

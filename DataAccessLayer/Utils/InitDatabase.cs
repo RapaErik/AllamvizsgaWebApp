@@ -17,17 +17,17 @@ namespace DataAccessLayer.Utils
                 Sensor s = new Sensor { Esp=e, EspId=e.Id, Room=r, RoomId=r.Id, Type="DHT11"};
                 List<SensorData> sd = new List<SensorData>
                 {
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now },
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "szia", TimeStamp = DateTime.Now }
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now },
+                    new SensorData { Sensor = s, SensorId = s.Id,  TimeStamp = DateTime.Now }
                 };
 
                 ctx.Rooms.Add(r);

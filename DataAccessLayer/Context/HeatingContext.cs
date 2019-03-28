@@ -26,7 +26,7 @@ namespace DataAccessLayer.Context
         public HeatingContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<HeatingContext>();
-            builder.UseSqlServer("Server=localhost;Database=DbName;Trusted_Connection=True;MultipleActiveResultSets=true");
+            builder.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database=HeatingController;Trusted_Connection=True;");
             return new HeatingContext(builder.Options);
         }
     }
