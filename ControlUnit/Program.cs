@@ -13,7 +13,7 @@ namespace ControlUnit
         {
 
 
-            SensorData data = new SensorData {  SensorId = 1, /*TimeStamp = DateTime.Now.ToUniversalTime(), */Data = "szia" };
+            SensorData data = new SensorData {  SensorId = 1, /*TimeStamp = DateTime.Now.ToUniversalTime(), */Temperature = 15.2f, Humidity=33.5f};
       
             var jsonSettings = new JsonSerializerSettings();
             jsonSettings.DateFormatString = "dd/MM/yyy hh:mm:ss";

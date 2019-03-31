@@ -11,6 +11,7 @@ namespace DataAccessLayer.Sevices
         IEnumerable<SensorData> GetLastFiftySensorDatas();
         SensorData InsertSensorData(SensorData newData);
         void ClearSensorDataTable();
+        void InitDatabase();
 
 
     }

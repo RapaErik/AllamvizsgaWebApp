@@ -45,6 +45,7 @@ function drawCurveTypes() {
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 }
+
 function drawCurveTypes1() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'X');

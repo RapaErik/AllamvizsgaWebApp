@@ -41,5 +41,18 @@ namespace DataAccessLayer.Sevices
             _ctx.SensorDatas.RemoveRange();
             _ctx.SaveChanges();
         }
+        public void InitDatabase()
+        {
+            Room r = new Room { Name = "Szoba" };
+            Esp e = new Esp { ChargeType = "220", LastCharge = DateTime.Now, LastInteraction = DateTime.Now, InteractionsCounter = 0, AvgInteractions = 0, AvgBatteryDuration = DateTime.Now };
+            Sensor s = new Sensor { Esp = e, EspId = e.Id, Room = r, RoomId = r.Id, Type = "DHT11" };
+
+
+            _ctx.Rooms.Add(r);
+            _ctx.Esps.Add(e);
+            _ctx.Sensors.Add(s);
+            _ctx.SaveChanges();
+
+        }
     }
 }

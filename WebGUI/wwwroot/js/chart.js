@@ -11,13 +11,13 @@ connection.on("ReceiveMessage", function (user, message) {
     li.textContent = encodedMsg;
     document.getElementById("messagesList").appendChild(li);
 
-    temperatureInputArray.push([new Date(2019, 0, 1), 5]);
+    
 });
 
 connection.on("RestApiMsg", function (json) {
-
     var obj = JSON.parse(json);
-    temperatureInputArray.push([new Date(obj.Date), 5]);
+    temperatureInputArray.push([new Date(obj.TimeStamp), obj.Temperature]);
+    console.log(temperatureInputArray);
     drawCurveTypes();
 });
 

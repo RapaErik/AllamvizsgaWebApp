@@ -30,7 +30,8 @@ namespace WebGUI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-          //  _sensorDataService.ClearSensorDataTable();
+            //  _sensorDataService.ClearSensorDataTable();
+            //_sensorDataService.InitDatabase();
             return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetSensorDatas()));
         }
 
@@ -44,9 +45,9 @@ namespace WebGUI.Controllers
         [HttpPost]
         public IActionResult PostData([FromBody]SensorData data)
         {
-           
+            data.TimeStamp=DateTime.Now;
             var created = _sensorDataService.InsertSensorData(_mapper.Map<DataAccessLayer.Entities.SensorData>(data));
-            _chartHubContext.Clients.All.SendAsync("ReceiveMessage", "New Incoming Data", created.ToString());
+            _chartHubContext.Clients.All.SendAsync("ReceiveMessage", "New Incoming Data", JsonConvert.SerializeObject(data));
             _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(data));
             return CreatedAtAction("SensorData", new { id=created.Id }, _mapper.Map<SensorData>(created));
         }
