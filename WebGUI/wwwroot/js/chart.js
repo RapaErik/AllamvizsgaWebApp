@@ -15,9 +15,9 @@ connection.on("ReceiveMessage", function (user, message) {
 });
 
 connection.on("RestApiMsg", function (json) {
-    var obj = JSON.parse(json);
-    temperatureInputArray.push([new Date(obj.TimeStamp), obj.Temperature]);
-    console.log(temperatureInputArray);
+
+    InitTemperatureDatas(json);
+   
     drawCurveTypes();
 });
 

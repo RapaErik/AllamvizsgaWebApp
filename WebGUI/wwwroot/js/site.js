@@ -68,3 +68,22 @@ function drawCurveTypes1() {
     var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
     chart.draw(data, options);
 }
+function InitTemperatureDatas(json) {
+    var obj = JSON.parse(json);
+    if (Array.isArray(obj)) {
+        for (var i = 0; i < obj.length; i++) {
+            console.log(obj[i]);
+            temperatureInputArray.push([new Date(obj[i].TimeStamp), obj[i].Temperature]);
+        }
+    } else {
+        temperatureInputArray.push([new Date(obj.TimeStamp), obj.Temperature]);
+    }
+}
+
+function f(json) {
+    InitTemperatureDatas(json);
+    drawCurveTypes();
+}
+window.onload = function (e) {
+    f(document.getElementById("hjson").textContent);
+}

@@ -13,18 +13,12 @@ using WebGUI.SignalRClass;
 namespace WebGUI.Controllers
 {
     [Route("api/[controller]")]
-    public class ApiSensorDataController : Controller
+    public class ApiSensorDataController : BaseController
     {
 
-        private readonly ISensorDataService _sensorDataService;
-        private readonly IMapper _mapper;
-        private readonly IHubContext<ChartHub> _chartHubContext;
-        public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext)
+
+        public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext):base( sensorDataService,  mapper,chartHubContext)
         {
-            _mapper = mapper;
-            _sensorDataService = sensorDataService;
-            _chartHubContext = chartHubContext;
-          
         }
         // GET: api/<controller>
         [HttpGet]
@@ -46,11 +40,14 @@ namespace WebGUI.Controllers
         public IActionResult PostData([FromBody]SensorData data)
         {
             data.TimeStamp=DateTime.Now;
+           
             var created = _sensorDataService.InsertSensorData(_mapper.Map<DataAccessLayer.Entities.SensorData>(data));
+           
             _chartHubContext.Clients.All.SendAsync("ReceiveMessage", "New Incoming Data", JsonConvert.SerializeObject(data));
-            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(data));
+            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(created));
             return CreatedAtAction("SensorData", new { id=created.Id }, _mapper.Map<SensorData>(created));
         }
+
 
     }
 }
