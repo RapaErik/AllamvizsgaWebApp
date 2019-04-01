@@ -12,6 +12,8 @@ namespace ControlUnit
         static void Main(string[] args)
         {
 
+            WeatherForcast v = new WeatherForcast();
+            var forcast = v.GetWeatherForcast();
 
             SensorData data = new SensorData {  SensorId = 1, /*TimeStamp = DateTime.Now.ToUniversalTime(), */Temperature = 15f, Humidity=33.5f};
       
