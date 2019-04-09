@@ -9,7 +9,7 @@ connection.on("ReceiveMessage", function (user, message) {
     var encodedMsg = user + " says " + msg;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
+    //document.getElementById("messagesList").appendChild(li);
 
     
 });
@@ -17,8 +17,9 @@ connection.on("ReceiveMessage", function (user, message) {
 connection.on("RestApiMsg", function (json) {
 
     InitTemperatureDatas(json);
-   
+    InitHumidityDatas(json);
     drawCurveTypes();
+    drawCurveTypes1();
 });
 
 

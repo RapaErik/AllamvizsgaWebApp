@@ -80,28 +80,43 @@ namespace ControlUnit
 
         static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
-
             
-            var temp=float.Parse(Encoding.UTF8.GetString(e.Message), CultureInfo.InvariantCulture.NumberFormat);
-            SensorData data = new SensorData { SensorId = 1, Temperature = temp, Humidity = 33.5f };
-            
-            var jsonSettings = new JsonSerializerSettings();
-            jsonSettings.DateFormatString = "dd/MM/yyy hh:mm:ss";
-
-            string json = JsonConvert.SerializeObject(data, jsonSettings);
-            Console.WriteLine(json);
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:62325/api/apisensordata/");
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+          
+            if (Encoding.UTF8.GetString(e.Message) != "NaN")
             {
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
+                string[] datas = Encoding.UTF8.GetString(e.Message).Split(' ');
+                foreach (var item in datas)
+                {
+                    Console.WriteLine(item);
+                }
+                var temp = float.Parse(datas[0], CultureInfo.InvariantCulture.NumberFormat);
+                var humi = float.Parse(datas[1], CultureInfo.InvariantCulture.NumberFormat);
+                SensorData data = new SensorData { SensorId = 1, Temperature = temp, Humidity = humi };
+
+                var jsonSettings = new JsonSerializerSettings();
+                jsonSettings.DateFormatString = "dd/MM/yyy hh:mm:ss";
+
+                string json = JsonConvert.SerializeObject(data, jsonSettings);
+                Console.WriteLine(json);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:62325/api/apisensordata/");
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            }
+            else
+            {
+                Console.WriteLine("Nan!!!!");
             }
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
         }
     }
 }

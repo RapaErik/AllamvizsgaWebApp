@@ -2,7 +2,7 @@
 google.charts.setOnLoadCallback(drawCurveTypes);
 /*google.charts.setOnLoadCallback(drawCurveTypes1);*/
 var temperatureInputArray = [];
-
+var humidityInputArray = [];
 function sortingArrayByFirstParameterAsDateASC(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
         array.sort(function (aa, bb) {
@@ -48,21 +48,21 @@ function drawCurveTypes() {
 
 function drawCurveTypes1() {
     var data = new google.visualization.DataTable();
-    data.addColumn('string', 'X');
+    data.addColumn('date', 'Time of Day');
     data.addColumn('number', 'Humidity');
-
-    data.addRows(a);
+    data.addRows(normalizeArraySize(sortingArrayByFirstParameterAsDateASC(humidityInputArray)));
 
     var options = {
         hAxis: {
             title: 'Time'
         },
         vAxis: {
-            title: 'Temperature'
+            title: 'Humidity'
         },
         series: {
             1: { curveType: 'function' }
-        }
+        },
+        colors: ['blue', 'black', 'green', 'yellow', 'gray']
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
@@ -79,10 +79,23 @@ function InitTemperatureDatas(json) {
         temperatureInputArray.push([new Date(obj.TimeStamp), obj.Temperature]);
     }
 }
+function InitHumidityDatas(json) {
+    var obj = JSON.parse(json);
+    if (Array.isArray(obj)) {
+        for (var i = 0; i < obj.length; i++) {
+            console.log(obj[i]);
+            humidityInputArray.push([new Date(obj[i].TimeStamp), obj[i].Humidity]);
+        }
+    } else {
+        humidityInputArray.push([new Date(obj.TimeStamp), obj.Humidity]);
+    }
+}
 
 function f(json) {
     InitTemperatureDatas(json);
+    InitHumidityDatas(json);
     drawCurveTypes();
+    drawCurveTypes1();
 }
 window.onload = function (e) {
     f(document.getElementById("hjson").textContent);
