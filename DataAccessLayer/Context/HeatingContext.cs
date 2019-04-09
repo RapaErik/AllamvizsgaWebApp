@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +27,12 @@ namespace DataAccessLayer.Context
         public HeatingContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<HeatingContext>();
-            builder.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database=HeatingController;Trusted_Connection=True;");
+            builder.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1QWER!qwer;", // replace with your Connection String
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); // replace with your Server Version and Type
+                    }
+            );
             return new HeatingContext(builder.Options);
         }
     }

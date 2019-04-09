@@ -44,7 +44,7 @@ namespace DataAccessLayer.Sevices
         public void InitDatabase()
         {
             Room r = new Room { Name = "Szoba" };
-            Esp e = new Esp { ChargeType = "220", LastCharge = DateTime.Now, LastInteraction = DateTime.Now, InteractionsCounter = 0, AvgInteractions = 0, AvgBatteryDuration = DateTime.Now };
+            Esp e = new Esp { ChargeType = "220V", LastCharge = DateTime.Now, LastInteraction = DateTime.Now, InteractionsCounter = 0, AvgInteractions = 0, AvgBatteryDuration = DateTime.Now };
             Sensor s = new Sensor { Esp = e, EspId = e.Id, Room = r, RoomId = r.Id, Type = "DHT11" };
 
 
