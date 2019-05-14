@@ -8,6 +8,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/main.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -17,26 +18,18 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebGUI</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
+    <div class="nbar">
+        <ul>
+            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Log" ? "active" : "")" asp-area="" asp-controller="Log" asp-action="Index">Logs</a></li>
+            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Gas" ? "active" : "")" asp-area="" asp-controller="Gas" asp-action="Index">Gas</a></li>
+            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Settings" ? "active" : "")" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a></li>
+        </ul>
+    </div>
+
+   
+
     <div class="container body-content">
         @RenderBody()
         <hr />
