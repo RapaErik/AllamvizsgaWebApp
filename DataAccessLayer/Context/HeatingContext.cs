@@ -27,7 +27,7 @@ namespace DataAccessLayer.Context
         public HeatingContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<HeatingContext>();
-            builder.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1QWER!qwer;", // replace with your Connection String
+            builder.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1werwerwer;", // replace with your Connection String
                     mySqlOptions =>
                     {
                         mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); // replace with your Server Version and Type

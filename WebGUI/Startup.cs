@@ -35,7 +35,7 @@ namespace WebGUI
             services.AddSignalR();
             // services.AddDbContext<HeatingContext>(opt => opt.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database=HeatingController;Trusted_Connection=True;"));
             services.AddDbContextPool<HeatingContext>( // replace "YourDbContext" with the class name of your DbContext
-                options => options.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1QWER!qwer;", // replace with your Connection String
+                options => options.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1werwerwer;", // replace with your Connection String
                     mySqlOptions =>
                     {
                         mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); // replace with your Server Version and Type
