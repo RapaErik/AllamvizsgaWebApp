@@ -2,7 +2,7 @@
 google.charts.load('current', { 'packages': ['gauge'] });
 
 google.charts.setOnLoadCallback(drawCurveTypes);
-google.charts.setOnLoadCallback(drawCurveTypes1);
+//google.charts.setOnLoadCallback(drawCurveTypes1);
 google.charts.setOnLoadCallback(drawGaugeChart);
 
 var temperatureInputArray = [];

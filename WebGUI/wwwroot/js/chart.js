@@ -2,7 +2,7 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/chartHub").build();
 
 
-document.getElementById("sendButton").disabled = true;
+
 
 connection.on("ReceiveMessage", function (user, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -26,11 +26,11 @@ connection.on("RestApiMsg", function (json) {
 
 
 connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
+   
 }).catch(function (err) {
     return console.error(err.toString());
 });
-
+/*
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var user = document.getElementById("userInput").value;
     var message = document.getElementById("messageInput").value;
@@ -38,4 +38,4 @@ document.getElementById("sendButton").addEventListener("click", function (event)
         return console.error(err.toString());
     });
     event.preventDefault();
-});
+});*/
