@@ -19,7 +19,12 @@ namespace DataAccessLayer.Sevices
 
         public IEnumerable<SensorData> GetLastFiftySensorDatas()
         {
-            return _ctx.SensorDatas.OrderByDescending(c=>c.Id).Take(50).ToList();
+            return _ctx.SensorDatas.Include(t=>t.Sensor).OrderByDescending(c=>c.Id).Take(50).ToList();
+        }
+        public string GetSensorDatasTypeOfId(int id)
+        {
+            return _ctx.SensorDatas.Include(t => t.Sensor).Select(c=>c.Sensor.Type).FirstOrDefault();
+            
         }
 
         public IEnumerable<SensorData> GetSensorDatas()
@@ -32,8 +37,8 @@ namespace DataAccessLayer.Sevices
             
             _ctx.SensorDatas.Add(newData);
             _ctx.SaveChanges();
-
-            return newData;
+            var res = _ctx.SensorDatas.Where(c => c.Id == newData.Id).Include(s => s.Sensor).FirstOrDefault() ;
+            return res;
         }
         public void ClearSensorDataTable()
         {
@@ -45,12 +50,13 @@ namespace DataAccessLayer.Sevices
         {
             Room r = new Room { Name = "Szoba" };
             Esp e = new Esp { ChargeType = "220V", LastCharge = DateTime.Now, LastInteraction = DateTime.Now, InteractionsCounter = 0, AvgInteractions = 0, AvgBatteryDuration = DateTime.Now };
-            Sensor s = new Sensor { Esp = e, EspId = e.Id, Room = r, RoomId = r.Id, Type = "DHT11" };
+            Sensor s = new Sensor { Esp = e, EspId = e.Id, Room = r, RoomId = r.Id, Type = "temperature" };
+            Sensor ss = new Sensor { Esp = e, EspId = e.Id, Room = r, RoomId = r.Id, Type = "humidity" };
 
-
-            _ctx.Rooms.Add(r);
-            _ctx.Esps.Add(e);
-            _ctx.Sensors.Add(s);
+            _ctx.Add(r);
+            _ctx.Add(e);
+            _ctx.Add(s);
+            _ctx.Add(ss);
             _ctx.SaveChanges();
 
         }

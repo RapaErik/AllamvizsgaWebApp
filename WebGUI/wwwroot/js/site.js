@@ -1,9 +1,9 @@
 ﻿google.charts.load('current', { packages: ['corechart', 'line'] });
 google.charts.load('current', { 'packages': ['gauge'] });
 
-google.charts.setOnLoadCallback(drawCurveTypes);
+google.charts.setOnLoadCallback(DrawCurveTemperature);
 //google.charts.setOnLoadCallback(drawCurveTypes1);
-google.charts.setOnLoadCallback(drawGaugeChart);
+google.charts.setOnLoadCallback(DrawCurveHumidity);
 
 var temperatureInputArray = [];
 var humidityInputArray = [];
@@ -27,7 +27,7 @@ function normalizeArraySize(array) {
     else return [];
 }
 
-function drawCurveTypes() {
+function DrawCurveTemperature() {
     var data = new google.visualization.DataTable();
     data.addColumn('date', 'Time of Day');
     data.addColumn('number', 'Temperature');
@@ -51,7 +51,7 @@ function drawCurveTypes() {
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 }
-function drawCurveTypes1() {
+function DrawCurveHumidity() {
     var data = new google.visualization.DataTable();
     data.addColumn('date', 'Time of Day');
     data.addColumn('number', 'Humidity');
@@ -106,10 +106,10 @@ function InitTemperatureDatas(json) {
     if (Array.isArray(obj)) {
         for (var i = 0; i < obj.length; i++) {
             console.log(obj[i]);
-            temperatureInputArray.push([new Date(obj[i].TimeStamp), obj[i].Temperature]);
+            temperatureInputArray.push([new Date(obj[i].TimeStamp), obj[i].Data]);
         }
     } else {
-        temperatureInputArray.push([new Date(obj.TimeStamp), obj.Temperature]);
+        temperatureInputArray.push([new Date(obj.TimeStamp), obj.Data]);
     }
 }
 function InitHumidityDatas(json) {
@@ -124,12 +124,44 @@ function InitHumidityDatas(json) {
     }
 }
 
-function f(json) {
-    InitTemperatureDatas(json);
-    InitHumidityDatas(json);
-    drawCurveTypes();
-    drawCurveTypes1();
+function InsertTemp(date, temp) {
+    temperatureInputArray.push([new Date(date), temp]);
+    DrawCurveTemperature();
 }
+function InsertHumidity(date, humi) {
+    humidityInputArray.push([new Date(date), humi]);
+    DrawCurveHumidity();
+}
+
+function DeserealizeAndControl(json) {
+    var obj = JSON.parse(json);
+    if (Array.isArray(obj)) {
+        for (var i = 0; i < obj.length; i++) {
+            switch (obj[i].Sensor.Type) {
+                case "temperature":
+                    InsertTemp(obj[i].TimeStamp, obj[i].Data);
+                    break;
+                case "humidity":
+                    InsertHumidity(obj[i].TimeStamp, obj[i].Data);
+                    break;
+            }
+
+        }
+    } else {
+        switch (obj.Sensor.Type) {
+            case "temperature":
+                InsertTemp(obj.TimeStamp, obj.Data);
+                break;
+            case "humidity":
+                InsertHumidity(obj.TimeStamp, obj.Data);
+                break;
+        }
+    }
+}
+
+
+
+
 window.onload = function (e) {
-    f(document.getElementById("hjson").textContent);
+    DeserealizeAndControl(document.getElementById("json").textContent);
 }

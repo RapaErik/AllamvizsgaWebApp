@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WebGUI.SignalRClass
 {
-    public class ChartHub : Hub//<ITypedHubClient>
+    public class ChartHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task asdasd(string json)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+           await Clients.All.SendAsync("RestApiMsg", json);
         }
     }
 }

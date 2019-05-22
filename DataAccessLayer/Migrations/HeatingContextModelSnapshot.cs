@@ -76,11 +76,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<float>("Humidity");
+                    b.Property<float>("Data");
 
                     b.Property<int>("SensorId");
-
-                    b.Property<float>("Temperature");
 
                     b.Property<DateTime>("TimeStamp");
 

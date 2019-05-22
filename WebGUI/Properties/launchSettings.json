@@ -3,7 +3,9 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://192.168.43.42:8080/"
+      "applicationUrl": "http://localhost:8080/"
+      //netsh http add urlacl url=http://*:51603/ user=Erikovszki --ezt a cmd-be adminkent futattam
+      //<binding protocol="http" bindingInformation=":8080:*" /> --ezt kell beszurni a C:\Users\ERIKovszki\Documents\Visual Studio 2019\Backup Files\Allamvizsga\.vs\WebGUI\config\applicationhost.config
     }
   },
   "profiles": {

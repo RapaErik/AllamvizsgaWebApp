@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class Init : Migration
+    public partial class create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,8 +73,7 @@ namespace DataAccessLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     SensorId = table.Column<int>(nullable: false),
-                    Temperature = table.Column<float>(nullable: false),
-                    Humidity = table.Column<float>(nullable: false),
+                    Data = table.Column<float>(nullable: false),
                     TimeStamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

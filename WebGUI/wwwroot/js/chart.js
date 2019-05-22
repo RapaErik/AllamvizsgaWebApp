@@ -4,22 +4,12 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chartHub").build()
 
 
 
-connection.on("ReceiveMessage", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    //document.getElementById("messagesList").appendChild(li);
 
-    
-});
 
 connection.on("RestApiMsg", function (json) {
 
-    InitTemperatureDatas(json);
-    InitHumidityDatas(json);
-    drawCurveTypes();
-    drawCurveTypes1();
+    DeserealizeAndControl(json);
+
 });
 
 

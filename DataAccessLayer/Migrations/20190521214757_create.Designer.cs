@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(HeatingContext))]
-    [Migration("20190409083129_Init")]
-    partial class Init
+    [Migration("20190521214757_create")]
+    partial class create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,11 +78,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<float>("Humidity");
+                    b.Property<float>("Data");
 
                     b.Property<int>("SensorId");
-
-                    b.Property<float>("Temperature");
 
                     b.Property<DateTime>("TimeStamp");
 

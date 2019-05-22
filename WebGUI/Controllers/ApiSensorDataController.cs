@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using WebGUI.Dtos;
+using WebGUI.Models;
 using WebGUI.SignalRClass;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -39,11 +40,11 @@ namespace WebGUI.Controllers
         [HttpPost]
         public IActionResult PostData([FromBody]SensorData data)
         {
-            data.TimeStamp=DateTime.Now;
-           
+            //  data.TimeStamp=DateTime.Now;
+            //  data.TimeStamp=DateTime.Now;
+
             var created = _sensorDataService.InsertSensorData(_mapper.Map<DataAccessLayer.Entities.SensorData>(data));
-           
-            _chartHubContext.Clients.All.SendAsync("ReceiveMessage", "New Incoming Data", JsonConvert.SerializeObject(data));
+            
             _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(created));
             return CreatedAtAction("SensorData", new { id=created.Id }, _mapper.Map<SensorData>(created));
         }

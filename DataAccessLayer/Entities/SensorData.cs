@@ -13,8 +13,7 @@ namespace DataAccessLayer.Entities
         public int SensorId { get; set; }
         [ForeignKey("SensorId")]
         public Sensor Sensor { get; set; }
-        public float Temperature { get; set; }
-        public float Humidity { get; set; }
+        public float Data { get; set; }
         public DateTime TimeStamp { get; set; }
     }
 }

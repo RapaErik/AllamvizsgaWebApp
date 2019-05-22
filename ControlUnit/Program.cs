@@ -23,21 +23,18 @@ namespace ControlUnit
 
 
             
-            /*
+            
             Thread thr = new Thread(() =>
             {
                 int counter = 0;
                 while (true)
                 {
-
                     Thread.Sleep(500);
-                    client.Publish("/home/heatspeed", Encoding.UTF8.GetBytes((counter % 100).ToString()), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-                    Console.WriteLine("/home/heatspeed" + "      " + Encoding.UTF8.GetBytes((counter % 100).ToString()));
+                    com.PublishDataToTopic("/home/heatspeed",(counter % 25).ToString());
                     counter++;
                 }
             });
-            // thr.Start();
-            */
+             //thr.Start();
 
 
             Console.ReadKey();
