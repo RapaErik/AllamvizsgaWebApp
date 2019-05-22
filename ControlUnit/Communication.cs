@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -57,6 +58,28 @@ namespace ControlUnit
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
         }
+        public void SendHttpPostToRestController(dynamic data)
+        {
+
+
+
+            string json = JsonConvert.SerializeObject(data);
+            Console.WriteLine(json);
+            HttpWebRequest httpWebRequest;
+            httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:8080/api/apisensordata/");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream());
+
+            streamWriter.Write(json);
+            streamWriter.Flush();
+            streamWriter.Close();
+
+
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        }
         void IncommingHumidityData(string msg)
         {
             string[] datas = msg.Split(' ');
@@ -90,27 +113,31 @@ namespace ControlUnit
         }
         void MqttController(object sender, MqttMsgPublishEventArgs e)
         {
-            string msg = Encoding.UTF8.GetString(e.Message);
-            if (msg != "NaN")
+            Thread thr = new Thread(() =>
             {
-                switch (e.Topic)
+                string msg = Encoding.UTF8.GetString(e.Message);
+                if (msg != "NaN")
                 {
-                    case "/home/temperature":
-                        IncommingTemperatureData(msg);
-                        IncommingHumidityData(msg);
-                        break;
+                    switch (e.Topic)
+                    {
+                        case "/home/temperature":
+                            IncommingTemperatureData(msg);
+                            IncommingHumidityData(msg);
+                            break;
 
-                    case "/home/humidity":
-                        break;
+                        case "/home/humidity":
+                            break;
 
-                    case "/home/heatspead":
-                        break;
+                        case "/home/heatspead":
+                            break;
+                    }
                 }
-            }
-            else
-            {
-                IncommingDataErrorInTopic(e.Topic);
-            }
+                else
+                {
+                    IncommingDataErrorInTopic(e.Topic);
+                }
+            });
+            thr.Start();
 
         }
         public void PublishDataToTopic(string topic, dynamic data)
@@ -119,7 +146,12 @@ namespace ControlUnit
             return;
         }
 
-
+        public void PublishHeatSpead(float value)
+        {
+            var s = new SensorData {SensorId=3,TimeStamp=DateTime.Now,Data=value };
+            PublishDataToTopic("/home/heatspeed", value);
+            SendHttpPostToRestController(s);
+        }
     }
 }
 

@@ -26,12 +26,6 @@ namespace WebGUI.Controllers
             chart = new ChartHub();
 
         }
-        protected string InitGoogleChart()
-        {
-            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatas());
-            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
-            //chart.asdasd(JsonConvert.SerializeObject(list));
-            return JsonConvert.SerializeObject(list);
-        }
+
     }
 }

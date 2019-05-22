@@ -30,11 +30,12 @@ namespace ControlUnit
                 while (true)
                 {
                     Thread.Sleep(500);
-                    com.PublishDataToTopic("/home/heatspeed",(counter % 25).ToString());
+                    com.PublishHeatSpead(counter % 25);
+                    
                     counter++;
                 }
             });
-             //thr.Start();
+            thr.Start();
 
 
             Console.ReadKey();

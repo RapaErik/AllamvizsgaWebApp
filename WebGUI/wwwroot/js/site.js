@@ -2,11 +2,14 @@
 google.charts.load('current', { 'packages': ['gauge'] });
 
 google.charts.setOnLoadCallback(DrawCurveTemperature);
-//google.charts.setOnLoadCallback(drawCurveTypes1);
+
 google.charts.setOnLoadCallback(DrawCurveHumidity);
+
+google.charts.setOnLoadCallback(DrawCurveHeater);
 
 var temperatureInputArray = [];
 var humidityInputArray = [];
+var heaterInputArray = [];
 
 function sortingArrayByFirstParameterAsDateASC(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
@@ -48,7 +51,7 @@ function DrawCurveTemperature() {
         colors: ['red', 'blue', 'black', 'green', 'yellow', 'gray']
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(document.getElementById('temperature-line-chart'));
     chart.draw(data, options);
 }
 function DrawCurveHumidity() {
@@ -70,13 +73,35 @@ function DrawCurveHumidity() {
         colors: ['blue', 'black', 'green', 'yellow', 'gray']
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+    var chart = new google.visualization.LineChart(document.getElementById('humidity-line-chart'));
     chart.draw(data, options);
 }
-function drawGaugeChart() {
+function DrawCurveHeater() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('date', 'Time of Day');
+    data.addColumn('number', 'Heating Speed');
+    data.addRows(normalizeArraySize(sortingArrayByFirstParameterAsDateASC(heaterInputArray)));
+
+    var options = {
+        hAxis: {
+            title: 'Time'
+        },
+        vAxis: {
+            title: 'Heating Speed'
+        },
+        series: {
+            1: { curveType: 'function' }
+        },
+        colors: ['blue', 'black', 'green', 'yellow', 'gray']
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('heating-line-chart'));
+    chart.draw(data, options);
+}
+function DrawGaugeChart(value) {
     var data = google.visualization.arrayToDataTable([
         ['Label', 'Value'],
-        ['Gas', 80]
+        ['Gas', value]
 
     ]);
 
@@ -89,16 +114,16 @@ function drawGaugeChart() {
 
     };
 
-    var chart = new google.visualization.Gauge(document.getElementById('gas_div'));
+    var chart = new google.visualization.Gauge(document.getElementById('heating-gauge-chart'));
 
     chart.draw(data, options);
 
     //ez itt egy idozito amit majd szedj ki most maradhat
-    setInterval(function () {
-        data.setValue(0, 1, 40);
+ /*   setInterval(function () {
+        data.setValue(0, 1, value);
         chart.draw(data, options);
     }, 500);
-
+*/
 }
 
 function InitTemperatureDatas(json) {
@@ -133,6 +158,13 @@ function InsertHumidity(date, humi) {
     DrawCurveHumidity();
 }
 
+
+function InserHeater(date, heatspeed) {
+    heaterInputArray.push([new Date(date), heatspeed]);
+    DrawCurveHeater();
+    DrawGaugeChart(heatspeed);
+}
+
 function DeserealizeAndControl(json) {
     var obj = JSON.parse(json);
     if (Array.isArray(obj)) {
@@ -144,6 +176,9 @@ function DeserealizeAndControl(json) {
                 case "humidity":
                     InsertHumidity(obj[i].TimeStamp, obj[i].Data);
                     break;
+                case "heater":
+                    InserHeater(obj[i].TimeStamp, obj[i].Data);
+                    break;
             }
 
         }
@@ -154,6 +189,9 @@ function DeserealizeAndControl(json) {
                 break;
             case "humidity":
                 InsertHumidity(obj.TimeStamp, obj.Data);
+                break;
+            case "heater":
+                InserHeater(obj.TimeStamp, obj  .Data);
                 break;
         }
     }
