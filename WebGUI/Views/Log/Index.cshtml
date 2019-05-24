@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "Log";
+}
+
+<div class="container">
+    <div class="text-center title">
+        <h2>Logs</h2>
+    </div>
+</div>
+<div class="container">
+    <form action="">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="float-left">
+                    <input type="text" placeholder="Search">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="float-right">
+                    <span>Kezdeti datum</span>
+                    <input type="date" name="" id="">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="float-right">
+                    <span>Vegso datum</span>
+                    <input type="date" name="" id="">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="float-left">
+                    <input type="checkbox" name="" id=""> Temperature
+                    <input type="checkbox" name="" id=""> Humidity
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center">
+                    <input type="checkbox" name="" id=""> Error
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="float-right">
+                    <input type="checkbox" name="" id=""> Humidity Events
+                    <input type="checkbox" name="" id=""> Temperature Evemts
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </form>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>TimeStamp</th>
+                <th>Who</th>
+                <th>Data</th>
+                <th>DataType</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="temp-data incoming-data">
+                <td>temperature</td>
+                <td>temperature</td>
+                <td>temperature</td>
+                <td>temperature</td>
+            </tr>
+            <tr class="humidity-data incoming-data">
+                <td>humidity</td>
+                <td>humidity</td>
+                <td>humidity</td>
+                <td>humidity</td>
+            </tr>
+            <tr class="error-data incoming-data">
+                <td>error</td>
+                <td>error</td>
+                <td>error</td>
+                <td>error</td>
+            </tr>
+            <tr class="temp-event incoming-data">
+                <td>tempevent</td>
+                <td>tempevent</td>
+                <td>tempevent</td>
+                <td>tempevent</td>
+            </tr>
+            <tr class="humidity-event incoming-data">
+                <td>humidityevent</td>
+                <td>humidityevent</td>
+                <td>humidityevent</td>
+                <td>humidityevent</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
