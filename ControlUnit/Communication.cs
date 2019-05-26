@@ -82,28 +82,33 @@ namespace ControlUnit
         }
         void IncommingHumidityData(string msg)
         {
+            /*
             string[] datas = msg.Split(' ');
             foreach (var item in datas)
             {
                 Console.WriteLine(item);
             }
             var humi = float.Parse(datas[1], CultureInfo.InvariantCulture.NumberFormat);
-
+            */
+            var humi = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
             SensorData data = new SensorData { SensorId = 2, Data = humi, TimeStamp = DateTime.Now };
 
             SendHttpPostToRestController("apisensordata", data);
         }
         void IncommingTemperatureData(string msg)
         {
+            /*
             string[] datas = msg.Split(' ');
             foreach (var item in datas)
             {
                 Console.WriteLine(item);
             }
             var temp = float.Parse(datas[0], CultureInfo.InvariantCulture.NumberFormat);
+             */
+            var temp = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
 
             SensorData data = new SensorData { SensorId = 1, Data = temp, TimeStamp = DateTime.Now };
-
+           
             SendHttpPostToRestController("apisensordata",data);
 
         }
@@ -111,10 +116,10 @@ namespace ControlUnit
         {
             Console.WriteLine("Nan!!!! at topic:" + topic);
         }
+
         void MqttController(object sender, MqttMsgPublishEventArgs e)
         {
-            Thread thr = new Thread(() =>
-            {
+
                 string msg = Encoding.UTF8.GetString(e.Message);
                 if (msg != "NaN")
                 {
@@ -122,10 +127,11 @@ namespace ControlUnit
                     {
                         case "/home/temperature":
                             IncommingTemperatureData(msg);
-                            IncommingHumidityData(msg);
+                            
                             break;
 
                         case "/home/humidity":
+                            IncommingHumidityData(msg);
                             break;
 
                         case "/home/heatspead":
@@ -136,9 +142,8 @@ namespace ControlUnit
                 {
                     IncommingDataErrorInTopic(e.Topic);
                 }
-            });
-            thr.Start();
-
+            
+           
         }
         public void PublishDataToTopic(string topic, dynamic data)
         {

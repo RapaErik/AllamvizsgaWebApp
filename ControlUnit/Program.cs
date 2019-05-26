@@ -20,11 +20,12 @@ namespace ControlUnit
 
             com.ConnectMqtt();
             com.SubscribeToMqttTopic("/home/temperature");
+            com.SubscribeToMqttTopic("/home/humidity");
 
 
 
-                
-                Thread thr = new Thread(() =>
+
+            Thread thr = new Thread(() =>
                 {
                     int counter = 0;
                     while (true)
