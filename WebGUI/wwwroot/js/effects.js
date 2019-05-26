@@ -2,7 +2,7 @@
     var settingslist = document.getElementById("settings-list");
     console.log(settingslist);
     settingslist.appendChild(CreateRoom());
-    connection.invoke("AddNewRoom").catch(function (err) {
+    connection.invoke("AddNewRoom").catch(function(err) {
         return console.error(err.toString());
     });
 
@@ -23,7 +23,6 @@ function CreateRoom() {
     node.appendChild(nodeOdNode);
     return node;
 }
-
 
 function IncomingData() {
     lerp = function(a, b, u) {

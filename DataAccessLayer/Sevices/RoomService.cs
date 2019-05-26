@@ -2,6 +2,7 @@
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataAccessLayer.Sevices
@@ -27,6 +28,11 @@ namespace DataAccessLayer.Sevices
             Room r = new Room { Name = name };
             _ctx.Add(r);
             _ctx.SaveChangesAsync();
+        }
+
+        public List<Room> GetAllRooms()
+        {
+            return _ctx.Rooms.Select(row=>row).ToList();
         }
     }
 

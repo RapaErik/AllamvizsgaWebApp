@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,5 +9,7 @@ namespace DataAccessLayer.Sevices
     {
         void AddNewRoom();
         void AddNewRoom(string name);
+
+        List<Room> GetAllRooms();
     }
 }

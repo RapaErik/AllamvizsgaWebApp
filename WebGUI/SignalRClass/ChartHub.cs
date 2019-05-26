@@ -33,7 +33,6 @@ namespace WebGUI.SignalRClass
         {
              var t = _chartHubContext.Clients.All.SendAsync("RestApiMsg", json);
             t.Dispose();
-            //t.Wait();
         }
     }
 }

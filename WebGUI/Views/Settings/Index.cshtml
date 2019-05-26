@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<WebGUI.Dtos.Room>
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,9 +13,15 @@
 <div class="container">
     <div id="settings-list">
         <div class="settings-item" id="add-room-button">
-
             <i class="fas fa-plus-circle fa"> Add Room</i>
-
         </div>
+        @foreach (var item in Model)
+        {
+            <div class="settings-item">
+                <a href="#">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </a>
+            </div>
+        }
     </div>
-</div>
+        </div>
