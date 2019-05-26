@@ -7,16 +7,17 @@ using AutoMapper;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.SignalR;
 using WebGUI.SignalRClass;
-using DataAccessLayer.Entities;
+
 using Newtonsoft.Json;
+using WebGUI.Dtos;
 
 namespace WebGUI.Controllers
 {
     public class GasController : BaseController
     {
-        public GasController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(sensorDataService, mapper, chartHubContext)
+        public GasController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(sensorDataService, mapper, chartHubContext, roomService)
         { }
-        string InitGoogleChart()
+        protected new string InitGoogleChart()
         {
             List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasOfHeater());
             _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));

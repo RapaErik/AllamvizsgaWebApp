@@ -96,5 +96,10 @@ namespace DataAccessLayer.Sevices
         {
             return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "heater").OrderByDescending(c => c.Id).Take(50).ToList();
         }
+
+        public IEnumerable<SensorData> GetLastFiftySensorDatasSortedByTime()
+        {
+            return _ctx.SensorDatas.Include(t => t.Sensor).OrderByDescending(c => c.TimeStamp).Take(50).ToList();
+        }
     }
 }

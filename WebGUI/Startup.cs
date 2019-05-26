@@ -30,6 +30,7 @@ namespace WebGUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ISensorDataService, SensorDataService>();
+            services.AddTransient<IRoomService, RoomService>();
             services.AddSingleton<IMapper>(MapperConfig.Configure());
 
             services.AddMvc();

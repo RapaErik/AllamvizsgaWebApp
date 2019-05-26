@@ -6,17 +6,23 @@ using AutoMapper;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
+using WebGUI.Dtos;
 using WebGUI.SignalRClass;
 
 namespace WebGUI.Controllers
 {
     public class LogController : BaseController
     {
-        public LogController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(sensorDataService, mapper, chartHubContext)
-        { }
+        public LogController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(sensorDataService, mapper, chartHubContext, roomService) { }
+
         public IActionResult Index()
         {
-            return View();
+
+            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasSortedByTime());
+
+            return View(list);
         }
+
     }
 }

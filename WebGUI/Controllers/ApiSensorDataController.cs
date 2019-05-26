@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,10 @@ namespace WebGUI.Controllers
     {
 
 
-        public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext):base( sensorDataService,  mapper,chartHubContext)
+        public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) :base( sensorDataService,  mapper,chartHubContext,  roomService)
         {
         }
+
         // GET: api/<controller>
         [HttpGet]
         public IActionResult Get()
@@ -44,10 +46,14 @@ namespace WebGUI.Controllers
             //  data.TimeStamp=DateTime.Now;
 
             var created = _sensorDataService.InsertSensorData(_mapper.Map<DataAccessLayer.Entities.SensorData>(data));
-            
-            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(created));
+
+              _hub.SendToRestApiMsg(JsonConvert.SerializeObject(created));
+            //Task.Run<ChartHub>(async () => await _hub.SendToRestApiMsg(JsonConvert.SerializeObject(created)));
+           
+           // _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(created));
             return CreatedAtAction("SensorData", new { id=created.Id }, _mapper.Map<SensorData>(created));
         }
+
 
 
     }

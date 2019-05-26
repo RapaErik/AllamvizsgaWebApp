@@ -1,23 +1,27 @@
-﻿
-var connection = new signalR.HubConnectionBuilder().withUrl("/chartHub").build();
+﻿var connection = new signalR.HubConnectionBuilder().withUrl("/chartHub").build();
 
 
 
 
 
+connection.on("RestApiMsg", function(json) {
+    var navbar = document.getElementsByClassName("nbar");
+    var activeLink = document.getElementsByClassName("active")[0].textContent;
+    if (activeLink == "Logs") {
+        DeserealizeAndControlForLogging(json);
+    } else {
+        DeserealizeAndControlForVisualisation(json);
+    }
 
-connection.on("RestApiMsg", function (json) {
-
-    DeserealizeAndControl(json);
 
 });
 
 
 
 
-connection.start().then(function () {
-   
-}).catch(function (err) {
+connection.start().then(function() {
+
+}).catch(function(err) {
     return console.error(err.toString());
 });
 /*

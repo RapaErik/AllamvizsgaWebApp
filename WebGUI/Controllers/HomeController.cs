@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DataAccessLayer.Entities;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,17 +16,11 @@ namespace WebGUI.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(sensorDataService, mapper, chartHubContext)
+        public HomeController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(sensorDataService, mapper, chartHubContext, roomService)
         {
             // _sensorDataService.InitDatabase();
         }
-        string InitGoogleChart()
-        {
-            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasExceptHeaters());
-            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
-            //chart.asdasd(JsonConvert.SerializeObject(list));
-            return JsonConvert.SerializeObject(list);
-        }
+
         public IActionResult Index()
         {
             ViewData["json"] = InitGoogleChart();

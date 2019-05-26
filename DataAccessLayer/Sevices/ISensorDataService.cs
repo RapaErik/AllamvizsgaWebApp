@@ -9,6 +9,9 @@ namespace DataAccessLayer.Sevices
     {
         IEnumerable<SensorData> GetSensorDatas();
         IEnumerable<SensorData> GetLastFiftySensorDatas();
+
+        IEnumerable<SensorData> GetLastFiftySensorDatasSortedByTime();
+
         SensorData InsertSensorData(SensorData newData);
         void ClearSensorDataTable();
         void InitDatabase();

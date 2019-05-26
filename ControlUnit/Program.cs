@@ -22,20 +22,24 @@ namespace ControlUnit
             com.SubscribeToMqttTopic("/home/temperature");
 
 
-            
-            
-            Thread thr = new Thread(() =>
-            {
-                int counter = 0;
-                while (true)
+
+                
+                Thread thr = new Thread(() =>
                 {
-                    Thread.Sleep(500);
-                    com.PublishHeatSpead(counter % 25);
-                    
-                    counter++;
-                }
-            });
-            thr.Start();
+                    int counter = 0;
+                    while (true)
+                    {
+                        Thread.Sleep(500);
+                        com.PublishHeatSpead(counter % 25);
+
+                        counter++;
+                    }
+                });
+        //    thr.Start();
+            HeatControl control = new HeatControl();
+          //  (float)control.Control();
+            
+            
 
 
             Console.ReadKey();

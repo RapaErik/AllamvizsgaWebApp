@@ -1,6 +1,8 @@
-﻿
+﻿@model IEnumerable<WebGUI.Dtos.SensorData>
+
 @{
     ViewData["Title"] = "Log";
+    var trClass = "";
 }
 
 <div class="container">
@@ -51,11 +53,11 @@
             </div>
         </div>
 
-
-
+       
 
     </form>
 </div>
+
 <div class="container">
     <table class="table">
         <thead>
@@ -67,36 +69,68 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="temp-data incoming-data">
-                <td>temperature</td>
-                <td>temperature</td>
-                <td>temperature</td>
-                <td>temperature</td>
-            </tr>
-            <tr class="humidity-data incoming-data">
-                <td>humidity</td>
-                <td>humidity</td>
-                <td>humidity</td>
-                <td>humidity</td>
-            </tr>
-            <tr class="error-data incoming-data">
-                <td>error</td>
-                <td>error</td>
-                <td>error</td>
-                <td>error</td>
-            </tr>
-            <tr class="temp-event incoming-data">
-                <td>tempevent</td>
-                <td>tempevent</td>
-                <td>tempevent</td>
-                <td>tempevent</td>
-            </tr>
-            <tr class="humidity-event incoming-data">
-                <td>humidityevent</td>
-                <td>humidityevent</td>
-                <td>humidityevent</td>
-                <td>humidityevent</td>
-            </tr>
+            @foreach (var item in Model)
+            {
+
+                @switch (item.Sensor.Type)
+                {
+                    case "temperature":
+                        trClass = "temp-data";
+
+                        break;
+
+                    case "humidity":
+                        trClass = "humidity-data";
+
+                        break;
+                    case "heater":
+                        trClass = "temp-event";
+
+                        break;
+                }
+                <tr class="@trClass">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeStamp)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sensor.EspId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Data)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sensor.Type)
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <div class="pager">
+                <i class="fa fa-angle-double-left" id="first-page-log"></i>
+                <i class="fa fa-angle-left" id="page-left-log"></i>
+                <span id="counterpp">1</span><span>|</span><span>20</span>
+                <i class="fa fa-angle-right" id="page-right-log"></i>
+                <i class="fa fa-angle-double-right"id="last-page-log"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-center">
+            <div class="pager">
+                <select id="page-size-selector">
+                    <option value="50" selected="selected">50/page</option>
+                    <option value="100">100/page</option>
+                    <option value="250">250/page</option>
+                    <option value="500">500/page</option>
+                    <option value="0">All/page</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+

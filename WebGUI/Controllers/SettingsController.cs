@@ -12,7 +12,7 @@ namespace WebGUI.Controllers
 {
     public class SettingsController : BaseController
     {
-        public SettingsController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(sensorDataService, mapper, chartHubContext)
+        public SettingsController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(sensorDataService, mapper, chartHubContext, roomService)
         { }
         public IActionResult Index()
         {

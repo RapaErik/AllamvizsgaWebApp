@@ -1,36 +1,30 @@
-﻿google.charts.load('current', { packages: ['corechart', 'line'] });
-google.charts.load('current', { 'packages': ['gauge'] });
-
-google.charts.setOnLoadCallback(DrawCurveTemperature);
-
-google.charts.setOnLoadCallback(DrawCurveHumidity);
-
-google.charts.setOnLoadCallback(DrawCurveHeater);
-
-var temperatureInputArray = [];
+﻿var temperatureInputArray = [];
 var humidityInputArray = [];
 var heaterInputArray = [];
+google.charts.load('current', { packages: ['corechart', 'line'] });
+google.charts.load('current', { 'packages': ['gauge'] });
 
 function sortingArrayByFirstParameterAsDateASC(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
-        array.sort(function (aa, bb) {
+        array.sort(function(aa, bb) {
             return new Date(aa[0]) - new Date(bb[0]);
         });
         return array;
-    }
-    else return [];
+    } else return [];
 }
+
 function normalizeArraySize(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
         while (array.length > 50) {
             array.shift();
         }
         return array;
-    }
-    else return [];
+    } else return [];
 }
 
 function DrawCurveTemperature() {
+
+
     var data = new google.visualization.DataTable();
     data.addColumn('date', 'Time of Day');
     data.addColumn('number', 'Temperature');
@@ -54,7 +48,10 @@ function DrawCurveTemperature() {
     var chart = new google.visualization.LineChart(document.getElementById('temperature-line-chart'));
     chart.draw(data, options);
 }
+
 function DrawCurveHumidity() {
+
+
     var data = new google.visualization.DataTable();
     data.addColumn('date', 'Time of Day');
     data.addColumn('number', 'Humidity');
@@ -76,6 +73,7 @@ function DrawCurveHumidity() {
     var chart = new google.visualization.LineChart(document.getElementById('humidity-line-chart'));
     chart.draw(data, options);
 }
+
 function DrawCurveHeater() {
     var data = new google.visualization.DataTable();
     data.addColumn('date', 'Time of Day');
@@ -98,6 +96,7 @@ function DrawCurveHeater() {
     var chart = new google.visualization.LineChart(document.getElementById('heating-line-chart'));
     chart.draw(data, options);
 }
+
 function DrawGaugeChart(value) {
     var data = google.visualization.arrayToDataTable([
         ['Label', 'Value'],
@@ -107,10 +106,15 @@ function DrawGaugeChart(value) {
 
     var options = {
         width: 600,
-        redFrom: 90, redTo: 100,
-        yellowFrom: 75, yellowTo: 90,
-        greenFrom: 50, greenTo: 75,
-        minorTicks: 5, min: 0, max: 100
+        redFrom: 90,
+        redTo: 100,
+        yellowFrom: 75,
+        yellowTo: 90,
+        greenFrom: 50,
+        greenTo: 75,
+        minorTicks: 5,
+        min: 0,
+        max: 100
 
     };
 
@@ -119,7 +123,7 @@ function DrawGaugeChart(value) {
     chart.draw(data, options);
 
     //ez itt egy idozito amit majd szedj ki most maradhat
- /*   setInterval(function () {
+    /*   setInterval(function () {
         data.setValue(0, 1, value);
         chart.draw(data, options);
     }, 500);
@@ -137,6 +141,7 @@ function InitTemperatureDatas(json) {
         temperatureInputArray.push([new Date(obj.TimeStamp), obj.Data]);
     }
 }
+
 function InitHumidityDatas(json) {
     var obj = JSON.parse(json);
     if (Array.isArray(obj)) {
@@ -153,6 +158,7 @@ function InsertTemp(date, temp) {
     temperatureInputArray.push([new Date(date), temp]);
     DrawCurveTemperature();
 }
+
 function InsertHumidity(date, humi) {
     humidityInputArray.push([new Date(date), humi]);
     DrawCurveHumidity();
@@ -165,7 +171,40 @@ function InserHeater(date, heatspeed) {
     DrawGaugeChart(heatspeed);
 }
 
-function DeserealizeAndControl(json) {
+function AddNewLog(obj) {
+    var table = document.getElementsByClassName("table")[0];
+    var tb = table.getElementsByTagName("tbody")[0];
+    var row = tb.insertRow(0);
+    row.classList.add("incoming-data");
+    switch (obj.Sensor.Type) {
+        case "temperature":
+            row.classList.add("temp-data");
+            break;
+        case "humidity":
+            row.classList.add("humidity-data");
+            break;
+        case "heater":
+            row.classList.add("temp-event");
+            break;
+    }
+
+
+
+
+    var cell0 = row.insertCell(0);
+    var cell1 = row.insertCell(1);
+    var cell2 = row.insertCell(2);
+    var cell3 = row.insertCell(3);
+
+    cell0.innerHTML = obj.TimeStamp;
+    cell1.innerHTML = obj.Sensor.EspId;
+    cell2.innerHTML = obj.Data;
+    cell3.innerHTML = obj.Sensor.Type;
+
+}
+
+
+function DeserealizeAndControlForVisualisation(json) {
     var obj = JSON.parse(json);
     if (Array.isArray(obj)) {
         for (var i = 0; i < obj.length; i++) {
@@ -180,7 +219,6 @@ function DeserealizeAndControl(json) {
                     InserHeater(obj[i].TimeStamp, obj[i].Data);
                     break;
             }
-
         }
     } else {
         switch (obj.Sensor.Type) {
@@ -191,15 +229,94 @@ function DeserealizeAndControl(json) {
                 InsertHumidity(obj.TimeStamp, obj.Data);
                 break;
             case "heater":
-                InserHeater(obj.TimeStamp, obj  .Data);
+                InserHeater(obj.TimeStamp, obj.Data);
                 break;
         }
     }
 }
 
+function DeserealizeAndControlForLogging(json) {
+    var obj = JSON.parse(json);
+    if (Array.isArray(obj)) {
+        for (var i = 0; i < obj.length; i++) {
+            AddNewLog(obj[i]);
+        }
+    } else {
+        AddNewLog(obj);
+    }
+    IncomingData();
+}
+
+function LogPagerControl() {
+    var first = document.getElementById("first-page-log");
+    first.addEventListener("click", () => {
+        console.log("a");
+
+    });
+    var left = document.getElementById("page-left-log");
+    left = addEventListener("click", () => {
+        console.log("a");
+
+    });
+    var right = document.getElementById("page-right-log");
+    right = addEventListener("click", () => {
+        console.log("a");
+
+    });
+    var last = document.getElementById("last-page-log");
+    last = addEventListener("click", () => {
+        console.log("a");
+
+    });
+    var selector = document.getElementById("page-size-selector");
+    selector = addEventListener("change", () => {
+        console.log("a");
+
+    });
+}
+
+window.onload = function(e) {
+    var navbar = document.getElementsByClassName("nbar");
+    var activeLink = document.getElementsByClassName("active")[0].textContent;
+    switch (activeLink) {
+        case "Home":
 
 
+            google.charts.setOnLoadCallback(DrawCurveHumidity);
+            google.charts.setOnLoadCallback(DrawCurveTemperature);
 
-window.onload = function (e) {
-    DeserealizeAndControl(document.getElementById("json").textContent);
+
+            DeserealizeAndControlForVisualisation(document.getElementById("json").textContent);
+
+            break;
+        case "Logs":
+            var first = document.getElementById("first-page-log");
+            first.addEventListener("click", counterpp);
+
+            var left = document.getElementById("page-left-log");
+            left.addEventListener("click", counterpp);
+
+            var right = document.getElementById("page-right-log");
+            right.addEventListener("click", counterpp);
+
+            var last = document.getElementById("last-page-log");
+            last.addEventListener("click", counterpp);
+
+            var selector = document.getElementById("page-size-selector");
+            selector.addEventListener("change", counterpp);
+
+            IncomingData();
+            break;
+        case "Gas":
+
+
+            google.charts.setOnLoadCallback(DrawCurveHeater);
+            DeserealizeAndControlForVisualisation(document.getElementById("json").textContent);
+
+            break;
+        case "Settings":
+            var addRoomButton = document.getElementById("add-room-button");
+            addRoomButton.addEventListener("click", AddNewRoom);
+            break;
+    }
 }
