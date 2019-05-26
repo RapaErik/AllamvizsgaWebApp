@@ -102,7 +102,7 @@
         margin: 10px;
         width: 200px;
     }
-    
+
     .settings-item {
         display: inline-block;
         margin-right: 15px;
@@ -111,19 +111,26 @@
         cursor: pointer;
         color: #fff;
         height: 100%;
+        border: 1px solid #006666;
     }
-    
+        .settings-item:hover a,
+        .settings-item:focus a,
+      
+        .settings-item:hover {
+            background-color: #fff;
+            color: #006666;
+            text-decoration: none;
+        }
     .settings-item a {
         color: #fff;
         border: none;
         background-color: #006666;
+        
     }
+
+
     
-    .settings-item div {
-        width: 50px;
-        height: 20px;
-    }
-    
+
     .settings-item a i {
         color: #fff;
         width: 30px;
@@ -167,6 +174,35 @@
     .pager select {
         padding: 10px;
     }
-    
-    font-size: 15px;
-    font-size: 15px;
+
+    #login img {
+        margin-top: 80px;
+        width: 250px;
+    }
+
+    #login h1 {
+        color: #006666;
+        font-size: 30px;
+    }
+
+    .login-content hr {
+        border: 1px solid #006666;
+        width: 500px;
+    }
+
+    .login-box input {
+        margin: 5px 0;
+        padding: 10px;
+        width: 300px;
+    }
+
+    #login-button {
+        background-color: #006666;
+        border: solid 1px #006666;
+        color: #fff;
+    }
+
+    #login-button:hover {
+        background-color: #fff;
+        color: #006666;
+    }
