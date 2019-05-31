@@ -39,6 +39,12 @@ namespace WebGUI.Controllers
             return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatas()));
         }
 
+        [HttpGet("lasttempdata")]
+        public IActionResult GetLastTempData()
+        {
+            return Ok(_sensorDataService.GetLastTemperatureSensorData());
+        }
+
         [HttpPost]
         public IActionResult PostData([FromBody]SensorData data)
         {

@@ -38,9 +38,11 @@ namespace ControlUnit
                 });
         //    thr.Start();
             HeatControl control = new HeatControl();
-          //  (float)control.Control();
-            
-            
+            var error = 11;
+            var dt = -0.65;
+            Console.WriteLine("Control:"+  control.Control(error, dt).ToString());
+
+
 
 
             Console.ReadKey();

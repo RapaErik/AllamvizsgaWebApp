@@ -19,6 +19,7 @@ namespace DataAccessLayer.Sevices
         IEnumerable<SensorData> GetSensorDatasOfHeater();
         IEnumerable<SensorData> GetLastFiftySensorDatasOfHeater();
         IEnumerable<SensorData> GetSensorDatasOfTemperature();
+        string GetLastTemperatureSensorData();
         IEnumerable<SensorData> GetLastFiftySensorDatasOfTemperature();
 
         IEnumerable<SensorData> GetSensorDatasOfHumidity();

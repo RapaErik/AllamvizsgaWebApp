@@ -101,5 +101,10 @@ namespace DataAccessLayer.Sevices
         {
             return _ctx.SensorDatas.Include(t => t.Sensor).OrderByDescending(c => c.TimeStamp).Take(50).ToList();
         }
+
+        public string GetLastTemperatureSensorData()
+        {
+            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "temperature").OrderByDescending(c => c.TimeStamp).Take(1).FirstOrDefault().Data.ToString();
+        }
     }
 }
