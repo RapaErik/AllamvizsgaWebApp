@@ -19,7 +19,8 @@ namespace WebGUI.Controllers
         { }
         protected new string InitGoogleChart()
         {
-            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasOfHeater());
+            //List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasOfHeater());
+            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastNSensorDatasBySensorType("heater",50));
             _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
             //chart.asdasd(JsonConvert.SerializeObject(list));
             return JsonConvert.SerializeObject(list);

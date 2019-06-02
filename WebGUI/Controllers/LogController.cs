@@ -19,7 +19,8 @@ namespace WebGUI.Controllers
         public IActionResult Index()
         {
 
-            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasSortedByTime());
+            //List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasSortedByTime());
+            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastNSensorDatasBySensorType("",50));
 
             return View(list);
         }

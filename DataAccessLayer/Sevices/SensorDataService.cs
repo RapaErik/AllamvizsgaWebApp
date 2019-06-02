@@ -10,30 +10,21 @@ namespace DataAccessLayer.Sevices
 {
     public class SensorDataService : ISensorDataService
     {
-        private readonly HeatingContext _ctx; 
+        private readonly HeatingContext _ctx;
 
         public SensorDataService(HeatingContext ctx)
         {
             _ctx = ctx;
         }
 
-        public IEnumerable<SensorData> GetLastFiftySensorDatas()
-        {
-            return _ctx.SensorDatas.Include(t=>t.Sensor).OrderByDescending(c=>c.Id).Take(50).ToList();
-        }
 
-
-        public IEnumerable<SensorData> GetSensorDatas()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).ToList();
-        }
 
         public SensorData InsertSensorData(SensorData newData)
         {
-            
+
             _ctx.SensorDatas.Add(newData);
             _ctx.SaveChanges();
-            var res = _ctx.SensorDatas.Where(c => c.Id == newData.Id).Include(s => s.Sensor).FirstOrDefault() ;
+            var res = _ctx.SensorDatas.Where(c => c.Id == newData.Id).Include(s => s.Sensor).FirstOrDefault();
             return res;
         }
         public void ClearSensorDataTable()
@@ -57,54 +48,54 @@ namespace DataAccessLayer.Sevices
 
         }
 
-        public IEnumerable<SensorData> GetSensorDatasOfTemperature()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "temperature").ToList();
-        }
-
-        public IEnumerable<SensorData> GetLastFiftySensorDatasOfTemperature()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "temperature").OrderByDescending(c => c.Id).Take(50).ToList();
-        }
-
-        public IEnumerable<SensorData> GetSensorDatasOfHumidity()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "humidity").ToList();
-        }
-
-        public IEnumerable<SensorData> GetLastFiftySensorDatasOfHumidity()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "humidity").OrderByDescending(c => c.Id).Take(50).ToList();
-        }
-
-        public IEnumerable<SensorData> GetSensorDatasExceptHeaters()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type != "heater").ToList();
-        }
 
         public IEnumerable<SensorData> GetLastFiftySensorDatasExceptHeaters()
         {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w=>w.Sensor.Type!="heater").OrderByDescending(c => c.Id).Take(50).ToList();
+            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type != "heater").OrderByDescending(c => c.Id).Take(50).ToList();
         }
 
-        public IEnumerable<SensorData> GetSensorDatasOfHeater()
+        public IEnumerable<SensorData> GetLastNSensorDatasBySensorType(string type = "", int? number = null, int? sensorId = null)
         {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "heater").ToList();
-        }
+            if (number == null && type == "" && sensorId == null) // nincs semmi megadva
+            {
+                return _ctx.SensorDatas.Include(t => t.Sensor).OrderByDescending(c => c.TimeStamp).ToList();
+            }
+            if (number == null && type == "" && sensorId != null) // csak szenzor van megadva
+            {
+                return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Id == sensorId).OrderByDescending(c => c.TimeStamp).ToList();
+            }
+            if (number == null && type != "" && sensorId == null) // csak szenzor tipus  van megadva
+            {
+                return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == type).OrderByDescending(c => c.TimeStamp).ToList();
+            }
+            if (number != null && type == "" && sensorId == null) // csak darabszam  van megadva
+            {
+                return _ctx.SensorDatas.Include(t => t.Sensor).OrderByDescending(c => c.TimeStamp).Take(number ?? 0).ToList();
+            }
 
-        public IEnumerable<SensorData> GetLastFiftySensorDatasOfHeater()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "heater").OrderByDescending(c => c.Id).Take(50).ToList();
-        }
 
-        public IEnumerable<SensorData> GetLastFiftySensorDatasSortedByTime()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).OrderByDescending(c => c.TimeStamp).Take(50).ToList();
-        }
 
-        public string GetLastTemperatureSensorData()
-        {
-            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == "temperature").OrderByDescending(c => c.TimeStamp).Take(1).FirstOrDefault().Data.ToString();
+
+
+            if (sensorId == null) //megvan adva a tipus es a szam is 
+            {
+                return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Type == type).OrderByDescending(c => c.TimeStamp).Take(number ?? 0).ToList();
+            }
+
+            if (number == null)//megvan adva a tipus es a az Id is 
+            {
+                return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Id == sensorId).Where(w => w.Sensor.Type == type).OrderByDescending(c => c.TimeStamp).ToList();
+            }
+            if (type == "") //megvan adva a szam es a  Id is 
+            {
+                return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Id == sensorId).OrderByDescending(c => c.TimeStamp).Take(number ?? 0).ToList();
+            }
+
+
+
+
+            //megvan minden parameter adva
+            return _ctx.SensorDatas.Include(t => t.Sensor).Where(w => w.Sensor.Id == sensorId).Where(w => w.Sensor.Type == type).OrderByDescending(c => c.TimeStamp).Take(number ?? 0).ToList();
         }
     }
 }

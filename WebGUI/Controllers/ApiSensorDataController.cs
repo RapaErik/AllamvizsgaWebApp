@@ -14,7 +14,7 @@ using WebGUI.SignalRClass;
 
 namespace WebGUI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class ApiSensorDataController : BaseController
     {
 
@@ -22,45 +22,36 @@ namespace WebGUI.Controllers
         public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) :base( sensorDataService,  mapper,chartHubContext,  roomService)
         {
         }
-
-        // GET: api/<controller>
+        
+        
         [HttpGet]
         public IActionResult Get()
         {
-            //  _sensorDataService.ClearSensorDataTable();
+            // _sensorDataService.ClearSensorDataTable();
             //_sensorDataService.InitDatabase();
-            return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetSensorDatas()));
+            return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetLastNSensorDatasBySensorType()));
         }
 
-        // GET: api/5
-        [HttpGet("{id}")]
-        public IActionResult GetSomeData(int number)
-        {
-            return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatas()));
-        }
 
-        [HttpGet("lasttempdata")]
-        public IActionResult GetLastTempData()
+        [HttpGet]
+        public IActionResult GetLastNSensorDatasBySensorType(string datatype = "", int? number = null, int? sensorId = null)
         {
-            return Ok(_sensorDataService.GetLastTemperatureSensorData());
+            
+                return Ok(_sensorDataService.GetLastNSensorDatasBySensorType(datatype, number, sensorId));
+            
         }
 
         [HttpPost]
         public IActionResult PostData([FromBody]SensorData data)
         {
-            //  data.TimeStamp=DateTime.Now;
-            //  data.TimeStamp=DateTime.Now;
-
             var created = _sensorDataService.InsertSensorData(_mapper.Map<DataAccessLayer.Entities.SensorData>(data));
 
-              _hub.SendToRestApiMsg(JsonConvert.SerializeObject(created));
-            //Task.Run<ChartHub>(async () => await _hub.SendToRestApiMsg(JsonConvert.SerializeObject(created)));
-           
-           // _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(created));
+            _hub.SendToRestApiMsg(JsonConvert.SerializeObject(created));
+
             return CreatedAtAction("SensorData", new { id=created.Id }, _mapper.Map<SensorData>(created));
         }
 
-
+        
 
     }
 }

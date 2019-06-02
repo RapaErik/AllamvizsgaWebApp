@@ -34,8 +34,7 @@ namespace WebGUI.Controllers
         {
             List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasExceptHeaters());
             _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
-            
-            //chart.asdasd(JsonConvert.SerializeObject(list));
+        
             return JsonConvert.SerializeObject(list);
         }
 

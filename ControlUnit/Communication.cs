@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -58,58 +59,43 @@ namespace ControlUnit
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
         }
-        public void SendHttpPostToRestController(dynamic data)
+        public string SendHttpGetToRestController(string contoller)
         {
+            string url = "http://localhost:8080/api/" + contoller ;
+            var request = (HttpWebRequest)WebRequest.Create(url);
 
+            var response = (HttpWebResponse)request.GetResponse();
 
-
-            string json = JsonConvert.SerializeObject(data);
-            Console.WriteLine(json);
-            HttpWebRequest httpWebRequest;
-            httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:8080/api/apisensordata/");
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-
-            var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream());
-
-            streamWriter.Write(json);
-            streamWriter.Flush();
-            streamWriter.Close();
-
-
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            return new StreamReader(response.GetResponseStream()).ReadToEnd();
         }
         void IncommingHumidityData(string msg)
         {
-            /*
-            string[] datas = msg.Split(' ');
-            foreach (var item in datas)
-            {
-                Console.WriteLine(item);
-            }
-            var humi = float.Parse(datas[1], CultureInfo.InvariantCulture.NumberFormat);
-            */
             var humi = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
             SensorData data = new SensorData { SensorId = 2, Data = humi, TimeStamp = DateTime.Now };
 
-            SendHttpPostToRestController("apisensordata", data);
+            SendHttpPostToRestController("apisensordata/PostData", data);
         }
+
+        public List<SensorData> DeserializeSensorDataJson(string json)
+        {
+            JArray jsonArray = JArray.Parse(json);
+            return jsonArray.ToObject<List<SensorData>>();
+        }
+
+
         void IncommingTemperatureData(string msg)
         {
-            /*
-            string[] datas = msg.Split(' ');
-            foreach (var item in datas)
-            {
-                Console.WriteLine(item);
-            }
-            var temp = float.Parse(datas[0], CultureInfo.InvariantCulture.NumberFormat);
-             */
             var temp = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
-
             SensorData data = new SensorData { SensorId = 1, Data = temp, TimeStamp = DateTime.Now };
-           
-            SendHttpPostToRestController("apisensordata",data);
+
+           // string controller = "data/{temperature}/{9}";
+           // List<SensorData> list = DeserializeSensorDataJson(SendHttpGetToRestController(controller));
+
+          //  list.Add(data);
+
+             
+
+            SendHttpPostToRestController("apisensordata/PostData", data);
 
         }
         void IncommingDataErrorInTopic(string topic)
@@ -155,7 +141,8 @@ namespace ControlUnit
         {
             var s = new SensorData {SensorId=3,TimeStamp=DateTime.Now,Data=value };
             PublishDataToTopic("/home/heatspeed", value);
-            SendHttpPostToRestController(s);
+            SendHttpPostToRestController("apisensordata/PostData", s);
+
         }
     }
 }
