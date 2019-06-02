@@ -35,14 +35,13 @@ namespace ControlUnit
                     control = new HeatControl();
                     while (true)
                     {
-
-                        
+                      
                         Thread.Sleep(5000);
                        
                         json = com.SendHttpGetToRestController("apisensordata/GetLastNSensorDatasBySensorType?number=2&sensorId=1");
                         List<SensorData> data= com.DeserializeSensorDataJson(json);
                         error = setpoint - data[0].Data;
-                        dt = data[0].Data - data[1].Data;
+                        dt = data[1].Data - data[0].Data;
                         
 
                         double heatspeed = control.Control(error, dt);
