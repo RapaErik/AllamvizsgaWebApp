@@ -22,5 +22,13 @@ namespace WebGUI.Controllers
 
             return View(list);
         }
+        public IActionResult RoomSettings(int Id)
+        {
+
+           Room item = _mapper.Map<Room>(_roomService.GetRoomById(Id));
+
+            return View(item);
+        }
+
     }
 }

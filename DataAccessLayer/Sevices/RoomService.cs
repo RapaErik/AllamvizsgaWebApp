@@ -34,6 +34,11 @@ namespace DataAccessLayer.Sevices
         {
             return _ctx.Rooms.Select(row=>row).ToList();
         }
+
+        public Room GetRoomById(int id)
+        {
+            return _ctx.Rooms.Where(w=>w.Id==id).FirstOrDefault();
+        }
     }
 
 }

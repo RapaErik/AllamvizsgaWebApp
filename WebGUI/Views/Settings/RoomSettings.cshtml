@@ -1,0 +1,53 @@
+﻿@model WebGUI.Dtos.Room
+@{
+    ViewData["Title"] = "Room";
+}
+
+<h1>@Model.Name</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="setting-box">
+                <p><span>Room Name:</span><span class="float-right">@Model.Name</span></p>
+                <p><span>Daily  Setpoint:</span><span class="float-right">@Model.DailySetpoint</span></p>
+                <p><span>Nightly  Setpoint:</span><span class="float-right">@Model.NightlySetpoint</span></p>
+                <hr>
+                <p class="text-center"><span>Sensors:</span></p>
+                <p>
+                    <span>Esp1:</span>
+                    <span class="float-right">
+                        temperature
+                        <span><i class="far fa-times-circle"></i></span>
+                    </span>
+                </p>
+                <p>
+                    <span>Esp1:</span>
+                    <span class="float-right">
+                        temperature
+                        <span><i class="far fa-times-circle"></i></span>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-5 col-md-push-3">
+            <form action="" id="room-setting-form">
+                <input type="text" name="" id="" placeholder="Room Name">
+                <input type="text" name="" id="" placeholder="Daily Setpoint">
+                <input type="text" name="" id="" placeholder="Nightly Setpoint">
+                <select name="" id="">
+                    <option value="" selected="selected" disabled>Add Sensor</option>
+                    <option value="">esp1 -temperature</option>
+                    <option value="">esp1 -humidity</option>
+                    <option value="">esp3 -heater</option>
+                    <option value="">esp1 -temperature</option>
+                </select>
+                <div class="text-center">
+                    <button>Heater On</button>
+                    <button>Cooler On</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

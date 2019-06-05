@@ -11,5 +11,6 @@ namespace DataAccessLayer.Sevices
         void AddNewRoom(string name);
 
         List<Room> GetAllRooms();
+        Room GetRoomById(int Id);
     }
 }

@@ -17,11 +17,12 @@
         </div>
         @foreach (var item in Model)
         {
-            <div class="settings-item">
-                <a >
-                    @Html.DisplayFor(modelItem => item.Name)
-                </a>
+            <div class="settings-item" onclick="location.href='@Url.Action("RoomSettings", "Settings",new { id = item.Id })'">
+
+                @Html.DisplayFor(modelItem => item.Name)
+
             </div>
+
         }
     </div>
 </div>
