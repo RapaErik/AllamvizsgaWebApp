@@ -20,14 +20,15 @@ namespace WebGUI.Controllers
         protected readonly IMapper _mapper;
         protected readonly IHubContext<ChartHub> _chartHubContext;
         public ChartHub _hub;
-        protected BaseController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService)
+        protected BaseController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, ISensorService sensorService=null)
         {
             _mapper = mapper;
             _sensorDataService = sensorDataService;
             _chartHubContext = chartHubContext;
             _roomService = roomService;
-            
-            _hub = new ChartHub(_roomService, _mapper, _chartHubContext);
+             
+            _hub = new ChartHub(_roomService, _mapper, _chartHubContext,sensorService);
+
 
         }
         protected string InitGoogleChart()

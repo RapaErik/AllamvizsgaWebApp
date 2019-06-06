@@ -12,10 +12,10 @@ namespace DataAccessLayer.Entities
         [Key]
         public int Id { get; set; }
         public string Type { get; set; }
-        public int EspId { get; set; }
+        public int? EspId { get; set; }
         [ForeignKey("EspId")]
         public Esp Esp { get; set; }
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
         [ForeignKey("RoomId")]
         public Room Room { get; set; }
 

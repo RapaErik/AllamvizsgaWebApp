@@ -14,20 +14,22 @@
                 <p><span>Nightly  Setpoint:</span><span class="float-right">@Model.NightlySetpoint</span></p>
                 <hr>
                 <p class="text-center"><span>Sensors:</span></p>
-                <p>
-                    <span>Esp1:</span>
-                    <span class="float-right">
-                        temperature
-                        <span><i class="far fa-times-circle"></i></span>
-                    </span>
-                </p>
-                <p>
-                    <span>Esp1:</span>
-                    <span class="float-right">
-                        temperature
-                        <span><i class="far fa-times-circle"></i></span>
-                    </span>
-                </p>
+                <div id="sensor-listing">
+                    <p>
+                        <span>Esp1:</span>
+                        <span class="float-right">
+                            temperature
+                            <span><i class="far fa-times-circle"></i></span>
+                        </span>
+                    </p>
+                    <p>
+                        <span>Esp1:</span>
+                        <span class="float-right">
+                            temperature
+                            <span><i class="far fa-times-circle"></i></span>
+                        </span>
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -36,12 +38,9 @@
                 <input type="text" name="" id="" placeholder="Room Name">
                 <input type="text" name="" id="" placeholder="Daily Setpoint">
                 <input type="text" name="" id="" placeholder="Nightly Setpoint">
-                <select name="" id="">
+                <select name="" id="select-esp">
                     <option value="" selected="selected" disabled>Add Sensor</option>
-                    <option value="">esp1 -temperature</option>
-                    <option value="">esp1 -humidity</option>
-                    <option value="">esp3 -heater</option>
-                    <option value="">esp1 -temperature</option>
+
                 </select>
                 <div class="text-center">
                     <button>Heater On</button>

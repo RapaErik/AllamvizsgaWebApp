@@ -16,14 +16,20 @@ connection.on("RestApiMsg", function(json) {
 
 });
 
+connection.on("GettingEsps", function (json) {
+    MakeSelectOptionsWithEsps(json);
+});
+connection.on("GettingEspsDisplay", function (json) {
+    DisplayEspsOfRoom(json);
+});
 
 
+connection.start().then(function () {
 
-connection.start().then(function() {
-
-}).catch(function(err) {
+}).catch(function (err) {
     return console.error(err.toString());
 });
+
 /*
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var user = document.getElementById("userInput").value;

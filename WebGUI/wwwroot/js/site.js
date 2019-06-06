@@ -6,7 +6,7 @@ google.charts.load('current', { 'packages': ['gauge'] });
 
 function sortingArrayByFirstParameterAsDateASC(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
-        array.sort(function(aa, bb) {
+        array.sort(function (aa, bb) {
             return new Date(aa[0]) - new Date(bb[0]);
         });
         return array;
@@ -122,12 +122,7 @@ function DrawGaugeChart(value) {
 
     chart.draw(data, options);
 
-    //ez itt egy idozito amit majd szedj ki most maradhat
-    /*   setInterval(function () {
-        data.setValue(0, 1, value);
-        chart.draw(data, options);
-    }, 500);
-*/
+
 }
 
 function InitTemperatureDatas(json) {
@@ -275,7 +270,7 @@ function LogPagerControl() {
     });
 }
 
-window.onload = function(e) {
+window.onload = function (e) {
     var navbar = document.getElementsByClassName("nbar");
     var activeLink = document.getElementsByClassName("active")[0].textContent;
     switch (activeLink) {
@@ -315,8 +310,17 @@ window.onload = function(e) {
 
             break;
         case "Settings":
-            var addRoomButton = document.getElementById("add-room-button");
-            addRoomButton.addEventListener("click", AddNewRoom);
+            if (document.URL.includes("RoomSettings")) {
+             
+                GetAllFreeEspsInvoke();
+                GetEspsOfRoomInvoke();
+                /*var select = document.getElementById("select-esp");
+                select.addEventListener("click", GetAllFreeEspsInvoke);*/
+            }
+            else {
+                var addRoomButton = document.getElementById("add-room-button");
+                addRoomButton.addEventListener("click", AddNewRoom);
+            }
             break;
     }
 }

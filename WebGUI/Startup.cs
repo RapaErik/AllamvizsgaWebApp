@@ -31,6 +31,7 @@ namespace WebGUI
         {
             services.AddTransient<ISensorDataService, SensorDataService>();
             services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<ISensorService, SensorService>();
             services.AddSingleton<IMapper>(MapperConfig.Configure());
 
             services.AddMvc();
@@ -43,6 +44,10 @@ namespace WebGUI
                         mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); // replace with your Server Version and Type
                     }
             ));
+            services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
