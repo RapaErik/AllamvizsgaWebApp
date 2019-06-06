@@ -1,7 +1,7 @@
 ﻿var temperatureInputArray = [];
 var humidityInputArray = [];
 var heaterInputArray = [];
-google.charts.load('current', { packages: ['corechart', 'line'] });
+google.charts.load('current', { 'packages': ['corechart', 'line'] });
 google.charts.load('current', { 'packages': ['gauge'] });
 
 function sortingArrayByFirstParameterAsDateASC(array) {
@@ -311,11 +311,22 @@ window.onload = function (e) {
             break;
         case "Settings":
             if (document.URL.includes("RoomSettings")) {
-             
+
                 GetAllFreeEspsInvoke();
                 GetEspsOfRoomInvoke();
-                /*var select = document.getElementById("select-esp");
-                select.addEventListener("click", GetAllFreeEspsInvoke);*/
+
+                var select = document.getElementById("select-esp");
+                select.addEventListener("change", AddEspToRoom);
+
+                var name = document.getElementById("room-name-input");
+                name.addEventListener("focusout", UpdateRoomName);
+                
+                var dayli = document.getElementById("room-dayli-input");
+                dayli.addEventListener("focusout", UpdateRoomDayliSetpoint);
+
+                var nightly = document.getElementById("room-nightly-input");
+                nightly.addEventListener("focusout", UpdateRoomNightliSetpoint);
+
             }
             else {
                 var addRoomButton = document.getElementById("add-room-button");

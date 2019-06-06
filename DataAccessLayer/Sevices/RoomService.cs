@@ -39,6 +39,27 @@ namespace DataAccessLayer.Sevices
         {
             return _ctx.Rooms.Where(w=>w.Id==id).FirstOrDefault();
         }
+
+        public void UpdateRoomDayliSetpoint(int id, float data)
+        {
+            Room r = _ctx.Rooms.Where(w => w.Id == id).FirstOrDefault();
+            r.DailySetpoint = data;
+            _ctx.SaveChanges();
+        }
+
+        public void UpdateRoomName(int id, string data)
+        {
+            Room r = _ctx.Rooms.Where(w => w.Id == id).FirstOrDefault();
+            r.Name = data;
+            _ctx.SaveChanges();
+        }
+
+        public void UpdateRoomNightliSetpoint(int id, float data)
+        {
+            Room r = _ctx.Rooms.Where(w => w.Id == id).FirstOrDefault();
+            r.NightlySetpoint = data;
+            _ctx.SaveChanges();
+        }
     }
 
 }

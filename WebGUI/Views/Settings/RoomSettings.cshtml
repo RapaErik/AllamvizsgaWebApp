@@ -1,6 +1,17 @@
 ﻿@model WebGUI.Dtos.Room
 @{
     ViewData["Title"] = "Room";
+    var Heating = "Off";
+    var Cooling= "Off";
+    if(Model.HeatingEnable==false)
+    {
+        Heating = "On";
+    }
+        if(Model.CoolingEnable==false)
+    {
+        Cooling = "On";
+    }
+
 }
 
 <h1>@Model.Name</h1>
@@ -15,37 +26,28 @@
                 <hr>
                 <p class="text-center"><span>Sensors:</span></p>
                 <div id="sensor-listing">
-                    <p>
-                        <span>Esp1:</span>
-                        <span class="float-right">
-                            temperature
-                            <span><i class="far fa-times-circle"></i></span>
-                        </span>
-                    </p>
-                    <p>
-                        <span>Esp1:</span>
-                        <span class="float-right">
-                            temperature
-                            <span><i class="far fa-times-circle"></i></span>
-                        </span>
-                    </p>
+                
                 </div>
             </div>
         </div>
 
         <div class="col-md-5 col-md-push-3">
-            <form action="" id="room-setting-form">
-                <input type="text" name="" id="" placeholder="Room Name">
-                <input type="text" name="" id="" placeholder="Daily Setpoint">
-                <input type="text" name="" id="" placeholder="Nightly Setpoint">
+            <form action="@Url.Action("UpdateRoom", "Settings")" method="post"  id="room-setting-form" >
+                <input type="text" name="RoomName" id="room-name-input" placeholder="Room Name">
+                <input type="text" name="DayliSetpoint" id="room-dayli-input"  onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint"  placeholder="Daily Setpoint">
+                <input type="text" name="NightlySetpoint" id="room-nightly-input"  onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint" placeholder="Nightly Setpoint">
                 <select name="" id="select-esp">
                     <option value="" selected="selected" disabled>Add Sensor</option>
 
                 </select>
                 <div class="text-center">
-                    <button>Heater On</button>
-                    <button>Cooler On</button>
+
+                    <button>Heater @Heating</button>
+
+
+                    <button>Cooler @Cooling</button>
                 </div>
+                <input type="hidden" name="id" value="@Model.Id">
             </form>
         </div>
     </div>

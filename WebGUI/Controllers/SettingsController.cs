@@ -33,6 +33,19 @@ namespace WebGUI.Controllers
 
             return View(room);
         }
+        public IActionResult UpdateRoom(int id,float? DayliSetpoint,float? NightlySetpoint, string RoomName=null)
+        {
 
+
+            Room room = _mapper.Map<Room>(_roomService.GetRoomById(id));
+            _hub.UpdateRoomName(id,RoomName ?? room.Name);
+            _hub.UpdateRoomDayliSetpoint(id,DayliSetpoint??room.DailySetpoint);
+            _hub.UpdateRoomNightliSetpoint(id, NightlySetpoint ?? room.NightlySetpoint);
+
+
+
+            
+            return RedirectToAction("RoomSettings", new { @id = id });
+        }
     }
 }

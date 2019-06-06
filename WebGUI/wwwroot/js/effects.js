@@ -7,7 +7,80 @@
     });
 
 }
+function UpdateRoomName() {
+    if (this.value == "")
+        return;
+    var urlArray = document.URL.split("/");
+    connection.invoke("UpdateRoomName", urlArray[urlArray.length - 1], this.value).catch(function (err) {
+        return console.error(err.toString());
+    });
+    let h1 = document.getElementsByTagName("h1")[0];
+    h1.textContent = this.value;
+    let settingBox = document.getElementsByClassName("setting-box")[0];
+    let elems = settingBox.getElementsByClassName("float-right");
+    elems[0].textContent = this.value;
+}
+function UpdateRoomDayliSetpoint() {
+    if (this.value == "")
+        return;
+    var urlArray = document.URL.split("/");
+    connection.invoke("UpdateRoomDayliSetpoint", urlArray[urlArray.length - 1], this.value).catch(function (err) {
+        return console.error(err.toString());
+    });
+    let settingBox = document.getElementsByClassName("setting-box")[0];
+    let elems = settingBox.getElementsByClassName("float-right");
+    elems[1].textContent = this.value;
+}
+function UpdateRoomNightliSetpoint() {
+    if (this.value == "")
+        return;
+    var urlArray = document.URL.split("/");
+    connection.invoke("UpdateRoomNightliSetpoint", urlArray[urlArray.length - 1], this.value).catch(function (err) {
+        return console.error(err.toString());
+    });
+    let settingBox = document.getElementsByClassName("setting-box")[0];
+    let elems = settingBox.getElementsByClassName("float-right");
+    elems[2].textContent = this.value;
+}
+function numbersonly(myfield, e) {
+    var key;
+    var keychar;
 
+    if (window.event)
+        key = window.event.keyCode;
+    else if (e)
+        key = e.which;
+    else
+        return true;
+
+    keychar = String.fromCharCode(key);
+
+    // control keys
+    if ((key == null) || (key == 0) || (key == 8) || (key == 9) || (key == 13) || (key == 27))
+        return true;
+
+    // numbers
+    else if ((("0123456789").indexOf(keychar) > -1))
+        return true;
+
+    // only one decimal point
+    else if ((keychar == ".")) {
+        if (myfield.value.indexOf(keychar) > -1)
+            return false;
+    } else
+        return false;
+}
+
+function AddEspToRoom() {
+    let option = this.options[this.selectedIndex];
+
+    var urlArray = document.URL.split("/");
+    connection.invoke("AddEspToRoom", urlArray[urlArray.length - 1], option.value).catch (function (err) {
+        return console.error(err.toString());
+    });
+    option.remove();
+    document.getElementById("select-esp").selectedIndex = 0;
+}
 function MakeSelectOptionsWithEsps(json) {
     var select = document.getElementById("select-esp");
     for (var i = 1; i < select.length; i++) {
@@ -39,12 +112,15 @@ function MakeSelectOptionsWithEsps(json) {
 }
 function DisplayEspsOfRoom(json) {
     var sensorList = document.getElementById("sensor-listing");
+    for (var i = 1; i < sensorList.length; i++) {
+        sensorList[i].remove();
+    }
     var sensors = [];
     var espSensors = [];
 
     var obj = JSON.parse(json);
     if (Array.isArray(obj)) {
-        for (var i = 0; i < obj.length; i++) {
+        for (i = 0; i < obj.length; i++) {
             sensors.push([obj[i].EspId, obj[i].Type]);
             if (!espSensors.includes(obj[i].EspId)) {
                 espSensors.push(obj[i].EspId);
@@ -107,7 +183,6 @@ function FindByAttributeValue(attribute, value, element_type) {
 }
 
 function GetAllFreeEspsInvoke() {
-    var urlArray = document.URL.split("/");
     connection.invoke("GettAllFreeEsps").catch(function (err) {
         return console.error(err.toString());
     });

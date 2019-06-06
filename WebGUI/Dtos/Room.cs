@@ -8,5 +8,9 @@ namespace WebGUI.Dtos
         public string Name { get; set; }
         public float DailySetpoint { get; set; }
         public float NightlySetpoint { get; set; }
+
+
+        public bool CoolingEnable { get; set; }
+        public bool HeatingEnable { get; set; }
     }
 }

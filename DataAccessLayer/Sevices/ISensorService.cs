@@ -10,5 +10,7 @@ namespace DataAccessLayer.Sevices
         IEnumerable<Sensor> GetAllSensorsWithoutOfRooms();
         IEnumerable<Sensor> GetAllSensorsRoomId(int id);
         void RemoveEspFromRoom(int espId);
+
+        IEnumerable<Sensor> AddEspToRoom(int roomId, int espId);
     }
 }

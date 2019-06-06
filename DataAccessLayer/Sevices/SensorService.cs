@@ -40,5 +40,18 @@ namespace DataAccessLayer.Sevices
             }
             _ctx.SaveChanges();
         }
+
+        public IEnumerable<Sensor> AddEspToRoom(int roomId, int espId)
+        {
+            var sensorsWithEsp = _ctx.Sensors.Where(w => w.EspId == espId).ToList();
+            foreach (var item in sensorsWithEsp)
+            {
+                item.RoomId = roomId;
+            }
+            _ctx.SaveChanges();
+
+            return sensorsWithEsp;
+
+        }
     }
 }

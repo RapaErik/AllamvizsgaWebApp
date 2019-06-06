@@ -14,6 +14,8 @@ namespace DataAccessLayer.Entities
         public float DailySetpoint { get; set; }
         public float NightlySetpoint { get; set; }
 
+        public bool CoolingEnable { get; set; }
+        public bool HeatingEnable { get; set; }
 
 
 

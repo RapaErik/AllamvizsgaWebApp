@@ -35,7 +35,7 @@ namespace WebGUI.SignalRClass
         public void GettAllFreeEsps()
         {
             List<Sensor> sensorsList = _mapper.Map<List<Sensor>>(_sensorService.GetAllSensorsWithoutOfRooms());
-        
+
             var json = JsonConvert.SerializeObject(sensorsList);
 
             var t = _chartHubContext.Clients.All.SendAsync("GettingEsps", json);
@@ -59,5 +59,29 @@ namespace WebGUI.SignalRClass
             var t = _chartHubContext.Clients.All.SendAsync("RestApiMsg", json);
             t.Dispose();
         }
+
+        public void AddEspToRoom(int roomId, int espId)
+        {
+            List<Sensor> sensorsListOfRoom = _mapper.Map<List<Sensor>>(_sensorService.AddEspToRoom(roomId, espId));
+            var json = JsonConvert.SerializeObject(sensorsListOfRoom);
+
+
+            var t = _chartHubContext.Clients.All.SendAsync("GettingEspsDisplay", json);
+            t.Dispose();
+        }
+
+        public void UpdateRoomName(int roomId, string roomName)
+        {
+            _roomService.UpdateRoomName(roomId, roomName);
+        }
+        public void UpdateRoomNightliSetpoint(int roomId, float setpoint)
+        {
+            _roomService.UpdateRoomNightliSetpoint(roomId, setpoint);
+        }
+        public void UpdateRoomDayliSetpoint(int roomId, float setpoint)
+        {
+            _roomService.UpdateRoomDayliSetpoint(roomId, setpoint);
+        }
     }
+
 }
