@@ -7,6 +7,26 @@
     });
 
 }
+function ToogleRoomHeaterCooler() {
+    var urlArray = document.URL.split("/");
+    if (this.getAttribute("data-status") == "On") {
+        this.setAttribute("data-status", "Off");
+        let tmp = this.textContent;
+        tmp = tmp.slice(0, -2);
+        tmp = tmp + "Off";
+        this.textContent = tmp;
+    }
+    else {
+        this.setAttribute("data-status", "On");
+        let tmp = this.textContent;
+        tmp = tmp.slice(0, -3);
+        tmp = tmp + "On";
+        this.textContent = tmp;
+    }
+    connection.invoke("RoomHeaterCoolerToggle", urlArray[urlArray.length - 1], this.textContent).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
 function UpdateRoomName() {
     if (this.value == "")
         return;

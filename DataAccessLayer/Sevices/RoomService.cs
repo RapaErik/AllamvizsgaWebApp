@@ -40,6 +40,20 @@ namespace DataAccessLayer.Sevices
             return _ctx.Rooms.Where(w=>w.Id==id).FirstOrDefault();
         }
 
+        public void ToggleCoolerByRoomId(int roomId)
+        {
+            var temp= _ctx.Rooms.Where(w => w.Id == roomId).FirstOrDefault();
+            temp.CoolingEnable = !temp.CoolingEnable;
+            _ctx.SaveChanges();
+        }
+
+        public void ToggleHeaterByRoomId(int roomId)
+        {
+            var temp = _ctx.Rooms.Where(w => w.Id == roomId).FirstOrDefault();
+            temp.HeatingEnable = !temp.HeatingEnable;
+            _ctx.SaveChanges();
+        }
+
         public void UpdateRoomDayliSetpoint(int id, float data)
         {
             Room r = _ctx.Rooms.Where(w => w.Id == id).FirstOrDefault();

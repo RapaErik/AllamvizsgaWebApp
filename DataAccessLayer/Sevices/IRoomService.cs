@@ -16,6 +16,7 @@ namespace DataAccessLayer.Sevices
         void UpdateRoomName(int id, string data);
         void UpdateRoomDayliSetpoint(int id, float data);
         void UpdateRoomNightliSetpoint(int id, float data);
-
+        void ToggleHeaterByRoomId(int roomId);
+        void ToggleCoolerByRoomId(int roomId);
     }
 }

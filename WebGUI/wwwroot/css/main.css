@@ -232,17 +232,17 @@
     #room-setting-form select {
         padding: 10px;
     }
-    
-    #room-setting-form button {
-        margin: 5px auto;
-        padding: 15px;
-        background-color: #006666;
-        color: #fff;
-        border: solid 1px #006666;
-    }
-    
-    #room-setting-form button:hover {
-        background-color: #fff;
-        color: #006666;
-        border: solid 1px #006666;
-    }
+
+    .col-md-push-3 button {
+    margin: 5px auto;
+    padding: 15px;
+    background-color: #006666;
+    color: #fff;
+    border: solid 1px #006666;
+}
+
+    .col-md-push-3 button:hover {
+    background-color: #fff;
+    color: #006666;
+    border: solid 1px #006666;
+}

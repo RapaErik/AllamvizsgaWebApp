@@ -327,6 +327,11 @@ window.onload = function (e) {
                 var nightly = document.getElementById("room-nightly-input");
                 nightly.addEventListener("focusout", UpdateRoomNightliSetpoint);
 
+
+                var heat = document.getElementById("toggle-heater");
+                var cool = document.getElementById("toggle-cooler");
+                heat.addEventListener("click", ToogleRoomHeaterCooler);
+                cool.addEventListener("click", ToogleRoomHeaterCooler);
             }
             else {
                 var addRoomButton = document.getElementById("add-room-button");

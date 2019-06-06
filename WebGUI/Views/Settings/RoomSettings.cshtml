@@ -32,23 +32,24 @@
         </div>
 
         <div class="col-md-5 col-md-push-3">
-            <form action="@Url.Action("UpdateRoom", "Settings")" method="post"  id="room-setting-form" >
+            <form action="@Url.Action("UpdateRoom", "Settings")" method="post" id="room-setting-form">
                 <input type="text" name="RoomName" id="room-name-input" placeholder="Room Name">
-                <input type="text" name="DayliSetpoint" id="room-dayli-input"  onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint"  placeholder="Daily Setpoint">
-                <input type="text" name="NightlySetpoint" id="room-nightly-input"  onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint" placeholder="Nightly Setpoint">
+                <input type="text" name="DayliSetpoint" id="room-dayli-input" onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint" placeholder="Daily Setpoint">
+                <input type="text" name="NightlySetpoint" id="room-nightly-input" onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint" placeholder="Nightly Setpoint">
                 <select name="" id="select-esp">
                     <option value="" selected="selected" disabled>Add Sensor</option>
 
                 </select>
-                <div class="text-center">
 
-                    <button>Heater @Heating</button>
-
-
-                    <button>Cooler @Cooling</button>
-                </div>
                 <input type="hidden" name="id" value="@Model.Id">
             </form>
+            <div class="text-center">
+
+                <button id="toggle-heater" data-status="@Heating">Heater @Heating</button>
+
+
+                <button id="toggle-cooler" data-status="@Cooling">Cooler @Cooling</button>
+            </div>
         </div>
     </div>
 </div>

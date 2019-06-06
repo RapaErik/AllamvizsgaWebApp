@@ -82,6 +82,19 @@ namespace WebGUI.SignalRClass
         {
             _roomService.UpdateRoomDayliSetpoint(roomId, setpoint);
         }
+
+        public void RoomHeaterCoolerToggle(int roomId, string textContent)
+        {
+            if (textContent.Contains("Heater"))
+            {
+                _roomService.ToggleHeaterByRoomId(roomId);
+            }
+            else
+            {
+                _roomService.ToggleCoolerByRoomId(roomId);
+            }
+          
+        }
     }
 
 }
