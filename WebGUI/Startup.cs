@@ -29,9 +29,9 @@ namespace WebGUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ISensorDataService, SensorDataService>();
+            services.AddTransient<ILogService, LogService>();
             services.AddTransient<IRoomService, RoomService>();
-            services.AddTransient<ISensorService, SensorService>();
+            services.AddTransient<IDeviceService, DeviceService>();
             services.AddSingleton<IMapper>(MapperConfig.Configure());
 
             services.AddMvc();

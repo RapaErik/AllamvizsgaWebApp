@@ -15,13 +15,14 @@ namespace WebGUI.Controllers
 {
     public class GasController : BaseController
     {
-        public GasController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(sensorDataService, mapper, chartHubContext, roomService)
+        public GasController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService)
         { }
         protected new string InitGoogleChart()
         {
-            //List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasOfHeater());
-            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastNSensorDatasBySensorType("heater",50));
-            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
+            //List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsOfHeater());
+            List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("heater",50));
+            _hub.SendToRestApiMsg(JsonConvert.SerializeObject(list));
+            //_chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
             //chart.asdasd(JsonConvert.SerializeObject(list));
             return JsonConvert.SerializeObject(list);
         }

@@ -6,14 +6,18 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class SensorData
+    public class Log
     {
         [Key]
         public int Id { get; set; }
-        public int SensorId { get; set; }
-        [ForeignKey("SensorId")]
-        public Sensor Sensor { get; set; }
         public float Data { get; set; }
         public DateTime TimeStamp { get; set; }
+
+        public bool IsNan { get; set; }
+        public int DeviceId { get; set; }
+        [ForeignKey("DeviceId")]
+        public Device Device { get; set; }
+        
+        
     }
 }

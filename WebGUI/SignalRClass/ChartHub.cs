@@ -14,14 +14,14 @@ namespace WebGUI.SignalRClass
     {
 
         protected readonly IRoomService _roomService;
-        protected readonly ISensorService _sensorService;
+        protected readonly IDeviceService _DeviceService;
         protected readonly IMapper _mapper;
         IHubContext<ChartHub> _chartHubContext;
-        public ChartHub(IRoomService roomService, IMapper mapper, IHubContext<ChartHub> ctx, ISensorService sensorService)
+        public ChartHub(IRoomService roomService, IMapper mapper, IHubContext<ChartHub> ctx, IDeviceService DeviceService)
         {
             _mapper = mapper;
             _roomService = roomService;
-            _sensorService = sensorService;
+            _DeviceService = DeviceService;
             _chartHubContext = ctx;
 
 
@@ -34,17 +34,17 @@ namespace WebGUI.SignalRClass
         }
         public void GettAllFreeEsps()
         {
-            List<Sensor> sensorsList = _mapper.Map<List<Sensor>>(_sensorService.GetAllSensorsWithoutOfRooms());
+            List<Device> DevicesList = _mapper.Map<List<Device>>(_DeviceService.GetAllDevicesWithoutOfRooms());
 
-            var json = JsonConvert.SerializeObject(sensorsList);
+            var json = JsonConvert.SerializeObject(DevicesList);
 
             var t = _chartHubContext.Clients.All.SendAsync("GettingEsps", json);
             t.Dispose();
         }
         public void GetEspsOfRoomInvoke(int id)
         {
-            List<Sensor> sensorsListOfRoom = _mapper.Map<List<Sensor>>(_sensorService.GetAllSensorsRoomId(id));
-            var json = JsonConvert.SerializeObject(sensorsListOfRoom);
+            List<Device> DevicesListOfRoom = _mapper.Map<List<Device>>(_DeviceService.GetAllDevicesRoomId(id));
+            var json = JsonConvert.SerializeObject(DevicesListOfRoom);
 
             var t = _chartHubContext.Clients.All.SendAsync("GettingEspsDisplay", json);
             t.Dispose();
@@ -52,7 +52,7 @@ namespace WebGUI.SignalRClass
 
         public void RemoveEspFromRoom(int espId)
         {
-            _sensorService.RemoveEspFromRoom(espId);
+            _DeviceService.RemoveEspFromRoom(espId);
         }
         public void SendToRestApiMsg(string json)
         {
@@ -62,8 +62,8 @@ namespace WebGUI.SignalRClass
 
         public void AddEspToRoom(int roomId, int espId)
         {
-            List<Sensor> sensorsListOfRoom = _mapper.Map<List<Sensor>>(_sensorService.AddEspToRoom(roomId, espId));
-            var json = JsonConvert.SerializeObject(sensorsListOfRoom);
+            List<Device> DevicesListOfRoom = _mapper.Map<List<Device>>(_DeviceService.AddEspToRoom(roomId, espId));
+            var json = JsonConvert.SerializeObject(DevicesListOfRoom);
 
 
             var t = _chartHubContext.Clients.All.SendAsync("GettingEspsDisplay", json);

@@ -24,8 +24,8 @@
                 <p><span>Daily  Setpoint:</span><span class="float-right">@Model.DailySetpoint</span></p>
                 <p><span>Nightly  Setpoint:</span><span class="float-right">@Model.NightlySetpoint</span></p>
                 <hr>
-                <p class="text-center"><span>Sensors:</span></p>
-                <div id="sensor-listing">
+                <p class="text-center"><span>Devices:</span></p>
+                <div id="Device-listing">
                 
                 </div>
             </div>
@@ -37,10 +37,10 @@
                 <input type="text" name="DayliSetpoint" id="room-dayli-input" onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint" placeholder="Daily Setpoint">
                 <input type="text" name="NightlySetpoint" id="room-nightly-input" onkeypress="return numbersonly(this, event)" placeholder="Daily Setpoint" placeholder="Nightly Setpoint">
                 <select name="" id="select-esp">
-                    <option value="" selected="selected" disabled>Add Sensor</option>
+                    <option value="" selected="selected" disabled>Add Device</option>
 
                 </select>
-
+                <button type="submit" style="display:none"></button>
                 <input type="hidden" name="id" value="@Model.Id">
             </form>
             <div class="text-center">

@@ -15,11 +15,11 @@ using WebGUI.SignalRClass;
 namespace WebGUI.Controllers
 {
     [Route("api/[controller]/[action]")]
-    public class ApiSensorDataController : BaseController
+    public class ApiLogController : BaseController
     {
 
 
-        public ApiSensorDataController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) :base( sensorDataService,  mapper,chartHubContext,  roomService)
+        public ApiLogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) :base( LogService,  mapper,chartHubContext,  roomService)
         {
         }
         
@@ -27,28 +27,28 @@ namespace WebGUI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            // _sensorDataService.ClearSensorDataTable();
-            //_sensorDataService.InitDatabase();
-            return Ok(_mapper.Map<List<SensorData>>(_sensorDataService.GetLastNSensorDatasBySensorType()));
+            // _LogService.ClearLogTable();
+            //_LogService.InitDatabase();
+            return Ok(_mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType()));
         }
 
 
         [HttpGet]
-        public IActionResult GetLastNSensorDatasBySensorType(string datatype = "", int? number = null, int? sensorId = null)
+        public IActionResult GetLastNLogsByDeviceType(string datatype = "", int? number = null, int? DeviceId = null)
         {
             
-                return Ok(_sensorDataService.GetLastNSensorDatasBySensorType(datatype, number, sensorId));
+                return Ok(_LogService.GetLastNLogsByDeviceType(datatype, number, DeviceId));
             
         }
 
         [HttpPost]
-        public IActionResult PostData([FromBody]SensorData data)
+        public IActionResult PostData([FromBody]Log data)
         {
-            var created = _sensorDataService.InsertSensorData(_mapper.Map<DataAccessLayer.Entities.SensorData>(data));
+            var created = _LogService.InsertLog(_mapper.Map<DataAccessLayer.Entities.Log>(data));
 
             _hub.SendToRestApiMsg(JsonConvert.SerializeObject(created));
 
-            return CreatedAtAction("SensorData", new { id=created.Id }, _mapper.Map<SensorData>(created));
+            return CreatedAtAction("Log", new { id=created.Id }, _mapper.Map<Log>(created));
         }
 
         

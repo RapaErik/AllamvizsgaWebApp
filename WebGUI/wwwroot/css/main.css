@@ -246,3 +246,6 @@
     color: #006666;
     border: solid 1px #006666;
 }
+    #Device-listing {
+        overflow :auto;
+}

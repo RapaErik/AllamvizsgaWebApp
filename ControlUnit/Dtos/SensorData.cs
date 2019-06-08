@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ControlUnit
 {
-    public class SensorData
+    public class Log
     {
-        public int SensorId { get; set; }
+        public int DeviceId { get; set; }
         public float Data { get; set; }
         public DateTime TimeStamp { get; set; }
     }

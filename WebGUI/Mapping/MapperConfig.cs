@@ -14,9 +14,9 @@ namespace WebGUI.Mapping
             var config = new MapperConfiguration(cfg => 
             {
                 cfg.CreateMap<Room, Dtos.Room>();
-                cfg.CreateMap<Esp, Dtos.Esp>();
-                cfg.CreateMap<Sensor, Dtos.Sensor>();
-                cfg.CreateMap<SensorData, Dtos.SensorData>();
+                cfg.CreateMap<CommunicationUnit, Dtos.CommunicationUnit>();
+                cfg.CreateMap<Device, Dtos.Device>();
+                cfg.CreateMap<Log, Dtos.Log>();
             });
             config.AssertConfigurationIsValid();
 

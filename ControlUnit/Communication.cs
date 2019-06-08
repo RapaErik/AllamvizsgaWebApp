@@ -71,31 +71,31 @@ namespace ControlUnit
         void IncommingHumidityData(string msg)
         {
             var humi = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
-            SensorData data = new SensorData { SensorId = 2, Data = humi, TimeStamp = DateTime.Now };
+            Log data = new Log { DeviceId = 2, Data = humi, TimeStamp = DateTime.Now };
 
-            SendHttpPostToRestController("apisensordata/PostData", data);
+            SendHttpPostToRestController("apiLog/PostData", data);
         }
 
-        public List<SensorData> DeserializeSensorDataJson(string json)
+        public List<Log> DeserializeLogJson(string json)
         {
             JArray jsonArray = JArray.Parse(json);
-            return jsonArray.ToObject<List<SensorData>>();
+            return jsonArray.ToObject<List<Log>>();
         }
 
 
         void IncommingTemperatureData(string msg)
         {
             var temp = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
-            SensorData data = new SensorData { SensorId = 1, Data = temp, TimeStamp = DateTime.Now };
+            Log data = new Log { DeviceId = 1, Data = temp, TimeStamp = DateTime.Now };
 
-           // string controller = "data/{temperature}/{9}";
-           // List<SensorData> list = DeserializeSensorDataJson(SendHttpGetToRestController(controller));
+            // string controller = "data/{temperature}/{9}";
+            // List<Log> list = DeserializeLogJson(SendHttpGetToRestController(controller));
 
-          //  list.Add(data);
+            //  list.Add(data);
 
-             
 
-            SendHttpPostToRestController("apisensordata/PostData", data);
+
+            SendHttpPostToRestController("apiLog/PostData", data);
 
         }
         void IncommingDataErrorInTopic(string topic)
@@ -139,9 +139,9 @@ namespace ControlUnit
 
         public void PublishHeatSpead(float value)
         {
-            var s = new SensorData {SensorId=3,TimeStamp=DateTime.Now,Data=value };
+            var s = new Log { DeviceId=3,TimeStamp=DateTime.Now,Data=value };
             PublishDataToTopic("/home/heatspeed", value);
-            SendHttpPostToRestController("apisensordata/PostData", s);
+            SendHttpPostToRestController("apiLog/PostData", s);
 
         }
     }

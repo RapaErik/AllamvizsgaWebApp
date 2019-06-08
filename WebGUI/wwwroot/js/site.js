@@ -171,7 +171,7 @@ function AddNewLog(obj) {
     var tb = table.getElementsByTagName("tbody")[0];
     var row = tb.insertRow(0);
     row.classList.add("incoming-data");
-    switch (obj.Sensor.Type) {
+    switch (obj.Device.Type) {
         case "temperature":
             row.classList.add("temp-data");
             break;
@@ -192,9 +192,9 @@ function AddNewLog(obj) {
     var cell3 = row.insertCell(3);
 
     cell0.innerHTML = obj.TimeStamp;
-    cell1.innerHTML = obj.Sensor.EspId;
+    cell1.innerHTML = obj.Device.CommunicationUnitId;
     cell2.innerHTML = obj.Data;
-    cell3.innerHTML = obj.Sensor.Type;
+    cell3.innerHTML = obj.Device.Type;
 
 }
 
@@ -203,7 +203,7 @@ function DeserealizeAndControlForVisualisation(json) {
     var obj = JSON.parse(json);
     if (Array.isArray(obj)) {
         for (var i = 0; i < obj.length; i++) {
-            switch (obj[i].Sensor.Type) {
+            switch (obj[i].Device.Type) {
                 case "temperature":
                     InsertTemp(obj[i].TimeStamp, obj[i].Data);
                     break;
@@ -216,7 +216,7 @@ function DeserealizeAndControlForVisualisation(json) {
             }
         }
     } else {
-        switch (obj.Sensor.Type) {
+        switch (obj.Device.Type) {
             case "temperature":
                 InsertTemp(obj.TimeStamp, obj.Data);
                 break;

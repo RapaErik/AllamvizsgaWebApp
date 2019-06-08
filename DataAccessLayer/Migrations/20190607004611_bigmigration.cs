@@ -4,26 +4,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class create : Migration
+    public partial class bigmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Esps",
+                name: "CommunicationUnits",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ChargeType = table.Column<string>(nullable: true),
-                    LastCharge = table.Column<DateTime>(nullable: false),
-                    LastInteraction = table.Column<DateTime>(nullable: false),
-                    InteractionsCounter = table.Column<int>(nullable: false),
-                    AvgInteractions = table.Column<int>(nullable: false),
-                    AvgBatteryDuration = table.Column<DateTime>(nullable: false)
+                    Code = table.Column<string>(nullable: true),
+                    IPAddress = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Esps", x => x.Id);
+                    table.PrimaryKey("PK_CommunicationUnits", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -32,7 +28,11 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    DailySetpoint = table.Column<float>(nullable: false),
+                    NightlySetpoint = table.Column<float>(nullable: false),
+                    CoolingEnable = table.Column<bool>(nullable: false),
+                    HeatingEnable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,79 +40,82 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sensors",
+                name: "Devices",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Type = table.Column<string>(nullable: true),
-                    EspId = table.Column<int>(nullable: false),
-                    RoomId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    IO = table.Column<bool>(nullable: false),
+                    CommunicationUnitId = table.Column<int>(nullable: true),
+                    RoomId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sensors", x => x.Id);
+                    table.PrimaryKey("PK_Devices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sensors_Esps_EspId",
-                        column: x => x.EspId,
-                        principalTable: "Esps",
+                        name: "FK_Devices_CommunicationUnits_CommunicationUnitId",
+                        column: x => x.CommunicationUnitId,
+                        principalTable: "CommunicationUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Sensors_Rooms_RoomId",
+                        name: "FK_Devices_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SensorDatas",
+                name: "Logs",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    SensorId = table.Column<int>(nullable: false),
                     Data = table.Column<float>(nullable: false),
-                    TimeStamp = table.Column<DateTime>(nullable: false)
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    IsNan = table.Column<bool>(nullable: false),
+                    DeviceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SensorDatas", x => x.Id);
+                    table.PrimaryKey("PK_Logs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SensorDatas_Sensors_SensorId",
-                        column: x => x.SensorId,
-                        principalTable: "Sensors",
+                        name: "FK_Logs_Devices_DeviceId",
+                        column: x => x.DeviceId,
+                        principalTable: "Devices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SensorDatas_SensorId",
-                table: "SensorDatas",
-                column: "SensorId");
+                name: "IX_Devices_CommunicationUnitId",
+                table: "Devices",
+                column: "CommunicationUnitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sensors_EspId",
-                table: "Sensors",
-                column: "EspId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sensors_RoomId",
-                table: "Sensors",
+                name: "IX_Devices_RoomId",
+                table: "Devices",
                 column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logs_DeviceId",
+                table: "Logs",
+                column: "DeviceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SensorDatas");
+                name: "Logs");
 
             migrationBuilder.DropTable(
-                name: "Sensors");
+                name: "Devices");
 
             migrationBuilder.DropTable(
-                name: "Esps");
+                name: "CommunicationUnits");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebGUI.Dtos.SensorData>
+﻿@model IEnumerable<WebGUI.Dtos.Log>
 
 @{
     ViewData["Title"] = "Log";
@@ -72,7 +72,7 @@
             @foreach (var item in Model)
             {
 
-                @switch (item.Sensor.Type)
+                @switch (item.Device.Type)
                 {
                     case "temperature":
                         trClass = "temp-data";
@@ -94,13 +94,13 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sensor.EspId)
+                        @Html.DisplayFor(modelItem => item.Device.CommunicationUnitId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Data)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sensor.Type)
+                        @Html.DisplayFor(modelItem => item.Device.Type)
                     </td>
                 </tr>
             }

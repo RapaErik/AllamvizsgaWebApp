@@ -61,16 +61,16 @@ namespace DataAccessLayer.Utils
             {
                 Room r = new Room { Name = "Furdo" };
                 Esp e = new Esp { ChargeType = "220", LastCharge = DateTime.Now, LastInteraction = DateTime.Now, InteractionsCounter = 0, AvgInteractions = 0, AvgBatteryDuration = DateTime.Now };
-                Sensor s = new Sensor { Esp = e, EspId = e.Id, Room = r, RoomId = r.Id, Type = "DHT11" };
-                List<SensorData> sd = new List<SensorData>
+                Device s = new Device { Esp = e, EspId = e.Id, Room = r, RoomId = r.Id, Type = "DHT11" };
+                List<Log> sd = new List<Log>
                 {
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "Hello", TimeStamp = DateTime.Now }
+                    new Log { Device = s, DeviceId = s.Id, Data = "Hello", TimeStamp = DateTime.Now }
                 };
 
                 ctx.Rooms.Add(r);
                 ctx.Esps.Add(e);
-                ctx.Sensors.Add(s);
-                ctx.SensorDatas.AddRange(sd);
+                ctx.Devices.Add(s);
+                ctx.Logs.AddRange(sd);
 
                 ctx.SaveChanges();
             }
@@ -80,16 +80,16 @@ namespace DataAccessLayer.Utils
                 using (var ctx = new HeatingContext())
                 {
 
-                    var s = (Sensor)from sen in ctx.Sensors
+                    var s = (Device)from sen in ctx.Devices
                                     where sen.Id == 2
                                     select sen;
 
-                    List<SensorData> sd = new List<SensorData>
+                    List<Log> sd = new List<Log>
                 {
-                    new SensorData { Sensor = s, SensorId = s.Id, Data = "Hello", TimeStamp = DateTime.Now }
+                    new Log { Device = s, DeviceId = s.Id, Data = "Hello", TimeStamp = DateTime.Now }
                 };
 
-                    ctx.SensorDatas.AddRange(sd);
+                    ctx.Logs.AddRange(sd);
 
                     ctx.SaveChanges();
                 }

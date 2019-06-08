@@ -14,13 +14,13 @@ namespace WebGUI.Controllers
 {
     public class LogController : BaseController
     {
-        public LogController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(sensorDataService, mapper, chartHubContext, roomService) { }
+        public LogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService) { }
 
         public IActionResult Index()
         {
 
-            //List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasSortedByTime());
-            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastNSensorDatasBySensorType("",50));
+            //List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsSortedByTime());
+            List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("",50));
 
             return View(list);
         }

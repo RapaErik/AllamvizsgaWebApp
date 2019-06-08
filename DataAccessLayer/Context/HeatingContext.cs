@@ -11,10 +11,10 @@ namespace DataAccessLayer.Context
 {
     public class HeatingContext :DbContext
     {
-        public DbSet<Esp> Esps { get; set; }
+        public DbSet<CommunicationUnit> CommunicationUnits { get; set; }
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<Sensor> Sensors { get; set; }
-        public DbSet<SensorData> SensorDatas { get; set; }
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         public HeatingContext(DbContextOptions<HeatingContext> options)
             : base(options)

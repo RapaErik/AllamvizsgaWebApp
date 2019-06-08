@@ -114,7 +114,7 @@ function MakeSelectOptionsWithEsps(json) {
     if (Array.isArray(obj)) {
         for (i = 0; i < obj.length; i++) {
             if (obj[i].RoomId == null) {
-                esps.push(obj[i].Esp.Id);//majd valami specko lesz
+                esps.push(obj[i].CommunicationUnit.Id);//majd valami specko lesz
             }       
         }
     }
@@ -131,38 +131,45 @@ function MakeSelectOptionsWithEsps(json) {
 
 }
 function DisplayEspsOfRoom(json) {
-    var sensorList = document.getElementById("sensor-listing");
-    for (var i = 1; i < sensorList.length; i++) {
-        sensorList[i].remove();
+    var DeviceList = document.getElementById("Device-listing");
+    for (var i = 1; i < DeviceList.length; i++) {
+        DeviceList[i].remove();
     }
-    var sensors = [];
-    var espSensors = [];
+    var Devices = [];
+    var espDevices = [];
 
     var obj = JSON.parse(json);
     if (Array.isArray(obj)) {
         for (i = 0; i < obj.length; i++) {
-            sensors.push([obj[i].EspId, obj[i].Type]);
-            if (!espSensors.includes(obj[i].EspId)) {
-                espSensors.push(obj[i].EspId);
+            Devices.push([obj[i].CommunicationUnitId, obj[i].Type]);
+            if (!espDevices.includes(obj[i].CommunicationUnitId)) {
+                espDevices.push(obj[i].CommunicationUnitId);
             }
         }
     }
 
-    for (i = 0; i < espSensors.length; i++) {
-        var p = CreateEspParagraph(espSensors[i]);
-        sensorList.appendChild(p);
+    for (i = 0; i < espDevices.length; i++) {
+        var p = CreateEspParagraph(espDevices[i]);
+        DeviceList.appendChild(p);
+        DeviceList.appendChild(document.createElement("br"));
     }
-
-    for (i = 0; i < sensors.length; i++) {
-
-        var para = FindByAttributeValue("remove-id", sensors[i][0], "p");
-
-        var spanSensor = document.createElement("span");
-        spanSensor.classList.add("float-right");
-        spanSensor.innerHTML = sensors[i][1];
-        para.appendChild(spanSensor);
-        para.appendChild(document.createElement("br"));
-    }
+    var para = null;
+    var spanDevice = null;
+    for (i = 0; i < Devices.length; i++) {
+        if (para == null || para.getAttribute("remove-id") != Devices[i][0]) {
+            para = FindByAttributeValue("remove-id", Devices[i][0], "p");
+            spanDevice = document.createElement("span");
+            spanDevice.classList.add("float-right");
+            spanDevice.innerHTML = Devices[i][1];
+            spanDevice.appendChild(document.createElement("br"));
+            para.appendChild(spanDevice);
+        }
+        else {
+            spanDevice.innerHTML = spanDevice.innerHTML + Devices[i][1];
+            spanDevice.appendChild(document.createElement("br"));
+        }
+    } 
+    
 }
 function CreateEspParagraph(name) {
     var p = document.createElement("p");
@@ -176,7 +183,7 @@ function CreateEspParagraph(name) {
 
     ielement.classList.add("far");
     ielement.classList.add("fa-times-circle");
-    ielement.addEventListener("click", () => DeleteSensorFromRoom(attribute));
+    ielement.addEventListener("click", () => DeleteDeviceFromRoom(attribute));
     spanx.appendChild(ielement);
     spanx.classList.add("float-left");
     p.appendChild(spanx);
@@ -184,7 +191,7 @@ function CreateEspParagraph(name) {
 
     return p;
 }
-function DeleteSensorFromRoom(value) {
+function DeleteDeviceFromRoom(value) {
     var element = FindByAttributeValue("remove-id", value, "p");
     element.remove();
     connection.invoke("RemoveEspFromRoom", value).catch(function (err) {

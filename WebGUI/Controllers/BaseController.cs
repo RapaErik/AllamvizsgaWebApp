@@ -15,26 +15,27 @@ namespace WebGUI.Controllers
 {
     public class BaseController : Controller
     {
-        protected readonly ISensorDataService _sensorDataService;
+        protected readonly ILogService _LogService;
         protected readonly IRoomService _roomService;
         protected readonly IMapper _mapper;
         protected readonly IHubContext<ChartHub> _chartHubContext;
         public ChartHub _hub;
-        protected BaseController(ISensorDataService sensorDataService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, ISensorService sensorService=null)
+        protected BaseController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService DeviceService=null)
         {
             _mapper = mapper;
-            _sensorDataService = sensorDataService;
+            _LogService = LogService;
             _chartHubContext = chartHubContext;
             _roomService = roomService;
              
-            _hub = new ChartHub(_roomService, _mapper, _chartHubContext,sensorService);
+            _hub = new ChartHub(_roomService, _mapper, _chartHubContext,DeviceService);
 
 
         }
         protected string InitGoogleChart()
         {
-            List<SensorData> list = _mapper.Map<List<SensorData>>(_sensorDataService.GetLastFiftySensorDatasExceptHeaters());
-            _chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
+            List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsExceptHeaters());
+            _hub.SendToRestApiMsg(JsonConvert.SerializeObject(list));
+            //_chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
         
             return JsonConvert.SerializeObject(list);
         }

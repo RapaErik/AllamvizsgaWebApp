@@ -38,8 +38,8 @@ namespace ControlUnit
                       
                         Thread.Sleep(5000);
                        
-                        json = com.SendHttpGetToRestController("apisensordata/GetLastNSensorDatasBySensorType?number=2&sensorId=1");
-                        List<SensorData> data= com.DeserializeSensorDataJson(json);
+                        json = com.SendHttpGetToRestController("apiLog/GetLastNLogsByDeviceType?number=2&DeviceId=1");
+                        List<Log> data= com.DeserializeLogJson(json);
                         error = setpoint - data[0].Data;
                         dt = data[1].Data - data[0].Data;
                         
