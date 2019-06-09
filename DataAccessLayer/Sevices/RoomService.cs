@@ -30,9 +30,13 @@ namespace DataAccessLayer.Sevices
             _ctx.SaveChangesAsync();
         }
 
-        public List<Room> GetAllRooms()
+        public List<Room> GetAllRooms(int? roomId)
         {
-            return _ctx.Rooms.Select(row=>row).ToList();
+            if(roomId==null)
+            {
+                return _ctx.Rooms.ToList();
+            }
+            return _ctx.Rooms.Where(w=>w.Id==roomId).ToList();
         }
 
         public Room GetRoomById(int id)

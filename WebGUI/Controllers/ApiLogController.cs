@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using WebGUI.Dtos;
-using WebGUI.Models;
 using WebGUI.SignalRClass;
 
 
@@ -17,13 +14,14 @@ namespace WebGUI.Controllers
     [Route("api/[controller]/[action]")]
     public class ApiLogController : BaseController
     {
+        protected readonly IDeviceService _deviceService;
 
-
-        public ApiLogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) :base( LogService,  mapper,chartHubContext,  roomService)
+        public ApiLogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService) : base(LogService, mapper, chartHubContext, roomService)
         {
+            _deviceService = deviceService;
         }
-        
-        
+
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -36,9 +34,21 @@ namespace WebGUI.Controllers
         [HttpGet]
         public IActionResult GetLastNLogsByDeviceType(string datatype = "", int? number = null, int? DeviceId = null)
         {
-            
-                return Ok(_LogService.GetLastNLogsByDeviceType(datatype, number, DeviceId));
-            
+
+            return Ok(_mapper.Map<List<Log>>( _LogService.GetLastNLogsByDeviceType(datatype, number, DeviceId)));
+
+        }
+
+        [HttpGet]
+        public IActionResult GetListOfDevices(int? roomId)
+        {
+            return Ok(_mapper.Map<List<Device>>(_deviceService.GetListOfDevices(roomId)));
+        }
+
+        [HttpGet]
+        public IActionResult GetListOfRooms(int? roomId)
+        {
+            return Ok(_mapper.Map<List<Room>>(_roomService.GetAllRooms(roomId)));
         }
 
         [HttpPost]
@@ -48,10 +58,10 @@ namespace WebGUI.Controllers
 
             _hub.SendToRestApiMsg(JsonConvert.SerializeObject(created));
 
-            return CreatedAtAction("Log", new { id=created.Id }, _mapper.Map<Log>(created));
+            return CreatedAtAction("Log", new { id = created.Id }, _mapper.Map<Log>(created));
         }
 
-        
+
 
     }
 }

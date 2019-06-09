@@ -12,5 +12,6 @@ namespace DataAccessLayer.Sevices
         void RemoveEspFromRoom(int espId);
 
         IEnumerable<Device> AddEspToRoom(int roomId, int espId);
+        IEnumerable<Device> GetListOfDevices(int? roomId);
     }
 }

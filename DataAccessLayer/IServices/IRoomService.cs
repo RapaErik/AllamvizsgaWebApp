@@ -10,7 +10,7 @@ namespace DataAccessLayer.Sevices
         void AddNewRoom();
         void AddNewRoom(string name);
 
-        List<Room> GetAllRooms();
+        List<Room> GetAllRooms(int? roomId=null);
         Room GetRoomById(int Id);
 
         void UpdateRoomName(int id, string data);

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ControlUnit.Dtos;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,16 @@ namespace ControlUnit
             JArray jsonArray = JArray.Parse(json);
             return jsonArray.ToObject<List<Log>>();
         }
+        public List<Device> DeserializeDeviceJson(string json)
+        {
+            JArray jsonArray = JArray.Parse(json);
+            return jsonArray.ToObject<List<Device>>();
+        }
+        public List<Room> DeserializeRoomJson(string json)
+        {
+            JArray jsonArray = JArray.Parse(json);
+            return jsonArray.ToObject<List<Room>>();
+        }
 
 
         void IncommingTemperatureData(string msg)
@@ -137,9 +148,9 @@ namespace ControlUnit
             return;
         }
 
-        public void PublishHeatSpead(float value)
+        public void PublishHeatSpead(float value,int deviceId)
         {
-            var s = new Log { DeviceId=3,TimeStamp=DateTime.Now,Data=value };
+            var s = new Log { DeviceId= deviceId, TimeStamp=DateTime.Now,Data=value };
             PublishDataToTopic("/home/heatspeed", value);
             SendHttpPostToRestController("apiLog/PostData", s);
 

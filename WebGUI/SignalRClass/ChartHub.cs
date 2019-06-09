@@ -14,14 +14,14 @@ namespace WebGUI.SignalRClass
     {
 
         protected readonly IRoomService _roomService;
-        protected readonly IDeviceService _DeviceService;
+        protected readonly IDeviceService _deviceService;
         protected readonly IMapper _mapper;
         IHubContext<ChartHub> _chartHubContext;
-        public ChartHub(IRoomService roomService, IMapper mapper, IHubContext<ChartHub> ctx, IDeviceService DeviceService)
+        public ChartHub(IRoomService roomService, IMapper mapper, IHubContext<ChartHub> ctx, IDeviceService deviceService)
         {
             _mapper = mapper;
             _roomService = roomService;
-            _DeviceService = DeviceService;
+            _deviceService = deviceService;
             _chartHubContext = ctx;
 
 
@@ -34,7 +34,7 @@ namespace WebGUI.SignalRClass
         }
         public void GettAllFreeEsps()
         {
-            List<Device> DevicesList = _mapper.Map<List<Device>>(_DeviceService.GetAllDevicesWithoutOfRooms());
+            List<Device> DevicesList = _mapper.Map<List<Device>>(_deviceService.GetAllDevicesWithoutOfRooms());
 
             var json = JsonConvert.SerializeObject(DevicesList);
 
@@ -43,7 +43,7 @@ namespace WebGUI.SignalRClass
         }
         public void GetEspsOfRoomInvoke(int id)
         {
-            List<Device> DevicesListOfRoom = _mapper.Map<List<Device>>(_DeviceService.GetAllDevicesRoomId(id));
+            List<Device> DevicesListOfRoom = _mapper.Map<List<Device>>(_deviceService.GetAllDevicesRoomId(id));
             var json = JsonConvert.SerializeObject(DevicesListOfRoom);
 
             var t = _chartHubContext.Clients.All.SendAsync("GettingEspsDisplay", json);
@@ -52,17 +52,21 @@ namespace WebGUI.SignalRClass
 
         public void RemoveEspFromRoom(int espId)
         {
-            _DeviceService.RemoveEspFromRoom(espId);
+            _deviceService.RemoveEspFromRoom(espId);
         }
         public void SendToRestApiMsg(string json)
         {
             var t = _chartHubContext.Clients.All.SendAsync("RestApiMsg", json);
-            t.Dispose();
+            if (t != null && t.Status == TaskStatus.RanToCompletion)
+            {
+                t.Dispose();
+            }
+
         }
 
         public void AddEspToRoom(int roomId, int espId)
         {
-            List<Device> DevicesListOfRoom = _mapper.Map<List<Device>>(_DeviceService.AddEspToRoom(roomId, espId));
+            List<Device> DevicesListOfRoom = _mapper.Map<List<Device>>(_deviceService.AddEspToRoom(roomId, espId));
             var json = JsonConvert.SerializeObject(DevicesListOfRoom);
 
 

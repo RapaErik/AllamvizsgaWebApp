@@ -53,5 +53,14 @@ namespace DataAccessLayer.Sevices
             return DevicesWithEsp;
 
         }
+
+        public IEnumerable<Device> GetListOfDevices(int? roomId=null)
+        {
+            if(roomId == null)
+            {
+                return _ctx.Devices.ToList();
+            }
+            return _ctx.Devices.Where(w=>w.RoomId==roomId).ToList();
+        }
     }
 }

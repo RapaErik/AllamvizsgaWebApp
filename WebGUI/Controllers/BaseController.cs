@@ -20,14 +20,14 @@ namespace WebGUI.Controllers
         protected readonly IMapper _mapper;
         protected readonly IHubContext<ChartHub> _chartHubContext;
         public ChartHub _hub;
-        protected BaseController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService DeviceService=null)
+        protected BaseController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService=null)
         {
             _mapper = mapper;
             _LogService = LogService;
             _chartHubContext = chartHubContext;
             _roomService = roomService;
              
-            _hub = new ChartHub(_roomService, _mapper, _chartHubContext,DeviceService);
+            _hub = new ChartHub(_roomService, _mapper, _chartHubContext,deviceService);
 
 
         }

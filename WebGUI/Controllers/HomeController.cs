@@ -18,7 +18,7 @@ namespace WebGUI.Controllers
     {
         public HomeController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService)
         {
-             _LogService.InitDatabase();
+             //_LogService.InitDatabase();
         }
 
         public IActionResult Index()

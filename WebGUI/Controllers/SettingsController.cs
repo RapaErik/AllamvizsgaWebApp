@@ -14,10 +14,10 @@ namespace WebGUI.Controllers
 {
     public class SettingsController : BaseController
     {
-        protected readonly IDeviceService _DeviceService;
-        public SettingsController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService DeviceService) : base(LogService, mapper, chartHubContext, roomService)
+        protected readonly IDeviceService _deviceService;
+        public SettingsController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService) : base(LogService, mapper, chartHubContext, roomService)
         {
-            _DeviceService = DeviceService;
+            _deviceService = deviceService;
         }
         public IActionResult Index()
         {
