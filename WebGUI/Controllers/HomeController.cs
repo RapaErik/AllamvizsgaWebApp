@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using WebGUI.Models;
 using WebGUI.SignalRClass;
-
+using DataAccessLayer.IServices;
 namespace WebGUI.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService)
+        public HomeController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(LogService, mapper, chartHubContext)
         {
-             //_LogService.InitDatabase();
+           
         }
 
         public IActionResult Index()

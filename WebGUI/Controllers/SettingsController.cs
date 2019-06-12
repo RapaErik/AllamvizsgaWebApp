@@ -9,15 +9,14 @@ using Microsoft.AspNetCore.SignalR;
 using WebGUI.Dtos;
 using WebGUI.Models;
 using WebGUI.SignalRClass;
-
+using DataAccessLayer.IServices;
 namespace WebGUI.Controllers
 {
     public class SettingsController : BaseController
     {
-        protected readonly IDeviceService _deviceService;
-        public SettingsController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService) : base(LogService, mapper, chartHubContext, roomService)
+    
+        public SettingsController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService) : base(LogService, mapper, chartHubContext, roomService, deviceService)
         {
-            _deviceService = deviceService;
         }
         public IActionResult Index()
         {

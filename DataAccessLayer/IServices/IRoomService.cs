@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccessLayer.Sevices
-{
+
+namespace DataAccessLayer.IServices
+{ 
     public interface IRoomService
     {
         void AddNewRoom();
@@ -18,5 +19,7 @@ namespace DataAccessLayer.Sevices
         void UpdateRoomNightliSetpoint(int id, float data);
         void ToggleHeaterByRoomId(int roomId);
         void ToggleCoolerByRoomId(int roomId);
+
+        void DeleteRoomById(int roomId);
     }
 }

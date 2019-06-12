@@ -38,7 +38,7 @@ namespace ControlUnit
         {
             client.Subscribe(new string[] { topic }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
         }
-        void SendHttpPostToRestController(string contoller, dynamic data)
+        string SendHttpPostToRestController(string contoller, dynamic data)
         {
 
 
@@ -46,7 +46,7 @@ namespace ControlUnit
             string json = JsonConvert.SerializeObject(data);
             Console.WriteLine(json);
             HttpWebRequest httpWebRequest;
-            httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:8080/api/"+ contoller +"/");
+            httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:8080/api/" + contoller);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
@@ -57,12 +57,13 @@ namespace ControlUnit
             streamWriter.Close();
 
 
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            return new StreamReader(response.GetResponseStream()).ReadToEnd();
         }
         public string SendHttpGetToRestController(string contoller)
         {
-            string url = "http://localhost:8080/api/" + contoller ;
+            string url = "http://localhost:8080/api/" + contoller;
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             var response = (HttpWebResponse)request.GetResponse();
@@ -117,40 +118,56 @@ namespace ControlUnit
         void MqttController(object sender, MqttMsgPublishEventArgs e)
         {
 
-                string msg = Encoding.UTF8.GetString(e.Message);
-                if (msg != "NaN")
+            string msg = Encoding.UTF8.GetString(e.Message);
+            if (msg != "NaN")
+            {
+                switch (e.Topic)
                 {
-                    switch (e.Topic)
-                    {
-                        case "/home/temperature":
-                            IncommingTemperatureData(msg);
-                            
-                            break;
+                    case "/home/temperature":
+                        IncommingTemperatureData(msg);
 
-                        case "/home/humidity":
-                            IncommingHumidityData(msg);
-                            break;
+                        break;
 
-                        case "/home/heatspead":
-                            break;
-                    }
+                    case "/home/humidity":
+                        IncommingHumidityData(msg);
+                        break;
+
+                    case "/home/heatspead":
+                        break;
+                    case "/toserver/init/myip":
+                        Console.WriteLine("incomming communication unit with ip:  " + msg);
+                        IncommingNewCommunicationUnit(msg);
+                        break;
+                    default:
+                        Console.WriteLine("--------------" + msg);
+                        break;
                 }
-                else
-                {
-                    IncommingDataErrorInTopic(e.Topic);
-                }
-            
-           
+            }
+            else
+            {
+                IncommingDataErrorInTopic(e.Topic);
+            }
+
+
         }
+
+        private void IncommingNewCommunicationUnit(string data)
+        {
+            int id = Int32.Parse(SendHttpPostToRestController("apiLog/InitNewCommunicationUnit/", data));
+            PublishDataToTopic("/tocommunicationunit/" + data, id);
+            PublishDataToTopic("/tocommunicationunit/getid", id);
+            SubscribeToMqttTopic("/toserver/" + id.ToString() + "/devices");
+        }
+
         public void PublishDataToTopic(string topic, dynamic data)
         {
             client.Publish(topic, Encoding.UTF8.GetBytes(Convert.ToString(data)), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             return;
         }
 
-        public void PublishHeatSpead(float value,int deviceId)
+        public void PublishHeatSpead(float value, int deviceId)
         {
-            var s = new Log { DeviceId= deviceId, TimeStamp=DateTime.Now,Data=value };
+            var s = new Log { DeviceId = deviceId, TimeStamp = DateTime.Now, Data = value };
             PublishDataToTopic("/home/heatspeed", value);
             SendHttpPostToRestController("apiLog/PostData", s);
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ControlUnit
+namespace ControlUnit.Dtos
 {
     public class Log
     {

@@ -10,7 +10,6 @@ namespace ControlUnit
     public class HeatControl
     {
         private  IFuzzyEngine _fuzzyEngineErik;
-        private IFuzzyEngine _fuzzyEngineBrassai;
         private readonly double[] _firArray;
         public HeatControl()
         {

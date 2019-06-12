@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-
+using DataAccessLayer.IServices;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -15,19 +15,22 @@ namespace WebGUI.Controllers
 {
     public class BaseController : Controller
     {
+        protected readonly IDeviceService _deviceService;
         protected readonly ILogService _LogService;
         protected readonly IRoomService _roomService;
+        protected readonly ICommunicationUnitService _communicationUnitService; 
         protected readonly IMapper _mapper;
         protected readonly IHubContext<ChartHub> _chartHubContext;
         public ChartHub _hub;
-        protected BaseController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService=null)
+        protected BaseController(ILogService LogService=null, IMapper mapper = null, IHubContext<ChartHub> chartHubContext = null, IRoomService roomService = null, IDeviceService deviceService=null, ICommunicationUnitService communicationUnitService=null)
         {
             _mapper = mapper;
             _LogService = LogService;
             _chartHubContext = chartHubContext;
             _roomService = roomService;
-             
-            _hub = new ChartHub(_roomService, _mapper, _chartHubContext,deviceService);
+            _deviceService = deviceService;
+            _communicationUnitService = communicationUnitService;
+           _hub = new ChartHub(_roomService, _mapper, _chartHubContext,deviceService);
 
 
         }

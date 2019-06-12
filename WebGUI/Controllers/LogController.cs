@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using WebGUI.Dtos;
 using WebGUI.SignalRClass;
-
+using DataAccessLayer.IServices;
 namespace WebGUI.Controllers
 {
     public class LogController : BaseController
     {
-        public LogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService) { }
+        public LogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(LogService, mapper, chartHubContext) { }
 
         public IActionResult Index()
         {

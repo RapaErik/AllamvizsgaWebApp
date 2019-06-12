@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccessLayer.Sevices
+namespace DataAccessLayer.IServices
 {
     public interface IDeviceService
     {

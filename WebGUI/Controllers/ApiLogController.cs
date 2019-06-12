@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataAccessLayer.IServices;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -14,11 +15,11 @@ namespace WebGUI.Controllers
     [Route("api/[controller]/[action]")]
     public class ApiLogController : BaseController
     {
-        protected readonly IDeviceService _deviceService;
 
-        public ApiLogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService) : base(LogService, mapper, chartHubContext, roomService)
+
+        public ApiLogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService, IDeviceService deviceService, ICommunicationUnitService communicationUnitService) : base(LogService, mapper, chartHubContext, roomService, deviceService, communicationUnitService)
         {
-            _deviceService = deviceService;
+
         }
 
 
@@ -35,7 +36,7 @@ namespace WebGUI.Controllers
         public IActionResult GetLastNLogsByDeviceType(string datatype = "", int? number = null, int? DeviceId = null)
         {
 
-            return Ok(_mapper.Map<List<Log>>( _LogService.GetLastNLogsByDeviceType(datatype, number, DeviceId)));
+            return Ok(_mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType(datatype, number, DeviceId)));
 
         }
 
@@ -61,7 +62,12 @@ namespace WebGUI.Controllers
             return CreatedAtAction("Log", new { id = created.Id }, _mapper.Map<Log>(created));
         }
 
+        [HttpPost]
+        public IActionResult InitNewCommunicationUnit([FromBody]string ipAddress)
+        {
+            int insertedId = _communicationUnitService.InsertNewCommunicationUnit(ipAddress);
+            return CreatedAtAction("InitNewCommunicationUnit", insertedId);
 
-
+        }
     }
 }

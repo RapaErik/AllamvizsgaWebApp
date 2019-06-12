@@ -16,7 +16,7 @@ namespace ControlUnit
 {
     class Program
     {
-        private static void ControllRoom(object room)
+        private static void ControlRoom(object room)
         {
             Communication com = new Communication();
             string json;
@@ -71,7 +71,7 @@ namespace ControlUnit
 
 
             Console.WriteLine("Control Error:" + error.ToString() + " Derivate:" + dt.ToString() + " Fuzzy:" + heatspeed.ToString());
-            com.PublishHeatSpead((float)heatspeed, heater.Id);
+            com.PublishHeatSpead((float)heatspeed, heater.Id); 
         }
 
 
@@ -83,7 +83,7 @@ namespace ControlUnit
             com.ConnectMqtt();
             com.SubscribeToMqttTopic("/home/temperature");
             com.SubscribeToMqttTopic("/home/humidity");
-
+            com.SubscribeToMqttTopic("/toserver/init/myip");
             string json;
             while (true)
             {
@@ -96,7 +96,7 @@ namespace ControlUnit
                 foreach (var item in dataRooms)
                 {
 
-                    ThreadPool.QueueUserWorkItem(ControllRoom, item);
+                    ThreadPool.QueueUserWorkItem(ControlRoom, item); 
 
                 }
 

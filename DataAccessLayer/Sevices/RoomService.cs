@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Context;
 using DataAccessLayer.Entities;
+using DataAccessLayer.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,11 @@ namespace DataAccessLayer.Sevices
             Room r = new Room { Name = name };
             _ctx.Add(r);
             _ctx.SaveChangesAsync();
+        }
+
+        public void DeleteRoomById(int roomId)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Room> GetAllRooms(int? roomId)

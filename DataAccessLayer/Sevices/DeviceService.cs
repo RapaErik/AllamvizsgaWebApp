@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DataAccessLayer.Context;
 using DataAccessLayer.Entities;
+using DataAccessLayer.IServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Sevices

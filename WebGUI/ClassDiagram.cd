@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WebGUI.Controllers.ApiLogController" Collapsed="true">
+    <Position X="31.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAEAAAABAABAAAAAQgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ApiLogController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Controllers.BaseController" Collapsed="true">
+    <Position X="36" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAABAAAAAAIAAAEAgAAAAAAIAAA=</HashCode>
+      <FileName>Controllers\BaseController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Controllers.GasController" Collapsed="true">
+    <Position X="38.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAIAAA=</HashCode>
+      <FileName>Controllers\GasController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Controllers.HomeController" Collapsed="true">
+    <Position X="40.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQEACAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Controllers.LogController" Collapsed="true">
+    <Position X="33.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\LogController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Controllers.SettingsController" Collapsed="true">
+    <Position X="36" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\SettingsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Dtos.CommunicationUnit" Collapsed="true">
+    <Position X="44.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Dtos\CommunicationUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Dtos.Device" Collapsed="true">
+    <Position X="46.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAIAKAEAAAAAAABAAAAQAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Dtos\Device.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Dtos.Log" Collapsed="true">
+    <Position X="44.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCACAAAAAAgAAAAAAAAAAAAAAABAAEAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Dtos.Room" Collapsed="true">
+    <Position X="44.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIIAAAAAAAAAQAAQAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Dtos\Room.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Mapping.MapperConfig" Collapsed="true">
+    <Position X="46.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mapping\MapperConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Models.ErrorViewModel" Collapsed="true">
+    <Position X="43" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.SignalRClass.ChartHub" Collapsed="true">
+    <Position X="43" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAgAAAEAAAAAAAAAABARAAABAAQAAAGAgAAEABAAAIA=</HashCode>
+      <FileName>SignalRClass\ChartHub.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Program" Collapsed="true">
+    <Position X="43" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebGUI.Startup" Collapsed="true">
+    <Position X="46.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

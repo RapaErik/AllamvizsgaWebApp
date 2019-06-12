@@ -10,12 +10,13 @@ using WebGUI.SignalRClass;
 
 using Newtonsoft.Json;
 using WebGUI.Dtos;
+using DataAccessLayer.IServices;
 
 namespace WebGUI.Controllers
 {
     public class GasController : BaseController
     {
-        public GasController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService)
+        public GasController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(LogService, mapper, chartHubContext)
         { }
         protected new string InitGoogleChart()
         {

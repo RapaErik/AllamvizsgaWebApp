@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataAccessLayer.Context;
+using DataAccessLayer.IServices;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,7 @@ namespace WebGUI
             services.AddTransient<ILogService, LogService>();
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IDeviceService, DeviceService>();
+            services.AddTransient<ICommunicationUnitService, CommunicationUnitService>();
             services.AddSingleton<IMapper>(MapperConfig.Configure());
 
             services.AddMvc();
