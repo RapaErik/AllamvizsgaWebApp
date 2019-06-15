@@ -13,5 +13,7 @@ namespace DataAccessLayer.IServices
 
         IEnumerable<Device> AddEspToRoom(int roomId, int espId);
         IEnumerable<Device> GetListOfDevices(int? roomId);
+        void InitDevice(Device device);
+        Device GetDevice(int comunitid, string type);
     }
 }

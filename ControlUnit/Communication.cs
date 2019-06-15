@@ -24,9 +24,6 @@ namespace ControlUnit
         {
             string mqttBorkerIpAddres = "127.0.0.1";
             client = new MqttClient(mqttBorkerIpAddres);
-
-
-
         }
         public void ConnectMqtt()
         {
@@ -77,6 +74,11 @@ namespace ControlUnit
 
             SendHttpPostToRestController("apiLog/PostData", data);
         }
+        public CommunicationUnit DeserializeLogCommunicationUnit(string json)
+        {
+            JObject j = JObject.Parse(json);
+            return j.ToObject<CommunicationUnit>();
+        }
 
         public List<Log> DeserializeLogJson(string json)
         {
@@ -88,6 +90,11 @@ namespace ControlUnit
             JArray jsonArray = JArray.Parse(json);
             return jsonArray.ToObject<List<Device>>();
         }
+        public Device DeserializeDevice(string json)
+        {
+            JObject j = JObject.Parse(json);
+            return j.ToObject<Device>();
+        }
         public List<Room> DeserializeRoomJson(string json)
         {
             JArray jsonArray = JArray.Parse(json);
@@ -95,11 +102,19 @@ namespace ControlUnit
         }
 
 
-        void IncommingTemperatureData(string msg)
+        void IncommingData(string chipId, string topic, string msg)
         {
+            try { 
             var temp = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
             Log data = new Log { DeviceId = 1, Data = temp, TimeStamp = DateTime.Now };
 
+
+            string json = SendHttpGetToRestController("apiLog/GetCommunicationUnit?chipId=" + chipId);
+            CommunicationUnit c = DeserializeLogCommunicationUnit(json);
+
+            json = SendHttpGetToRestController("apiLog/GetDevice?comunitid=" + c.Id.ToString() + "&type=" + topic);
+            Device device = DeserializeDevice(json);
+            data.DeviceId = device.Id;
             // string controller = "data/{temperature}/{9}";
             // List<Log> list = DeserializeLogJson(SendHttpGetToRestController(controller));
 
@@ -108,7 +123,11 @@ namespace ControlUnit
 
 
             SendHttpPostToRestController("apiLog/PostData", data);
-
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
         void IncommingDataErrorInTopic(string topic)
         {
@@ -121,42 +140,76 @@ namespace ControlUnit
             string msg = Encoding.UTF8.GetString(e.Message);
             if (msg != "NaN")
             {
-                switch (e.Topic)
+                if (e.Topic == "/toserver/init/")
                 {
-                    case "/home/temperature":
-                        IncommingTemperatureData(msg);
-
-                        break;
-
-                    case "/home/humidity":
-                        IncommingHumidityData(msg);
-                        break;
-
-                    case "/home/heatspead":
-                        break;
-                    case "/toserver/init/myip":
-                        Console.WriteLine("incomming communication unit with ip:  " + msg);
-                        IncommingNewCommunicationUnit(msg);
-                        break;
-                    default:
-                        Console.WriteLine("--------------" + msg);
-                        break;
+                    Console.WriteLine("incomming communication unit with mychipId:  " + msg);
+                    IncommingNewCommunicationUnit(msg);
                 }
+                else
+                {
+                    var topic = e.Topic.Split('/');
+                    switch (topic[1])
+                    {
+                        case "temperature":
+                            IncommingData(topic[0], topic[1], msg);
+                            break;
+
+                        case "humidity":
+                            IncommingData(topic[0], topic[1], msg);
+                            break;
+                        case "myIp":
+                            AddIpAddress(topic[0], msg);
+                            break;
+                        case "devices":
+                            AddNewDeviceToCommunicationUnit(topic[0], msg);
+                            break;
+                        default:
+                            Console.WriteLine("--------------" + msg);
+                            break;
+                    }
+
+
+                }
+
             }
             else
             {
                 IncommingDataErrorInTopic(e.Topic);
             }
 
+        }
+        private void AddNewDeviceToCommunicationUnit(string chipId, string msg)
+        {
+            var device = msg.Split('/');
+
+            string type = device[0];
+            string name = device[1];
+            bool io = bool.Parse(device[2]);
+
+
+
+            string json = SendHttpGetToRestController("apiLog/GetCommunicationUnit?chipId=" + chipId);
+            CommunicationUnit c = DeserializeLogCommunicationUnit(json);
+            Device d = new Device { Name = name, IO = io, Type = type, CommunicationUnitId = c.Id };
+
+            SendHttpPostToRestController("apiLog/InitDevice/ ", d);
+            SubscribeToMqttTopic(chipId + "/" + type);
+            PublishDataToTopic(chipId + "/start", true);
+        }
+        private void AddIpAddress(string chipId, string ipAddress)
+        {
+            string json = SendHttpGetToRestController("apiLog/GetCommunicationUnit?chipId=" + chipId);
+            CommunicationUnit c = DeserializeLogCommunicationUnit(json);
+            c.IPAddress = ipAddress;
+            SendHttpPostToRestController("apiLog/InitNewCommunicationUnitAddIpAddress/ ", c);
+
 
         }
-
         private void IncommingNewCommunicationUnit(string data)
         {
-            int id = Int32.Parse(SendHttpPostToRestController("apiLog/InitNewCommunicationUnit/", data));
-            PublishDataToTopic("/tocommunicationunit/" + data, id);
-            PublishDataToTopic("/tocommunicationunit/getid", id);
-            SubscribeToMqttTopic("/toserver/" + id.ToString() + "/devices");
+            SendHttpPostToRestController("apiLog/InitNewCommunicationUnit/", data);
+            SubscribeToMqttTopic(data + "/myIp");
+            SubscribeToMqttTopic(data + "/devices");
         }
 
         public void PublishDataToTopic(string topic, dynamic data)

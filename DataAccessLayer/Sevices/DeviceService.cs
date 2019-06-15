@@ -63,5 +63,24 @@ namespace DataAccessLayer.Sevices
             }
             return _ctx.Devices.Where(w=>w.RoomId==roomId).ToList();
         }
+
+        public void InitDevice(Device device)
+        {
+            Device d= (from q in _ctx.Devices
+                       where q.CommunicationUnitId == device.CommunicationUnitId && q.Type == device.Type
+                       select q).FirstOrDefault();
+            if (d==null)
+            {
+                _ctx.Add(device);
+                _ctx.SaveChanges();
+            }
+        }
+
+        public Device GetDevice(int comunitid, string type)
+        {
+            return (from q in _ctx.Devices
+                    where q.CommunicationUnitId == comunitid && q.Type == type
+                    select q).FirstOrDefault();
+        }
     }
 }

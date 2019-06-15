@@ -83,7 +83,7 @@ namespace ControlUnit
             com.ConnectMqtt();
             com.SubscribeToMqttTopic("/home/temperature");
             com.SubscribeToMqttTopic("/home/humidity");
-            com.SubscribeToMqttTopic("/toserver/init/myip");
+            com.SubscribeToMqttTopic("/toserver/init/");
             string json;
             while (true)
             {

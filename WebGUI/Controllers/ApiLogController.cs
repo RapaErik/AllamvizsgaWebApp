@@ -4,6 +4,7 @@ using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using WebGUI.Dtos;
 using WebGUI.SignalRClass;
@@ -52,6 +53,9 @@ namespace WebGUI.Controllers
             return Ok(_mapper.Map<List<Room>>(_roomService.GetAllRooms(roomId)));
         }
 
+
+
+
         [HttpPost]
         public IActionResult PostData([FromBody]Log data)
         {
@@ -63,11 +67,37 @@ namespace WebGUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult InitNewCommunicationUnit([FromBody]string ipAddress)
+        public IActionResult InitNewCommunicationUnit([FromBody]string chipId)
         {
-            int insertedId = _communicationUnitService.InsertNewCommunicationUnit(ipAddress);
+            int insertedId = _communicationUnitService.InsertNewCommunicationUnit(chipId);
             return CreatedAtAction("InitNewCommunicationUnit", insertedId);
 
+        }
+
+        [HttpGet]
+        public IActionResult GetCommunicationUnit(string chipId)
+        {
+            return Ok(_mapper.Map<CommunicationUnit>(_communicationUnitService.GetCommunicationUnit(chipId)));
+        }
+
+
+        [HttpGet]
+        public IActionResult GetDevice(string comunitid, string type)
+        {
+            return Ok(_mapper.Map<Device>(_deviceService.GetDevice(Int32.Parse(comunitid),type)));
+        }
+
+        [HttpPost]
+        public IActionResult InitNewCommunicationUnitAddIpAddress([FromBody]CommunicationUnit c)
+        {
+            _communicationUnitService.InitNewCommunicationUnitAddIpAddress(_mapper.Map<DataAccessLayer.Entities.CommunicationUnit>(c));
+            return Ok("InitNewCommunicationUnitAddIpAddress");
+        }
+        [HttpPost]
+        public IActionResult InitDevice([FromBody]Device device)
+        {
+            _deviceService.InitDevice(_mapper.Map<DataAccessLayer.Entities.Device>(device));
+            return Ok("InitDevice");
         }
     }
 }
