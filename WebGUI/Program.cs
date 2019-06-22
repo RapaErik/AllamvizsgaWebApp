@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 using DataAccessLayer.Utils;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebGUI.Data;
 
 namespace WebGUI
 {
@@ -16,13 +19,30 @@ namespace WebGUI
     {
         public static void Main(string[] args)
         {
-            // InitDatabase.Init();
-            BuildWebHost(args).Run();
+            var host = CreateWebHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    var ctx = services.GetRequiredService<ApplicationDbContext>();
+                    ctx.Database.Migrate();
+
+                    AppSeed.SeedAsync(services).Wait();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while attempting to seed data.");
+                }
+            }
+            host.Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
     }
+
 }

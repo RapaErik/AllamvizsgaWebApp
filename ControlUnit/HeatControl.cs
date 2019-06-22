@@ -52,7 +52,59 @@ namespace ControlUnit
             var outHeating = output.MembershipFunctions.AddTriangle("Heating", 25, 45, 65);
             var outVeryHeating = output.MembershipFunctions.AddTriangle("Very Heating", 50, 75, 100);
 
-            //mamdani torvenyek hozzaadasa
+            ////mamdani torvenyek hozzaadasa
+
+
+            ////bemeneti hiba univerzum
+            //var error = new LinguisticVariable("Error");
+            //var nagyonHuteniKell = error.MembershipFunctions.AddTriangle("Very Cool", -500, -11, -4);
+            //var huteniKell = error.MembershipFunctions.AddTriangle("Cool", -5, -3, -0.5);
+            //var jo = error.MembershipFunctions.AddTriangle("Good", -1, 0, 1);
+            //var futeniKell = error.MembershipFunctions.AddTriangle("Hot", 0.5, 3, 5);
+            //var nagyonFuteniKell = error.MembershipFunctions.AddTriangle("Very Hot", 4, 11, 500);
+
+            ////bemeneti derivalt univerzum
+            //var dt = new LinguisticVariable("Derivate");
+            //var nagyonHevul = dt.MembershipFunctions.AddTriangle("Very Cooling", -100, -0.65, -0.3);
+            //var hevul = dt.MembershipFunctions.AddTriangle("Cooling", -0.5, -0.3, -0.1);
+            //var stabil = dt.MembershipFunctions.AddTriangle("Stabil", -0.15, 0, 0.15);
+            //var hul = dt.MembershipFunctions.AddTriangle("Heating", 0.1, 0.3, 0.5);
+            //var nagyonHull = dt.MembershipFunctions.AddTriangle("Very Heating", 0.3, 0.65, 100);
+
+            ////kimeneti univerzum
+            //var output = new LinguisticVariable("Output");
+            //var outVeryCooling = output.MembershipFunctions.AddTriangle("Very Cooling", -100, -75, -50);
+            //var outCooling = output.MembershipFunctions.AddTriangle("Cooling", -65, -55, -25);
+            //var outStop = output.MembershipFunctions.AddTriangle("Stop ", -30, 0, 30);
+            //var outHeating = output.MembershipFunctions.AddTriangle("Heating", 25, 55, 65);
+            //var outVeryHeating = output.MembershipFunctions.AddTriangle("Very Heating", 50, 75, 100);
+            /*
+
+                        var error = new LinguisticVariable("Error");
+                        var nagyonHuteniKell = error.MembershipFunctions.AddTriangle("Very Cool", -500, -11, -4);
+                        var huteniKell = error.MembershipFunctions.AddTriangle("Cool", -5, -3, -0.5);
+                        var jo = error.MembershipFunctions.AddTriangle("Good", -1, 0, 1);
+                        var futeniKell = error.MembershipFunctions.AddTriangle("Hot", 0.5, 3, 5);
+                        var nagyonFuteniKell = error.MembershipFunctions.AddTriangle("Very Hot", 4, 11, 500);
+
+                        //bemeneti derivalt univerzum
+                        var dt = new LinguisticVariable("Derivate");
+                        var nagyonHevul = dt.MembershipFunctions.AddTriangle("Very Cooling", -100, -0.65, -0.3);
+                        var hevul = dt.MembershipFunctions.AddTriangle("Cooling", -0.5, -0.3, -0.1);
+                        var stabil = dt.MembershipFunctions.AddTriangle("Stabil", -0.15, 0, 0.15);
+                        var hul = dt.MembershipFunctions.AddTriangle("Heating", 0.1, 0.3, 0.5);
+                        var nagyonHull = dt.MembershipFunctions.AddTriangle("Very Heating", 0.3, 0.65, 100);
+
+                        //kimeneti univerzum
+                        var output = new LinguisticVariable("Output");
+                        var outVeryCooling = output.MembershipFunctions.AddTriangle("Very Cooling", -100, -75, -30);
+                        var outCooling = output.MembershipFunctions.AddTriangle("Cooling", -85, -55, -5);
+                        var outStop = output.MembershipFunctions.AddTriangle("Stop ", -10, 0, 10);
+                        var outHeating = output.MembershipFunctions.AddTriangle("Heating", 5, 55, 85);
+                        var outVeryHeating = output.MembershipFunctions.AddTriangle("Very Heating", 30, 75, 100);
+            */
+
+
 
             _fuzzyEngineErik.Rules.Add(
                 Rule.If(error.Is(nagyonHuteniKell).And(dt.Is(nagyonHevul))).Then(output.Is(outVeryCooling)),
@@ -70,9 +122,9 @@ namespace ControlUnit
             );
             _fuzzyEngineErik.Rules.Add(
                 Rule.If(error.Is(jo).And(dt.Is(nagyonHevul))).Then(output.Is(outCooling)),
-                Rule.If(error.Is(jo).And(dt.Is(hevul))).Then(output.Is(outStop)),
+                Rule.If(error.Is(jo).And(dt.Is(hevul))).Then(output.Is(outCooling)),
                 Rule.If(error.Is(jo).And(dt.Is(stabil))).Then(output.Is(outStop)),
-                Rule.If(error.Is(jo).And(dt.Is(hul))).Then(output.Is(outStop)),
+                Rule.If(error.Is(jo).And(dt.Is(hul))).Then(output.Is(outHeating)),
                 Rule.If(error.Is(jo).And(dt.Is(nagyonHull))).Then(output.Is(outHeating))
             );
             _fuzzyEngineErik.Rules.Add(

@@ -1,4 +1,4 @@
-﻿    <!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,19 +15,6 @@
 
 </head>
 <body>
-
-    <div class="nbar">
-        <ul>
-            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Log" ? "active" : "")" asp-area="" asp-controller="Log" asp-action="Index">Logs</a></li>
-            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Gas" ? "active" : "")" asp-area="" asp-controller="Gas" asp-action="Index">Gas</a></li>
-            <li style="border-right: 1px solid #fff"><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Settings" ? "active" : "")" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a></li>
-            <li style="float:right; border-right: 1px solid #fff"><a asp-area="" asp-controller="Login" asp-action="LogOut">Logout</a></li>
-            <li style="float:right; border-right:  none"><a asp-area="" asp-controller="Login" asp-action="Registration">New User</a></li>
-        </ul>
-    </div>
-
-
 
     <div class="container body-content">
         @RenderBody()

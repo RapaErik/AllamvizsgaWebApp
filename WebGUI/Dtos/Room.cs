@@ -12,5 +12,7 @@ namespace WebGUI.Dtos
 
         public bool CoolingEnable { get; set; }
         public bool HeatingEnable { get; set; }
+
+
     }
 }

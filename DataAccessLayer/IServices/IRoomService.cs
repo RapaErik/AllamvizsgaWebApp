@@ -21,5 +21,6 @@ namespace DataAccessLayer.IServices
         void ToggleCoolerByRoomId(int roomId);
 
         void DeleteRoomById(int roomId);
+        Room GetRoomWhereDeviceIs(int deviceId);
     }
 }

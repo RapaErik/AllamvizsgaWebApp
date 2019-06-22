@@ -104,25 +104,26 @@ namespace ControlUnit
 
         void IncommingData(string chipId, string topic, string msg)
         {
-            try { 
-            var temp = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
-            Log data = new Log { DeviceId = 1, Data = temp, TimeStamp = DateTime.Now };
+            try
+            {
+                var temp = float.Parse(msg, CultureInfo.InvariantCulture.NumberFormat);
+                Log data = new Log { DeviceId = 1, Data = temp, TimeStamp = DateTime.Now };
 
 
-            string json = SendHttpGetToRestController("apiLog/GetCommunicationUnit?chipId=" + chipId);
-            CommunicationUnit c = DeserializeLogCommunicationUnit(json);
+                string json = SendHttpGetToRestController("apiLog/GetCommunicationUnit?chipId=" + chipId);
+                CommunicationUnit c = DeserializeLogCommunicationUnit(json);
 
-            json = SendHttpGetToRestController("apiLog/GetDevice?comunitid=" + c.Id.ToString() + "&type=" + topic);
-            Device device = DeserializeDevice(json);
-            data.DeviceId = device.Id;
-            // string controller = "data/{temperature}/{9}";
-            // List<Log> list = DeserializeLogJson(SendHttpGetToRestController(controller));
+                json = SendHttpGetToRestController("apiLog/GetDevice?comunitid=" + c.Id.ToString() + "&type=" + topic);
+                Device device = DeserializeDevice(json);
+                data.DeviceId = device.Id;
+                // string controller = "data/{temperature}/{9}";
+                // List<Log> list = DeserializeLogJson(SendHttpGetToRestController(controller));
 
-            //  list.Add(data);
+                //  list.Add(data);
 
 
 
-            SendHttpPostToRestController("apiLog/PostData", data);
+                SendHttpPostToRestController("apiLog/PostData", data);
             }
             catch (Exception e)
             {
@@ -193,8 +194,13 @@ namespace ControlUnit
             Device d = new Device { Name = name, IO = io, Type = type, CommunicationUnitId = c.Id };
 
             SendHttpPostToRestController("apiLog/InitDevice/ ", d);
-            SubscribeToMqttTopic(chipId + "/" + type);
-            PublishDataToTopic(chipId + "/start", true);
+            
+            if(type=="temperature"|| type == "humidity")
+            {
+                SubscribeToMqttTopic(chipId + "/" + type);
+                PublishDataToTopic(chipId + "/start", true);
+            }
+           
         }
         private void AddIpAddress(string chipId, string ipAddress)
         {
@@ -218,12 +224,29 @@ namespace ControlUnit
             return;
         }
 
-        public void PublishHeatSpead(float value, int deviceId)
+        public void PublishHeatSpeed(float value, int deviceId, string code)
         {
             var s = new Log { DeviceId = deviceId, TimeStamp = DateTime.Now, Data = value };
-            PublishDataToTopic("/home/heatspeed", value);
+        //    PublishDataToTopic("/home/heatspeed", value);
+
+            PublishDataToTopic(code + "/heatspeed", value);
             SendHttpPostToRestController("apiLog/PostData", s);
 
+        }
+
+        public void PublishCoolSpeed(float value, int deviceId, string code)
+        {
+
+            var s = new Log { DeviceId = deviceId, TimeStamp = DateTime.Now, Data = value };
+   
+                
+             //   PublishDataToTopic("/home/coolspeed", value);
+           
+                
+
+                PublishDataToTopic(code + "/coolspeed", value);
+                SendHttpPostToRestController("apiLog/PostData", s);
+            
         }
     }
 }

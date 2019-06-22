@@ -11,6 +11,7 @@ namespace ControlUnit.Dtos
         public string Name { get; set; }
         public bool IO { get; set; }
         public int? CommunicationUnitId { get; set; }
+        public CommunicationUnit CommunicationUnit { get; set; }
         public int? RoomId { get; set; }
 
     }

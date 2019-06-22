@@ -61,7 +61,7 @@ namespace DataAccessLayer.Sevices
             {
                 return _ctx.Devices.ToList();
             }
-            return _ctx.Devices.Where(w=>w.RoomId==roomId).ToList();
+            return _ctx.Devices.Include(i=>i.CommunicationUnit).Where(w=>w.RoomId==roomId).ToList();
         }
 
         public void InitDevice(Device device)

@@ -50,6 +50,12 @@ namespace DataAccessLayer.Sevices
             return _ctx.Rooms.Where(w=>w.Id==id).FirstOrDefault();
         }
 
+        public Room GetRoomWhereDeviceIs(int deviceId)
+        {
+            Device d = _ctx.Devices.Where(w => w.Id == deviceId).FirstOrDefault();
+            return _ctx.Rooms.Where(w => w.Id == d.RoomId).FirstOrDefault();
+        }
+
         public void ToggleCoolerByRoomId(int roomId)
         {
             var temp= _ctx.Rooms.Where(w => w.Id == roomId).FirstOrDefault();

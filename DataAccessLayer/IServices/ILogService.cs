@@ -13,7 +13,8 @@ namespace DataAccessLayer.IServices
         void InitDatabase();
 
 
-        IEnumerable<Log> GetLastFiftyLogsExceptHeaters();
+        IEnumerable<Log> GetLastFiftyLogsExceptHeatersAndCooler();
         IEnumerable<Log> GetLastNLogsByDeviceType(string type="", int? number=null, int? DeviceId = null);
+        List<Log> GetLogsOfTempAndHumi();
     }
 }

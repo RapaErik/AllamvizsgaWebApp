@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +36,7 @@ namespace WebGUI.Controllers
         }
         protected string InitGoogleChart()
         {
-            List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsExceptHeaters());
+            List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsExceptHeatersAndCooler());
             _hub.SendToRestApiMsg(JsonConvert.SerializeObject(list));
             //_chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
         

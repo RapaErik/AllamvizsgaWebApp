@@ -11,9 +11,11 @@ using WebGUI.SignalRClass;
 using Newtonsoft.Json;
 using WebGUI.Dtos;
 using DataAccessLayer.IServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebGUI.Controllers
 {
+    [Authorize]
     public class GasController : BaseController
     {
         public GasController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(LogService, mapper, chartHubContext)
@@ -22,6 +24,7 @@ namespace WebGUI.Controllers
         {
             //List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsOfHeater());
             List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("heater",50));
+           // List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("heater"));
             _hub.SendToRestApiMsg(JsonConvert.SerializeObject(list));
             //_chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
             //chart.asdasd(JsonConvert.SerializeObject(list));

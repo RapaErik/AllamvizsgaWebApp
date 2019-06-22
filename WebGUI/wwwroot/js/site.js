@@ -15,9 +15,9 @@ function sortingArrayByFirstParameterAsDateASC(array) {
 
 function normalizeArraySize(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
-        while (array.length > 50) {
+        /*while (array.length > 50) {
             array.shift();
-        }
+        }*/
         return array;
     } else return [];
 }

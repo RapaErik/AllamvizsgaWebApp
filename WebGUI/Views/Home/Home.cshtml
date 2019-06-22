@@ -1,0 +1,37 @@
+﻿@model List<RoomAndLogs>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h2>Home</h2>
+<div class="text-center home">
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="box">
+                    <div class="text-center">
+                        <p>@item.Room.Name</p>
+                    </div>
+                    @foreach (var i in item.Logs)
+                    {
+                        if (i.Device.Type == "temperature")
+                        {
+                            <p><span>@i.Data</span><span> &#8451; Temperature</span></p>
+                        }
+                        if (i.Device.Type == "humidity")
+                        {
+                            <p><span>@i.Data</span><span>% Humidity</span></p>
+                        }
+
+                    }
+                </div>
+            </div>
+        }
+
+
+    </div>
+
+
+</div>

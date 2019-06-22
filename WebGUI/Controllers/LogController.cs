@@ -10,8 +10,11 @@ using Newtonsoft.Json;
 using WebGUI.Dtos;
 using WebGUI.SignalRClass;
 using DataAccessLayer.IServices;
+using Microsoft.AspNetCore.Authorization;
+
 namespace WebGUI.Controllers
 {
+    [Authorize]
     public class LogController : BaseController
     {
         public LogController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(LogService, mapper, chartHubContext) { }

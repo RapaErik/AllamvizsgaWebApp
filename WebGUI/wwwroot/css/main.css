@@ -6,7 +6,7 @@
         margin: 0;
         padding: 0;
     }
-    
+
     .nbar ul {
         max-width: 1140px;
         font-family: 'Open Sans', sans-serif;
@@ -14,8 +14,9 @@
         margin: 0 auto;
         padding: 0 0 0 0;
         overflow: hidden;
-        margin-left: 150px;
-        margin-right: 150px;
+        margin-left: auto;
+        margin-right: auto;
+          
     }
     
     .nbar ul li {
@@ -249,3 +250,24 @@
     #Device-listing {
         overflow :auto;
 }
+    .home .box {
+        border: solid 3px #006666;
+        height: 300px;
+        width: 300px;
+    }
+
+    .box > .text-center > p {
+        font-size: 30px;
+        color: #006666;
+        text-decoration: underline #006666;
+        padding-top:10px;
+    }
+
+    .box > p {
+        
+        color: #006666;
+        padding: 30px 0;
+    }
+    .box > p> span {
+        font-size:20px;
+    }

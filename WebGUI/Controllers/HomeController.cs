@@ -12,11 +12,14 @@ using Newtonsoft.Json;
 using WebGUI.Models;
 using WebGUI.SignalRClass;
 using DataAccessLayer.IServices;
+using WebGUI.Dtos;
+
 namespace WebGUI.Controllers
 {
+    [Authorize]
     public class HomeController : BaseController
     {
-        public HomeController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext) : base(LogService, mapper, chartHubContext)
+        public HomeController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService)
         {
            
         }
@@ -27,21 +30,24 @@ namespace WebGUI.Controllers
             return View();
           
         }
-
-        public IActionResult About()
+        public IActionResult Home()
         {
-            ViewData["Message"] = "Your application description page.";
+            List<Log> logs = _mapper.Map<List<Log>>(_LogService.GetLogsOfTempAndHumi());
+            List<RoomAndLogs> roomsAndLogs = new List<RoomAndLogs>();
+            List<Room> rooms = new List<Room>();
+            foreach (var item in logs)
+            {
+                rooms.Add(_mapper.Map<Room>(_roomService.GetRoomWhereDeviceIs(item.DeviceId)));
+            }
 
-            return View();
+            var disc= rooms.GroupBy(x => x.Id).Select(y => y.First());
+            foreach (var item in disc)
+            {
+                roomsAndLogs.Add(new RoomAndLogs { Room=item, Logs=logs.Where(w=>w.Device.RoomId==item.Id).ToList() });
+            }
+            return View(roomsAndLogs);
+
         }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

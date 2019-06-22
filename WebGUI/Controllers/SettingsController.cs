@@ -10,8 +10,11 @@ using WebGUI.Dtos;
 using WebGUI.Models;
 using WebGUI.SignalRClass;
 using DataAccessLayer.IServices;
+using Microsoft.AspNetCore.Authorization;
+
 namespace WebGUI.Controllers
 {
+    [Authorize]
     public class SettingsController : BaseController
     {
     

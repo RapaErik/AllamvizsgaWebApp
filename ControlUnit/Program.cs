@@ -19,6 +19,7 @@ namespace ControlUnit
         private static void ControlRoom(object room)
         {
             Communication com = new Communication();
+            com.ConnectMqtt();
             string json;
             double error;
             double dt;
@@ -31,8 +32,9 @@ namespace ControlUnit
             List<Device> outputDevices = dataDevices.Where(w => w.IO == false).ToList();
             List<Device> inputDevices = dataDevices.Where(w => w.IO == true).ToList();
             var heater = inputDevices.Where(w => w.Type == "heater").FirstOrDefault();
+            var cooler = inputDevices.Where(w => w.Type == "cooler").FirstOrDefault();
             var temperatureDevice = outputDevices.Where(w => w.Type == "temperature").FirstOrDefault();
-            if (heater == null)
+            if (heater == null && cooler == null)
             {
                 return;
             }
@@ -58,7 +60,7 @@ namespace ControlUnit
             error = setpoint - dataLog[0].Data;
             dt = dataLog[1].Data - dataLog[0].Data;
             double heatspeed = control.Control(error, dt);
-
+            double coolspeed=0;
 
             if (!item.CoolingEnable)
             {
@@ -68,10 +70,28 @@ namespace ControlUnit
             {
                 heatspeed = heatspeed > 0 ? 0 : heatspeed;
             }
-
+            
+            if(heatspeed<=0)
+            {
+                coolspeed = heatspeed*(-1);
+            }
+            if(heatspeed>0)
+            {
+                coolspeed = 0;
+            }
 
             Console.WriteLine("Control Error:" + error.ToString() + " Derivate:" + dt.ToString() + " Fuzzy:" + heatspeed.ToString());
-            com.PublishHeatSpead((float)heatspeed, heater.Id); 
+            if (heater != null)
+            {
+                com.PublishHeatSpeed((float)heatspeed, heater.Id, heater.CommunicationUnit.Code);
+            }
+            if (cooler != null)
+            {
+                com.PublishCoolSpeed((float)coolspeed, cooler.Id, cooler.CommunicationUnit.Code);
+               
+            }
+
+
         }
 
 
@@ -85,6 +105,7 @@ namespace ControlUnit
             com.SubscribeToMqttTopic("/home/humidity");
             com.SubscribeToMqttTopic("/toserver/init/");
             string json;
+        //    com.PublishHeatSpeed(50,70, "963486");
             while (true)
             {
                 Thread.Sleep(5000);
@@ -96,11 +117,12 @@ namespace ControlUnit
                 foreach (var item in dataRooms)
                 {
 
-                    ThreadPool.QueueUserWorkItem(ControlRoom, item); 
+                    ThreadPool.QueueUserWorkItem(ControlRoom, item);
 
                 }
 
             }
+            
         }
 
 

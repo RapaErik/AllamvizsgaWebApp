@@ -52,9 +52,12 @@ namespace DataAccessLayer.Sevices
         }
 
 
-        public IEnumerable<Log> GetLastFiftyLogsExceptHeaters()
+        public IEnumerable<Log> GetLastFiftyLogsExceptHeatersAndCooler()
         {
-            return _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Type != "heater").OrderByDescending(c => c.Id).Take(50).ToList();
+            var res= _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Type != "heater" && w.Device.Type != "cooler").OrderByDescending(c => c.Id).Take(50).ToList();
+            return res;
+            //;
+            return _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Type != "heater").OrderByDescending(c => c.Id).ToList();
         }
 
         public IEnumerable<Log> GetLastNLogsByDeviceType(string type = "", int? number = null, int? DeviceId = null)
@@ -99,6 +102,17 @@ namespace DataAccessLayer.Sevices
 
             //megvan minden parameter adva
             return _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Id == DeviceId).Where(w => w.Device.Type == type).OrderByDescending(c => c.TimeStamp).Take(number ?? 0).ToList();
+        }
+
+        public List<Log> GetLogsOfTempAndHumi()
+        {
+            var devices = _ctx.Devices.Where(w => w.Type == "humidity" || w.Type == "temperature").ToList();
+            List<Log> logs = new List<Log>();
+            foreach (var item in devices)
+            {
+                logs.Add(_ctx.Logs.Include(t => t.Device).Where(w => w.Device.Id == item.Id).OrderByDescending(c => c.TimeStamp).Take(1).FirstOrDefault());
+            }
+            return logs;
         }
     }
 }

@@ -8,13 +8,17 @@ using DataAccessLayer.IServices;
 using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using WebGUI.Data;
 using WebGUI.Mapping;
+using WebGUI.Models;
 using WebGUI.SignalRClass;
 namespace WebGUI
 {
@@ -46,6 +50,28 @@ namespace WebGUI
                         mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); // replace with your Server Version and Type
                     }
             ));
+            services.AddDbContextPool<ApplicationDbContext>( 
+                options => options.UseMySql("Server=localhost;Database=Identity;User=root;Password=1werwerwer;", // replace with your Connection String
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); 
+                    }
+            ));
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+           .AddEntityFrameworkStores<ApplicationDbContext>()
+           .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login/");
+
+
             services.AddSignalR(o =>
             {
                 o.EnableDetailedErrors = true;
@@ -55,8 +81,8 @@ namespace WebGUI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-           
-           
+
+
 
             if (env.IsDevelopment())
             {
@@ -68,7 +94,12 @@ namespace WebGUI
                 app.UseExceptionHandler("/Home/Error");
             }
 
+
             app.UseStaticFiles();
+            app.UseCookiePolicy();
+
+            app.UseAuthentication();
+
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChartHub>("/chartHub");
