@@ -10,5 +10,6 @@ namespace DataAccessLayer.IServices
         int InsertNewCommunicationUnit(string chipId);
         void InitNewCommunicationUnitAddIpAddress(CommunicationUnit c);
         CommunicationUnit GetCommunicationUnit(string chipId);
+        void DeleteCommunicationUnit(int id);
     }
 }

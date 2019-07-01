@@ -30,8 +30,9 @@ namespace WebGUI.SignalRClass
 
         public void AddNewRoom()
         {
-            _roomService.AddNewRoom();
-            return;
+            var r= _mapper.Map<Room>(_roomService.AddNewRoom());
+            var t = _chartHubContext.Clients.All.SendAsync("NewRoomId", r.Id);
+            t.Dispose();
         }
         public void GettAllFreeEsps()
         {

@@ -35,6 +35,14 @@ namespace WebGUI.Controllers
 
             return View(room);
         }
+        public IActionResult DeleteRoom(int id)
+        {
+
+            _roomService.DeleteRoomById(id);
+
+            return RedirectToAction("Index");
+        }
+        
         public IActionResult UpdateRoom(int id,float? DayliSetpoint,float? NightlySetpoint, string RoomName=null)
         {
 

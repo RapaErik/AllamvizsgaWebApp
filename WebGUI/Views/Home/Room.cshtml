@@ -1,0 +1,23 @@
+﻿@model List<WebGUI.Dtos.Room>
+<p style="display:none;" id="json"> @ViewData["json"] </p>
+
+
+
+
+
+<div class="container statistics" >
+    <div id="temperature-line-chart"></div>
+    <div id="humidity-line-chart"></div>
+</div>
+<div class="text-center">
+    <div id="settings-list">
+        @foreach (var item in Model)
+        {
+            <div class="settings-item" onclick="location.href='@Url.Action("Room", "Home",new { id = item.Id })'">
+
+                @Html.DisplayFor(modelItem => item.Name)
+
+            </div>
+        }
+    </div>
+</div>

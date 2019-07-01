@@ -16,6 +16,14 @@ connection.on("RestApiMsg", function(json) {
 
 });
 
+connection.on("NewRoomId", function (id) {
+    location.reload();
+});
+
+
+connection.on("GettingEsps", function (json) {
+    MakeSelectOptionsWithEsps(json);
+});
 connection.on("GettingEsps", function (json) {
     MakeSelectOptionsWithEsps(json);
 });

@@ -1,39 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="DataAccessLayer.Entities.CommunicationUnit">
-    <Position X="7.5" Y="4.75" Width="1.5" />
+  <Class Name="DataAccessLayer.Sevices.CommunicationUnitService" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
-      <FileName>Entities\CommunicationUnit.cs</FileName>
+      <HashCode>AAAAAAAAEIAACAAAAAAAAAAAAAABAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Sevices\CommunicationUnitService.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="DataAccessLayer.Entities.Device">
-    <Position X="3.25" Y="3.75" Width="1.5" />
+  <Class Name="DataAccessLayer.Sevices.DeviceService" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAIAKAEAAAAAAABAAAAQAAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>Entities\Device.cs</FileName>
+      <HashCode>FAAAAAAAAIAAAgAAABgAAAAAAAgBAAgAAAAAAAAAAIA=</HashCode>
+      <FileName>Sevices\DeviceService.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="CommunicationUnit" />
-      <Property Name="Room" />
-    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="DataAccessLayer.Entities.Log">
-    <Position X="3.25" Y="1" Width="1.5" />
+  <Class Name="DataAccessLayer.Sevices.LogService" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACCACAAAAAAgAAAAAAAAAAAAAAABAAEAAAAAAAAAA=</HashCode>
-      <FileName>Entities\Log.cs</FileName>
+      <HashCode>AAgIAAAAgAAAAAAAAAAAQAQAAFABAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Sevices\LogService.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Device" />
-    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="DataAccessLayer.Entities.Room">
-    <Position X="7.5" Y="2.5" Width="1.5" />
+  <Class Name="DataAccessLayer.Sevices.RoomService" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAIIAAAAAAAAAQAAQAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>Entities\Room.cs</FileName>
+      <HashCode>gAAQAAAAAAAAIAAAAAAQAApAAAABAAAAAAAEABAAgAA=</HashCode>
+      <FileName>Sevices\RoomService.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
+  <Interface Name="DataAccessLayer.IServices.IRoomService">
+    <Position X="5.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAQAAAAAAAAIAAAAAAQAApAAAAAAAAAAAAEABAAgAA=</HashCode>
+      <FileName>IServices\IRoomService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

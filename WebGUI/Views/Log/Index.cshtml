@@ -11,23 +11,23 @@
     </div>
 </div>
 <div class="container">
-    <form action="">
+    <form action="@Url.Action("Filtering", "Log")" method="post" id="filter">
         <div class="row">
             <div class="col-md-4">
                 <div class="float-left">
-                    <input type="text" placeholder="Search">
+                    <input type="text" placeholder="Room Name" value=@ViewData["roomName"] name="roomName">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="float-right">
                     <span>Kezdeti datum</span>
-                    <input type="date" name="" id="">
+                    <input type="date" name="startDate"  value=@ViewData["startDate"] id="">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="float-right">
                     <span>Vegso datum</span>
-                    <input type="date" name="" id="">
+                    <input type="date" name="endDate" value=@ViewData["endDate"] id="">
                 </div>
             </div>
         </div>
@@ -36,25 +36,25 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="float-left">
-                    <input type="checkbox" name="" id=""> Temperature
-                    <input type="checkbox" name="" id=""> Humidity
+                    <input type="checkbox" value="true"  name="temp" id="" @ViewData["temp"]> Temperature
+                    <input type="checkbox"  value="true" name="humidity" id=""  @ViewData["humidity"]> Humidity
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="text-center">
-                    <input type="checkbox" name="" id=""> Error
+                    <input type="checkbox"  value="true" name="error" id="" @ViewData["error"]> Error
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="float-right">
-                    <input type="checkbox" name="" id=""> Humidity Events
-                    <input type="checkbox" name="" id=""> Temperature Evemts
+                    <input type="checkbox" value="true" name="cevent" id=""  @ViewData["cevent"]> Cooling Events
+                    <input type="checkbox"  value="true" name="hevent" id="" @ViewData["hevent"]> Heating Events
                 </div>
             </div>
         </div>
 
-       
-
+        <button type="submit" style="display:none"></button>
+         <input type="hidden" value= @ViewData["page"]   name="page" id="page-index">
     </form>
 </div>
 
@@ -63,6 +63,7 @@
         <thead>
             <tr>
                 <th>TimeStamp</th>
+                <th>Room</th>
                 <th>Who</th>
                 <th>Data</th>
                 <th>DataType</th>
@@ -85,24 +86,29 @@
                         break;
                     case "heater":
                         trClass = "temp-event";
+                        break;
+                    case "cooler":
+                        trClass = "cooling-event";
 
                         break;
                 }
-                <tr class="@trClass">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TimeStamp)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Device.CommunicationUnitId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Data)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Device.Type)
-                    </td>
-                </tr>
+            <tr class="@trClass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeStamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Device.Room.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Device.CommunicationUnitId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Device.Type)
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -113,13 +119,13 @@
             <div class="pager">
                 <i class="fa fa-angle-double-left" id="first-page-log"></i>
                 <i class="fa fa-angle-left" id="page-left-log"></i>
-                <span id="counterpp">1</span><span>|</span><span>20</span>
+                <span id="counterpp">@ViewData["page"]</span><span>|</span><span id="countermax">@ViewData["pager_size"]</span>
                 <i class="fa fa-angle-right" id="page-right-log"></i>
-                <i class="fa fa-angle-double-right"id="last-page-log"></i>
+                <i class="fa fa-angle-double-right" id="last-page-log"></i>
             </div>
         </div>
     </div>
-    <div class="row">
+    <!--<div class="row">
         <div class="text-center">
             <div class="pager">
                 <select id="page-size-selector">
@@ -132,5 +138,6 @@
             </div>
         </div>
     </div>
+        -->
 </div>
 

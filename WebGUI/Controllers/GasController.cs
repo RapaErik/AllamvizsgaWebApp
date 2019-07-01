@@ -22,9 +22,9 @@ namespace WebGUI.Controllers
         { }
         protected new string InitGoogleChart()
         {
-            //List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsOfHeater());
-            List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("heater",50));
-           // List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("heater"));
+           
+           List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("heater",50));
+          //  List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastNLogsByDeviceType("heater"));
             _hub.SendToRestApiMsg(JsonConvert.SerializeObject(list));
             //_chartHubContext.Clients.All.SendAsync("RestApiMsg", JsonConvert.SerializeObject(list));
             //chart.asdasd(JsonConvert.SerializeObject(list));

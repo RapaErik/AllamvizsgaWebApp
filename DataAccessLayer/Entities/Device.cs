@@ -9,7 +9,6 @@ namespace DataAccessLayer.Entities
 {
     public class Device
     {
-        [Key]
         public int Id { get; set; }
         public string Type { get; set; }
 

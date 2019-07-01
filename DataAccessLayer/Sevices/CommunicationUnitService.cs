@@ -11,11 +11,16 @@ namespace DataAccessLayer.Sevices
     public class CommunicationUnitService : ICommunicationUnitService
     {
         private readonly HeatingContext _ctx;
-        private int Constant;
+
 
         public CommunicationUnitService(HeatingContext ctx)
         {
             _ctx = ctx;
+        }
+
+        public void DeleteCommunicationUnit(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public CommunicationUnit GetCommunicationUnit(string chipId)

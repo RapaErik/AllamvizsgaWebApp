@@ -8,7 +8,7 @@ namespace DataAccessLayer.IServices
 { 
     public interface IRoomService
     {
-        void AddNewRoom();
+        Room AddNewRoom();
         void AddNewRoom(string name);
 
         List<Room> GetAllRooms(int? roomId=null);

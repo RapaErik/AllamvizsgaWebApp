@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebGUI</title>
+    <title>@ViewData["Title"] -  Smart Home</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -26,6 +26,19 @@
             <li style="float:right; border-right:  none"><a asp-area="" asp-controller="Login" asp-action="Registration">New User</a></li>
         </ul>
     </div>
+    <div class="mobilbar" >
+        <div class="menu-button"id="mobil-button">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul id="mobil-nav" style="display:none;">
+            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Log" ? "active" : "")" asp-area="" asp-controller="Log" asp-action="Index">Logs</a></li>
+            <li><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Gas" ? "active" : "")" asp-area="" asp-controller="Gas" asp-action="Index">Gas</a></li>
+            <li ><a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Settings" ? "active" : "")" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a></li>
+            <li ><a asp-area="" asp-controller="Login" asp-action="LogOut">Logout</a></li>
+            <li ><a asp-area="" asp-controller="Login" asp-action="Registration">New User</a></li>
+        </ul>
+    </div>
 
 
 
@@ -33,7 +46,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - WebGUI</p>
+            <p>&copy; 2019 -  Smart Home</p>
         </footer>
     </div>
 

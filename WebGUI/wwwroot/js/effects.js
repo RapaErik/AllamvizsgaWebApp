@@ -2,11 +2,12 @@
     var settingslist = document.getElementById("settings-list");
     console.log(settingslist);
     settingslist.appendChild(CreateRoom());
-    connection.invoke("AddNewRoom").catch(function (err) {
+    connection.invoke("AddNewRoom").catch(function(err) {
         return console.error(err.toString());
     });
 
 }
+
 function ToogleRoomHeaterCooler() {
     var urlArray = document.URL.split("/");
     if (this.getAttribute("data-status") == "On") {
@@ -15,23 +16,23 @@ function ToogleRoomHeaterCooler() {
         tmp = tmp.slice(0, -2);
         tmp = tmp + "Off";
         this.textContent = tmp;
-    }
-    else {
+    } else {
         this.setAttribute("data-status", "On");
         let tmp = this.textContent;
         tmp = tmp.slice(0, -3);
         tmp = tmp + "On";
         this.textContent = tmp;
     }
-    connection.invoke("RoomHeaterCoolerToggle", urlArray[urlArray.length - 1], this.textContent).catch(function (err) {
+    connection.invoke("RoomHeaterCoolerToggle", urlArray[urlArray.length - 1], this.textContent).catch(function(err) {
         return console.error(err.toString());
     });
 }
+
 function UpdateRoomName() {
     if (this.value == "")
         return;
     var urlArray = document.URL.split("/");
-    connection.invoke("UpdateRoomName", urlArray[urlArray.length - 1], this.value).catch(function (err) {
+    connection.invoke("UpdateRoomName", urlArray[urlArray.length - 1], this.value).catch(function(err) {
         return console.error(err.toString());
     });
     let h1 = document.getElementsByTagName("h1")[0];
@@ -40,28 +41,31 @@ function UpdateRoomName() {
     let elems = settingBox.getElementsByClassName("float-right");
     elems[0].textContent = this.value;
 }
+
 function UpdateRoomDayliSetpoint() {
     if (this.value == "")
         return;
     var urlArray = document.URL.split("/");
-    connection.invoke("UpdateRoomDayliSetpoint", urlArray[urlArray.length - 1], this.value).catch(function (err) {
+    connection.invoke("UpdateRoomDayliSetpoint", urlArray[urlArray.length - 1], this.value).catch(function(err) {
         return console.error(err.toString());
     });
     let settingBox = document.getElementsByClassName("setting-box")[0];
     let elems = settingBox.getElementsByClassName("float-right");
     elems[1].textContent = this.value;
 }
+
 function UpdateRoomNightliSetpoint() {
     if (this.value == "")
         return;
     var urlArray = document.URL.split("/");
-    connection.invoke("UpdateRoomNightliSetpoint", urlArray[urlArray.length - 1], this.value).catch(function (err) {
+    connection.invoke("UpdateRoomNightliSetpoint", urlArray[urlArray.length - 1], this.value).catch(function(err) {
         return console.error(err.toString());
     });
     let settingBox = document.getElementsByClassName("setting-box")[0];
     let elems = settingBox.getElementsByClassName("float-right");
     elems[2].textContent = this.value;
 }
+
 function numbersonly(myfield, e) {
     var key;
     var keychar;
@@ -95,12 +99,13 @@ function AddEspToRoom() {
     let option = this.options[this.selectedIndex];
 
     var urlArray = document.URL.split("/");
-    connection.invoke("AddEspToRoom", urlArray[urlArray.length - 1], option.value).catch (function (err) {
+    connection.invoke("AddEspToRoom", urlArray[urlArray.length - 1], option.value).catch(function(err) {
         return console.error(err.toString());
     });
     option.remove();
     document.getElementById("select-esp").selectedIndex = 0;
 }
+
 function MakeSelectOptionsWithEsps(json) {
     var select = document.getElementById("select-esp");
     for (var i = 1; i < select.length; i++) {
@@ -114,11 +119,11 @@ function MakeSelectOptionsWithEsps(json) {
     if (Array.isArray(obj)) {
         for (i = 0; i < obj.length; i++) {
             if (obj[i].RoomId == null) {
-                esps.push(obj[i].CommunicationUnit.Id);//majd valami specko lesz
-            }       
+                esps.push(obj[i].CommunicationUnit.Id); //majd valami specko lesz
+            }
         }
     }
-    uniqueArray = esps.filter(function (item, pos) {
+    uniqueArray = esps.filter(function(item, pos) {
         return esps.indexOf(item) == pos;
     });
 
@@ -130,6 +135,7 @@ function MakeSelectOptionsWithEsps(json) {
     }
 
 }
+
 function DisplayEspsOfRoom(json) {
     var DeviceList = document.getElementById("Device-listing");
     for (var i = 1; i < DeviceList.length; i++) {
@@ -163,14 +169,14 @@ function DisplayEspsOfRoom(json) {
             spanDevice.innerHTML = Devices[i][1];
             spanDevice.appendChild(document.createElement("br"));
             para.appendChild(spanDevice);
-        }
-        else {
+        } else {
             spanDevice.innerHTML = spanDevice.innerHTML + Devices[i][1];
             spanDevice.appendChild(document.createElement("br"));
         }
-    } 
-    
+    }
+
 }
+
 function CreateEspParagraph(name) {
     var p = document.createElement("p");
     p.setAttribute("remove-id", name);
@@ -191,10 +197,11 @@ function CreateEspParagraph(name) {
 
     return p;
 }
+
 function DeleteDeviceFromRoom(value) {
     var element = FindByAttributeValue("remove-id", value, "p");
     element.remove();
-    connection.invoke("RemoveEspFromRoom", value).catch(function (err) {
+    connection.invoke("RemoveEspFromRoom", value).catch(function(err) {
         return console.error(err.toString());
     });
 
@@ -210,20 +217,58 @@ function FindByAttributeValue(attribute, value, element_type) {
 }
 
 function GetAllFreeEspsInvoke() {
-    connection.invoke("GettAllFreeEsps").catch(function (err) {
+    connection.invoke("GettAllFreeEsps").catch(function(err) {
         return console.error(err.toString());
     });
 }
+
 function GetEspsOfRoomInvoke() {
     var urlArray = document.URL.split("/");
-    connection.invoke("GetEspsOfRoomInvoke", urlArray[urlArray.length - 1]).catch(function (err) {
+    connection.invoke("GetEspsOfRoomInvoke", urlArray[urlArray.length - 1]).catch(function(err) {
         return console.error(err.toString());
     });
 }
+
 function counterpp() {
+    var page = document.getElementById("page-index");
     var counter = document.getElementById("counterpp");
-    counter.textContent = parseInt(counter.textContent) + 1;
+    var countermax = document.getElementById("countermax");
+    if (parseInt(counter.textContent) + 1 <= parseInt(countermax.textContent)) {
+        counter.textContent = parseInt(counter.textContent) + 1;
+        page.value = counter.textContent;
+        document.forms["filter"].submit();
+    }
+
 }
+
+function countermm() {
+    var page = document.getElementById("page-index");
+    var counter = document.getElementById("counterpp");
+    if (parseInt(counter.textContent) > 1) {
+        counter.textContent = parseInt(counter.textContent) - 1;
+        page.value = counter.textContent;
+        document.forms["filter"].submit();
+    }
+
+}
+
+function counterlast() {
+    var page = document.getElementById("page-index");
+    var counter = document.getElementById("counterpp");
+    var countermax = document.getElementById("countermax");
+    counter.textContent = parseInt(countermax.textContent);
+    page.value = counter.textContent;
+    document.forms["filter"].submit();
+}
+
+function counterfirst() {
+    var page = document.getElementById("page-index");
+    var counter = document.getElementById("counterpp");
+    counter.textContent = parseInt(1);
+    page.value = counter.textContent;
+    document.forms["filter"].submit();
+}
+
 
 function CreateRoom() {
     var node = document.createElement("div");
@@ -237,17 +282,17 @@ function CreateRoom() {
 }
 
 function IncomingData() {
-    lerp = function (a, b, u) {
+    lerp = function(a, b, u) {
         return (1 - u) * a + u * b;
     };
 
-    fade = function (element, property, start, end, duration) {
+    fade = function(element, property, start, end, duration) {
         console.log("fade start on" + element.cells[0].innerText)
         var interval = 10;
         var steps = duration / interval;
         var step_u = 1.0 / steps;
         var u = 0.0;
-        var theInterval = setInterval(function () {
+        var theInterval = setInterval(function() {
             if (u > 1.0) {
                 clearInterval(theInterval);
                 element.removeAttribute("style");

@@ -13,6 +13,7 @@ namespace WebGUI.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Database.SetCommandTimeout(150000);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

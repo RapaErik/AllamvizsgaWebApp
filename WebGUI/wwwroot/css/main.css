@@ -1,240 +1,245 @@
-﻿    body {}
-    
-    .nbar {
-        background-color: #006666;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
+body {}
 
-    .nbar ul {
-        max-width: 1140px;
-        font-family: 'Open Sans', sans-serif;
-        list-style-type: none;
-        margin: 0 auto;
-        padding: 0 0 0 0;
-        overflow: hidden;
-        margin-left: auto;
-        margin-right: auto;
-          
-    }
-    
-    .nbar ul li {
-        float: left;
-        border-left: 1px solid #fff;
-    }
-    
-    .nbar ul li:last-child {
-        border-right: 1px solid #fff;
-    }
-    
-    .nbar ul li a {
-        display: block;
-        width: 100px;
-        text-align: center;
-        padding: 15px;
-        text-decoration: none;
-        color: #fff;
-    }
-    
-    .nbar ul li a:hover:not(.active) {
-        background-color: #fff;
-        color: #006666;
-    }
-    
-    .nbar ul .active {
-        background-color: #fff;
-        color: #006666;
-    }
-    
-    .body-content {
-        padding-left: 10%;
-        padding-right: 10%;
-    }
-    
-    .title {
-        margin: 30px 0;
-        padding-bottom: 50px
-    }
-    
-    .container {
-        width: inherit;
-    }
-    
-    .row {
-        margin: 10px 0;
-    }
-    
-    .table td,
-    .table th {
-        padding: 12px !important;
-    }
-    
-    tr.temp-data {
-        background-color: #ccff66;
-    }
-    
-    tr.humidity-data {
-        background-color: #00ffcc;
-    }
-    
-    tr.error-data {
-        background-color: #ff4d4d;
-    }
-    
-    tr.temp-event {
-        background-color: #009900;
-        color: #fff;
-    }
-    
-    tr.humidity-event {
-        background-color: #00cccc;
-        color: #fff;
-    }
-    
-    .add a {
-        background-color: #006666;
-        padding: 20px 30px;
-        color: #fff;
-        margin: 0 auto;
-    }
-    
-    .add {
-        margin: 10px;
-        width: 200px;
-    }
-    
-    .settings-item {
-        display: inline-block;
-        margin-right: 15px;
-        padding: 20px;
-        background-color: #006666;
-        cursor: pointer;
-        color: #fff;
-        height: 100%;
-        border: 1px solid #006666;
-    }
-    
-    .settings-item:hover a,
-    .settings-item:focus a,
-    .settings-item:hover {
-        background-color: #fff;
-        color: #006666;
-        text-decoration: none;
-    }
-    
-    .settings-item a {
-        color: #fff;
-        border: none;
-        background-color: #006666;
-    }
-    
-    .settings-item a i {
-        color: #fff;
-        width: 30px;
-    }
-    
-    .float-right {
-        float: right !important;
-    }
-    
-    .table th {
-        border-top: 1px solid #dee2e6!important;
-    }
-    
-    input[type=text],
-    input[type=date] {
-        padding: 10px;
-    }
-    
-    input[type=text] {
-        width: 250px;
-    }
-    
-    .container span {
-        line-height: 1.5;
-        font-weight: 400;
-        font-size: 16px;
-    }
-    
-    .pager {
-        width: 200px!important;
-        display: block;
-        border: solid 1px grey;
-    }
-    
-    .pager i,
-    .pager span {
-        padding: 10px;
-        font-size: 20px;
-    }
-    
-    .pager select {
-        padding: 10px;
-    }
-    
-    #login img {
-        margin-top: 80px;
-        width: 250px;
-    }
-    
-    #login h1 {
-        color: #006666;
-        font-size: 30px;
-    }
-    
-    .login-content hr {
-        border: 1px solid #006666;
-        width: 500px;
-    }
-    
-    .login-box input {
-        margin: 5px 0;
-        padding: 10px;
-        width: 300px;
-    }
-    
-    #login-button {
-        background-color: #006666;
-        border: solid 1px #006666;
-        color: #fff;
-    }
-    
-    #login-button:hover {
-        background-color: #fff;
-        color: #006666;
-    }
-    
-    #settings-list a {
-        text-decoration: none;
-    }
-    
-    .setting-box {
-        width: 100%;
-        background-color: #006666;
-        color: #fff;
-        padding: 30px;
-    }
-    
-    .setting-box p {
-        margin: 10px auto;
-    }
-    
-    .setting-box i {
-        cursor: pointer;
-    }
-    
-    #room-setting-form input,
-    #room-setting-form select {
-        width: 100%;
-        margin: 5px auto;
-    }
-    
-    #room-setting-form select {
-        padding: 10px;
-    }
+.mobilbar {
+    display: none !important;
+}
 
-    .col-md-push-3 button {
+.nbar {
+    background-color: #006666;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.nbar ul {
+    max-width: 1140px;
+    font-family: 'Open Sans', sans-serif;
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0 0 0 0;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nbar ul li {
+    float: left;
+    border-left: 1px solid #fff;
+}
+
+.nbar ul li:last-child {
+    border-right: 1px solid #fff;
+}
+
+.nbar ul li a {
+    display: block;
+    width: 100px;
+    text-align: center;
+    padding: 15px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.nbar ul li a:hover:not(.active) {
+    background-color: #fff;
+    color: #006666;
+}
+
+.nbar ul .active {
+    background-color: #fff;
+    color: #006666;
+}
+
+.body-content {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.title {
+    margin: 30px 0;
+    padding-bottom: 50px
+}
+
+.container {
+    width: inherit;
+}
+
+.row {
+    margin: 10px 0;
+}
+
+.table td,
+.table th {
+    padding: 12px !important;
+}
+
+tr.temp-data {
+    background-color: #ccff66;
+}
+
+tr.humidity-data {
+    background-color: #00ffcc;
+}
+
+tr.error-data {
+    background-color: #ff4d4d;
+}
+
+tr.temp-event {
+    background-color: #009900;
+    color: #fff;
+}
+
+tr.cooling-event {
+    background-color: #00cccc;
+    color: #fff;
+}
+
+.add a {
+    background-color: #006666;
+    padding: 20px 30px;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.add {
+    margin: 10px;
+    width: 200px;
+}
+
+.settings-item {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    padding: 20px;
+    background-color: #006666;
+    cursor: pointer;
+    color: #fff;
+    height: 100%;
+    border: 1px solid #006666;
+}
+
+.settings-item:hover a,
+.settings-item:focus a,
+.settings-item:hover {
+    background-color: #fff;
+    color: #006666;
+    text-decoration: none;
+}
+
+.settings-item a {
+    color: #fff;
+    border: none;
+    background-color: #006666;
+}
+
+.settings-item a i {
+    color: #fff;
+    width: 30px;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.table th {
+    border-top: 1px solid #dee2e6 !important;
+}
+
+input[type=text],
+input[type=date] {
+    padding: 10px;
+}
+
+input[type=text] {
+    width: 250px;
+}
+
+.container span {
+    line-height: 1.5;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.pager {
+    width: 300px !important;
+    display: block;
+    border: solid 1px grey;
+    display: inline-block;
+}
+
+.pager i,
+.pager span {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.pager select {
+    padding: 10px;
+}
+
+#login img {
+    margin-top: 80px;
+    width: 250px;
+}
+
+#login h1 {
+    color: #006666;
+    font-size: 30px;
+}
+
+.login-content hr {
+    border: 1px solid #006666;
+    width: 500px;
+}
+
+.login-box input {
+    margin: 5px 0;
+    padding: 10px;
+    width: 300px;
+}
+
+#login-button {
+    background-color: #006666;
+    border: solid 1px #006666;
+    color: #fff;
+}
+
+#login-button:hover {
+    background-color: #fff;
+    color: #006666;
+}
+
+#settings-list a {
+    text-decoration: none;
+}
+
+.setting-box {
+    width: 100%;
+    background-color: #006666;
+    color: #fff;
+    padding: 30px;
+}
+
+.setting-box p {
+    margin: 10px auto;
+}
+
+.setting-box i {
+    cursor: pointer;
+}
+
+#room-setting-form input,
+#room-setting-form select {
+    width: 100%;
+    margin: 5px auto;
+}
+
+#room-setting-form select {
+    padding: 10px;
+}
+
+.col-md-push-3 button {
     margin: 5px auto;
     padding: 15px;
     background-color: #006666;
@@ -242,32 +247,315 @@
     border: solid 1px #006666;
 }
 
-    .col-md-push-3 button:hover {
+.col-md-push-3 button:hover {
     background-color: #fff;
     color: #006666;
     border: solid 1px #006666;
 }
-    #Device-listing {
-        overflow :auto;
+
+#Device-listing {
+    overflow: auto;
 }
-    .home .box {
-        border: solid 3px #006666;
-        height: 300px;
+
+.home {
+    margin-top: 100px;
+}
+
+.home .box {
+    border: solid 3px #006666;
+    height: 300px;
+    width: 300px;
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.home .box:hover {
+    background-color: #006666;
+    color: #fff;
+}
+
+.box:hover>p {
+    color: #fff;
+}
+
+.box:hover>.text-center>p {
+    color: #fff;
+    text-decoration: underline #fff;
+}
+
+.box>.text-center>p {
+    font-size: 30px;
+    color: #006666;
+    text-decoration: underline #006666;
+    padding-top: 10px;
+}
+
+.box>p {
+    color: #006666;
+    padding: 30px 0;
+}
+
+.box>p>span {
+    font-size: 20px;
+}
+
+.statistics {
+    height: 430px;
+}
+
+#temperature-line-chart,
+#humidity-line-chart {
+    width: 100%;
+    min-height: 200px;
+}
+
+button.delete {
+    background-color: red;
+    border: red solid 1px;
+    padding: 15px 40px;
+}
+
+button.delete:hover {
+    color: red;
+    border: red solid 1px;
+}
+
+#newuserimg {
+    width: 200px!important;
+    margin-top: 40px;
+}
+
+@media (max-width: 991px) {
+    .text-center.home .col-md-4 {
         width: 300px;
+        display: inline-block
     }
+    .text-center.home .col-md-4 .box {
+        height: 264px;
+        width: 264px;
+    }
+    #login.body-content {
+        margin: 0 auto;
+    }
+    #filter input[type=text] {
+        width: 150px;
+    }
+    #filter .float-left {
+        margin-bottom: -45px;
+        width: 200px
+    }
+    #filter .col-md-2 .text-center {
+        margin-left: 304px;
+        width: 66px;
+        margin-bottom: 0px;
+        padding-top: 20px;
+    }
+    #filter .col-md-5 .float-right {
+        margin-top: -24px;
+    }
+}
 
-    .box > .text-center > p {
-        font-size: 30px;
-        color: #006666;
-        text-decoration: underline #006666;
-        padding-top:10px;
+@media (max-width: 775px) {
+    .nbar li {
+        float: left !important;
+        border-right: 1px solid #fff;
+        border-left: 1px solid #fff;
     }
+    .nbar li:last-child {
+        border-right: 2px solid #fff !important;
+    }
+    .nbar li:first-child {
+        border-left: 2px solid #fff !important;
+    }
+    #login.body-content {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+    #login hr {
+        width: 400px
+    }
+    #login img {
+        width: 250px;
+    }
+    #newuserimg {
+        width: 150px!important;
+    }
+    #login .login-box input {
+        padding: 5px;
+        width: 250px;
+    }
+    #login h1 {
+        font-size: 25px;
+    }
+}
 
-    .box > p {
-        
+@media (max-width: 727px) {
+    #filter .float-left {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    #filter input[type=text] {
+        width: 100%;
+    }
+    #filter .col-md-2 .text-center {
+        margin-left: 230px;
+        width: 66px;
+        margin-bottom: 4px;
+        padding-top: 6px;
+    }
+    #filter .col-md-5 .float-left {
+        margin-bottom: -28px;
+        width: 258px;
+    }
+    #filter .col-md-5 .float-right {
+        margin-bottom: -26px;
+        width: 258px;
+    }
+}
+
+
+}
+@media (max-width: 675px) {
+    #login.body-content {
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    
+    #login hr {
+        width: 300px
+    }
+    
+    #login img {
+        width: 150px;
+    }
+    
+    #newuserimg {
+        margin-top: 40px;
+    }
+    
+    #login .login-box input {
+        padding: 5px;
+        width: 150px;
+    }
+    
+    #login h1 {
+        font-size: 23px;
+    }
+}
+@media (max-width: 630px) {
+    #filter .col-md-2 .text-center {
+        margin-left: 180px;
+    }
+    
+    .nbar {
+        display: none;
+    }
+    
+    .mobilbar {
+        display: block !important;
+    }
+    
+    .menu-button {
+        display: block;
+        height: 40px;
+        background-color: #006666;
+        color: #fff;
+        font-size: 20px;
+    }
+    
+    .menu-button .fas {
+        float: right;
+        cursor: pointer;
+        margin: 10px 15px;
+        display: block;
+    }
+    
+    .mobilbar ul {
+        background-color: #006666;
+        width: 100%;
+        padding: 0;
+        position: fixed;
+        z-index: 10;
+    }
+    
+    .mobilbar ul li {
+        float: right;
+        text-decoration: none;
+        display: block;
+        background-color: #006666;
+        width: 100%;
+        border-bottom: solid 1px #fff;
+    }
+    
+    .mobilbar ul li:first-child {
+        border-top: solid 1px #fff;
+    }
+    
+    .mobilbar ul li:hover {
+        background-color: #fff;
+    }
+    
+    .mobilbar ul li a:hover {
         color: #006666;
-        padding: 30px 0;
     }
-    .box > p> span {
-        font-size:20px;
+    
+    .mobilbar ul li a {
+        padding: 10px;
+        color: #fff;
+        float: right;
+        width: 100%;
+        text-align: right;
     }
+}
+@media (max-width: 570px) {
+    #filter .col-md-2 .text-center,
+    #filter .col-md-5 .float-right,
+    #filter .col-md-5 input,
+    #filter .col-md-2 input,
+    #filter .col-md-5 .float-left {
+        display: block;
+        margin-left: 0px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        width: 100%;
+        text-align: left;
+    }
+    
+    #filter .col-md-4 .float-right {
+        display: block;
+        float: left!important;
+        margin-bottom: 5px;
+    }
+    
+    #filter .col-md-4 .float-right span {
+        width: 150px;
+        display: inline-block;
+    }
+}
+@media (max-width: 500px) {
+    #login img {
+        margin-top: 10px;
+        width: 100px;
+    }
+    
+    .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+@media (max-width: 430px) {
+    table.table {
+        table-layout: auto;
+        width: 100%;
+    }
+    
+    .container {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+}
+@media (max-width: 333px) {
+    #login hr {
+        width: 200px
+    }
+}

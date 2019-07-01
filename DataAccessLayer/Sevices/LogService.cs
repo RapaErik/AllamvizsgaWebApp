@@ -37,9 +37,9 @@ namespace DataAccessLayer.Sevices
         public void InitDatabase()
         {
             Room r = new Room { Name = "Szoba" };
-            CommunicationUnit e = new CommunicationUnit {Code="espcode", IPAddress="0.0.0.159"};
-            Device s = new Device { CommunicationUnit = e, CommunicationUnitId = e.Id, Room = r, RoomId = r.Id, Type = "temperature" ,Name="DHT11" ,IO=false};
-            Device ss = new Device { CommunicationUnit = e, CommunicationUnitId = e.Id, Room = r, RoomId = r.Id, Type = "humidity", Name="DHT11" ,IO=false };
+            CommunicationUnit e = new CommunicationUnit { Code = "espcode", IPAddress = "0.0.0.159" };
+            Device s = new Device { CommunicationUnit = e, CommunicationUnitId = e.Id, Room = r, RoomId = r.Id, Type = "temperature", Name = "DHT11", IO = false };
+            Device ss = new Device { CommunicationUnit = e, CommunicationUnitId = e.Id, Room = r, RoomId = r.Id, Type = "humidity", Name = "DHT11", IO = false };
             Device sss = new Device { CommunicationUnit = e, CommunicationUnitId = e.Id, Room = r, RoomId = r.Id, Type = "heater", Name = "lampa", IO = true };
 
             _ctx.Add(r);
@@ -54,9 +54,9 @@ namespace DataAccessLayer.Sevices
 
         public IEnumerable<Log> GetLastFiftyLogsExceptHeatersAndCooler()
         {
-            var res= _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Type != "heater" && w.Device.Type != "cooler").OrderByDescending(c => c.Id).Take(50).ToList();
-            return res;
-            //;
+            return _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Type != "heater" && w.Device.Type != "cooler").OrderByDescending(c => c.Id).Take(50).ToList();
+
+
             return _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Type != "heater").OrderByDescending(c => c.Id).ToList();
         }
 
@@ -76,7 +76,7 @@ namespace DataAccessLayer.Sevices
             }
             if (number != null && type == "" && DeviceId == null) // csak darabszam  van megadva
             {
-                return _ctx.Logs.Include(t => t.Device).OrderByDescending(c => c.TimeStamp).Take(number ?? 0).ToList();
+                return _ctx.Logs.Include(t => t.Device).Include(t => t.Device.Room).OrderByDescending(c => c.TimeStamp).Take(number ?? 0).ToList();
             }
 
 
@@ -113,6 +113,117 @@ namespace DataAccessLayer.Sevices
                 logs.Add(_ctx.Logs.Include(t => t.Device).Where(w => w.Device.Id == item.Id).OrderByDescending(c => c.TimeStamp).Take(1).FirstOrDefault());
             }
             return logs;
+        }
+
+        public IEnumerable<Log> GetLastFiftyLogsExceptHeatersAndCooler(int roomId)
+        {
+            return _ctx.Logs.Include(t => t.Device).Where(w => w.Device.Type != "heater" && w.Device.Type != "cooler" && w.Device.RoomId == roomId).OrderByDescending(c => c.Id).Take(50).ToList();
+        }
+
+        public IEnumerable<Log> Filter(DateTime startDate, DateTime endDate, int page = 1, string type = "", string roomName = "")
+        {
+            string[] types = type.Split('-', StringSplitOptions.RemoveEmptyEntries);
+
+            List<Log> list = new List<Log>();
+
+            var startIndex = (page - 1) * 50/ (types.Count()>0? types.Count():1);
+            var endIndex = Math.Min(startIndex + 50 / (types.Count() > 0 ? types.Count() : 1) - 1, GetFiltredDbSize(startDate, endDate, type, roomName) - 1);
+
+            startIndex = startIndex < 0 ? 0 : startIndex;
+            endIndex = endIndex < 0 ? 50 : endIndex;
+
+            if (roomName==null)
+            {
+                if (types.Count() != 0)
+                {
+                    foreach (var item in types)
+                    {
+                        var q = _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.Device.Type == item && w.TimeStamp <= endDate && w.TimeStamp >= startDate).OrderBy(o => o.TimeStamp).Skip(startIndex).Take(endIndex).ToList();
+                        list.AddRange(q);
+                    }
+                }
+                else
+                {
+                    var q = _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.TimeStamp <= endDate && w.TimeStamp >= startDate).OrderBy(o => o.TimeStamp).OrderBy(o => o.TimeStamp).Skip(startIndex).Take(endIndex).ToList();
+                    list.AddRange(q);
+                }
+            }
+            else
+            {
+                if (types.Count() != 0)
+                {
+                    foreach (var item in types)
+                    {
+                        var q = _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.Device.Type == item && w.TimeStamp <= endDate && w.TimeStamp >= startDate && w.Device.Room.Name.ToLower().Contains(roomName.ToLower())).OrderBy(o => o.TimeStamp).Skip(startIndex).Take(endIndex).ToList();
+                        list.AddRange(q);
+                    }
+                }
+                else
+                {
+                    var q = _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.TimeStamp <= endDate && w.TimeStamp >= startDate && w.Device.Room.Name.ToLower().Contains(roomName.ToLower())).OrderBy(o => o.TimeStamp).Skip(startIndex).Take(endIndex).ToList();
+                    list.AddRange(q);
+                }
+              
+            }
+            
+
+            return list;
+        }
+
+        public int GetDbSize()
+        {
+            return _ctx.Logs.Count();
+        }
+
+        public void ReduceLogs()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetFiltredDbSize(DateTime startDate, DateTime endDate,  string type, string roomName)
+        {
+            string[] types = type.Split('-', StringSplitOptions.RemoveEmptyEntries);
+
+            int pageNum = 0;
+
+
+
+            if (roomName == null)
+            {
+                if (types.Count() != 0)
+                {
+                    foreach (var item in types)
+                    {
+                        pageNum+= _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.Device.Type == item && w.TimeStamp <= endDate && w.TimeStamp >= startDate).Count();
+                       
+                    }
+                }
+                else
+                {
+                    pageNum += _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.TimeStamp <= endDate && w.TimeStamp >= startDate).OrderBy(o => o.TimeStamp).Count();
+                    
+                }
+            }
+            else
+            {
+                if (types.Count() != 0)
+                {
+                    foreach (var item in types)
+                    {
+                        pageNum += _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.Device.Type == item && w.TimeStamp <= endDate && w.TimeStamp >= startDate && w.Device.Room.Name.ToLower().Contains(roomName.ToLower())).Count();
+                        
+                    }
+                }
+                else
+                {
+                    pageNum += _ctx.Logs.Include(i => i.Device).Include(i => i.Device.Room).Where(w => w.TimeStamp <= endDate && w.TimeStamp >= startDate && w.Device.Room.Name.ToLower().Contains(roomName.ToLower())).Count();
+                   
+                }
+
+            }
+
+
+            return pageNum ;
         }
     }
 }

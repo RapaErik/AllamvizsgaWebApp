@@ -50,6 +50,9 @@
 
                 <button id="toggle-cooler" data-status="@Cooling">Cooler @Cooling</button>
             </div>
+            <div class="text-center">
+                <button class="delete" onclick="location.href='@Url.Action("DeleteRoom", "Settings",new { id =Model.Id })'">Delete Room</button>
+            </div>
         </div>
     </div>
 </div>

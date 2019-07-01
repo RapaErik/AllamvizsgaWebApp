@@ -16,12 +16,12 @@ namespace DataAccessLayer.Sevices
             _ctx = ctx;
         }
 
-        public void AddNewRoom()
+        public Room AddNewRoom()
         {
             Room r = new Room { Name = "Room" };
             _ctx.Rooms.Add(r);
             _ctx.SaveChanges();
-
+            return r;
         }
 
         public void AddNewRoom(string name)
@@ -33,7 +33,15 @@ namespace DataAccessLayer.Sevices
 
         public void DeleteRoomById(int roomId)
         {
-            throw new NotImplementedException();
+            var element = _ctx.Rooms.Where(w => w.Id == roomId).FirstOrDefault();
+            var devices=_ctx.Devices.Where(w => w.RoomId == roomId).ToList();
+            foreach (var item in devices)
+            {
+                item.RoomId = null;
+                item.Room = null;
+            }
+            _ctx.Rooms.Remove(element);
+            _ctx.SaveChanges();
         }
 
         public List<Room> GetAllRooms(int? roomId)

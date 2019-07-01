@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataAccessLayer.Context;
@@ -9,6 +10,7 @@ using DataAccessLayer.Sevices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -44,13 +46,15 @@ namespace WebGUI
             services.AddSignalR();
             // services.AddDbContext<HeatingContext>(opt => opt.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database=HeatingController;Trusted_Connection=True;"));
             services.AddDbContextPool<HeatingContext>( // replace "YourDbContext" with the class name of your DbContext
-                options => options.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1werwerwer;", // replace with your Connection String
+               //options => options.UseMySql("Server=192.168.43.143;Database=HeatingController;User=heatingcontroluser;Password=1werwerwer;", // replace with your Connection String
+               options => options.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1werwerwer;", // replace with your Connection String
                     mySqlOptions =>
                     {
                         mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); // replace with your Server Version and Type
                     }
             ));
             services.AddDbContextPool<ApplicationDbContext>( 
+               // options => options.UseMySql("Server=192.168.43.143;Database=Identity;User=heatingcontroluser;Password=1werwerwer;", // replace with your Connection String
                 options => options.UseMySql("Server=localhost;Database=Identity;User=root;Password=1werwerwer;", // replace with your Connection String
                     mySqlOptions =>
                     {
@@ -70,7 +74,10 @@ namespace WebGUI
            .AddDefaultTokenProviders();
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login/");
-
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("192.168.43.143"));
+            });
 
             services.AddSignalR(o =>
             {
@@ -97,7 +104,10 @@ namespace WebGUI
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseAuthentication();
 
             app.UseSignalR(routes =>

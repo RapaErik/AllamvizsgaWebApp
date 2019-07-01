@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebGUI.Data;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
 namespace WebGUI
 {
@@ -19,6 +21,23 @@ namespace WebGUI
     {
         public static void Main(string[] args)
         {
+
+//            var host = new WebHostBuilder()
+//             .UseContentRoot(Directory.GetCurrentDirectory())
+//             .UseKestrel()
+////             .UseKestrel(options =>
+////             {
+//// //                options.Listen(IPAddress.Loopback, 5001, listenOptions =>
+///////                 {
+//////                     listenOptions.UseHttps("testCert.pfx", "testPassword");
+//////                     listenOptions.UseConnectionLogging();
+//////                 });
+////             })
+//////             .UseIISIntegration()
+//             .UseStartup<Startup>()
+//             .Build();
+
+//            host.Run();
             var host = CreateWebHostBuilder(args).Build();
             using (var scope = host.Services.CreateScope())
             {
@@ -42,6 +61,8 @@ namespace WebGUI
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+         //       .UseKestrel()
+         //    .UseUrls("http://localhost:8080", "http://odin:8080", "http://192.168.43.143:8080")
                 .UseStartup<Startup>();
     }
 

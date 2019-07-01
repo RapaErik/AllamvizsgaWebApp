@@ -82,5 +82,10 @@ namespace DataAccessLayer.Sevices
                     where q.CommunicationUnitId == comunitid && q.Type == type
                     select q).FirstOrDefault();
         }
+
+        public void RemoveDevice(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

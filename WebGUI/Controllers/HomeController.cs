@@ -21,29 +21,37 @@ namespace WebGUI.Controllers
     {
         public HomeController(ILogService LogService, IMapper mapper, IHubContext<ChartHub> chartHubContext, IRoomService roomService) : base(LogService, mapper, chartHubContext, roomService)
         {
-           
+
         }
 
-        public IActionResult Index()
+        public IActionResult Room(int id)
         {
-            ViewData["json"] = InitGoogleChart();
-            return View();
-          
+
+
+            List<Log> list = _mapper.Map<List<Log>>(_LogService.GetLastFiftyLogsExceptHeatersAndCooler(id));
+            ViewData["json"] = JsonConvert.SerializeObject(list);
+
+            List<Room> rooms = _mapper.Map<List<Room>>(_roomService.GetAllRooms());
+            ViewData["roomId"] = id;
+            return View(rooms);
+
         }
-        public IActionResult Home()
+        public IActionResult Index()
         {
             List<Log> logs = _mapper.Map<List<Log>>(_LogService.GetLogsOfTempAndHumi());
             List<RoomAndLogs> roomsAndLogs = new List<RoomAndLogs>();
             List<Room> rooms = new List<Room>();
             foreach (var item in logs)
             {
-                rooms.Add(_mapper.Map<Room>(_roomService.GetRoomWhereDeviceIs(item.DeviceId)));
+                var r = _mapper.Map<Room>(_roomService.GetRoomWhereDeviceIs(item.DeviceId));
+                if (r != null)
+                    rooms.Add(r);
             }
 
-            var disc= rooms.GroupBy(x => x.Id).Select(y => y.First());
+            var disc = rooms.GroupBy(x => x.Id).Select(y => y.First());
             foreach (var item in disc)
             {
-                roomsAndLogs.Add(new RoomAndLogs { Room=item, Logs=logs.Where(w=>w.Device.RoomId==item.Id).ToList() });
+                roomsAndLogs.Add(new RoomAndLogs { Room = item, Logs = logs.Where(w => w.Device.RoomId == item.Id).ToList() });
             }
             return View(roomsAndLogs);
 

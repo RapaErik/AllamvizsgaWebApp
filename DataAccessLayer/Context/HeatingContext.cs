@@ -19,6 +19,7 @@ namespace DataAccessLayer.Context
         public HeatingContext(DbContextOptions<HeatingContext> options)
             : base(options)
         {
+            Database.SetCommandTimeout(150000);
         }
 
     }
@@ -27,8 +28,9 @@ namespace DataAccessLayer.Context
         public HeatingContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<HeatingContext>();
+            // builder.UseMySql("Server=192.168.43.143;Database=HeatingController;User=heatingcontroluser;Password=1werwerwer;", // replace with your Connection String
             builder.UseMySql("Server=localhost;Database=HeatingController;User=root;Password=1werwerwer;", // replace with your Connection String
-                    mySqlOptions =>
+            mySqlOptions =>
                     {
                         mySqlOptions.ServerVersion(new Version(8, 0, 15), ServerType.MySql); // replace with your Server Version and Type
                     }

@@ -6,7 +6,7 @@ google.charts.load('current', { 'packages': ['gauge'] });
 
 function sortingArrayByFirstParameterAsDateASC(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
-        array.sort(function (aa, bb) {
+        array.sort(function(aa, bb) {
             return new Date(aa[0]) - new Date(bb[0]);
         });
         return array;
@@ -15,9 +15,9 @@ function sortingArrayByFirstParameterAsDateASC(array) {
 
 function normalizeArraySize(array) {
     if (typeof array !== 'undefined' && array.length > 0) {
-        /*while (array.length > 50) {
+        while (array.length > 50) {
             array.shift();
-        }*/
+        }
         return array;
     } else return [];
 }
@@ -242,35 +242,21 @@ function DeserealizeAndControlForLogging(json) {
     IncomingData();
 }
 
-function LogPagerControl() {
-    var first = document.getElementById("first-page-log");
-    first.addEventListener("click", () => {
-        console.log("a");
-
-    });
-    var left = document.getElementById("page-left-log");
-    left = addEventListener("click", () => {
-        console.log("a");
-
-    });
-    var right = document.getElementById("page-right-log");
-    right = addEventListener("click", () => {
-        console.log("a");
-
-    });
-    var last = document.getElementById("last-page-log");
-    last = addEventListener("click", () => {
-        console.log("a");
-
-    });
-    var selector = document.getElementById("page-size-selector");
-    selector = addEventListener("change", () => {
-        console.log("a");
-
-    });
+function togglesyle() {
+    var mobil_nav = document.getElementById("mobil-nav");
+    if (mobil_nav.style.display == "none") {
+        mobil_nav.style.display = "block";
+    } else {
+        mobil_nav.style.display = "none";
+    }
 }
 
-window.onload = function (e) {
+window.onload = function(e) {
+    var mobil_button = document.getElementById("mobil-button");
+
+    mobil_button.addEventListener("click", togglesyle);
+
+
     var navbar = document.getElementsByClassName("nbar");
     var activeLink = document.getElementsByClassName("active")[0].textContent;
     switch (activeLink) {
@@ -286,20 +272,20 @@ window.onload = function (e) {
             break;
         case "Logs":
             var first = document.getElementById("first-page-log");
-            first.addEventListener("click", counterpp);
+            first.addEventListener("click", counterfirst);
 
             var left = document.getElementById("page-left-log");
-            left.addEventListener("click", counterpp);
+            left.addEventListener("click", countermm);
 
             var right = document.getElementById("page-right-log");
             right.addEventListener("click", counterpp);
 
             var last = document.getElementById("last-page-log");
-            last.addEventListener("click", counterpp);
+            last.addEventListener("click", counterlast);
 
-            var selector = document.getElementById("page-size-selector");
-            selector.addEventListener("change", counterpp);
-
+            /* var selector = document.getElementById("page-size-selector");
+             selector.addEventListener("change", counterpp);
+             */
             IncomingData();
             break;
         case "Gas":
@@ -320,7 +306,7 @@ window.onload = function (e) {
 
                 var name = document.getElementById("room-name-input");
                 name.addEventListener("focusout", UpdateRoomName);
-                
+
                 var dayli = document.getElementById("room-dayli-input");
                 dayli.addEventListener("focusout", UpdateRoomDayliSetpoint);
 
@@ -332,8 +318,7 @@ window.onload = function (e) {
                 var cool = document.getElementById("toggle-cooler");
                 heat.addEventListener("click", ToogleRoomHeaterCooler);
                 cool.addEventListener("click", ToogleRoomHeaterCooler);
-            }
-            else {
+            } else {
                 var addRoomButton = document.getElementById("add-room-button");
                 addRoomButton.addEventListener("click", AddNewRoom);
             }
