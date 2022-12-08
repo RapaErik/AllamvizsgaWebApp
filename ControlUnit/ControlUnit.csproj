@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="FLS" Version="1.1.6" />
     <PackageReference Include="M2MqttDotnetCore" Version="1.0.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
 </Project>
